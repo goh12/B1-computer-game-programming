@@ -37,15 +37,15 @@ Ship.prototype.rememberResets = function () {
     this.reset_rotation = this.rotation;
 };
 
-Ship.prototype.KEY_THRUST = 'W'.charCodeAt(0);
-Ship.prototype.KEY_RETRO  = 'S'.charCodeAt(0);
+Ship.prototype.KEY_UP = 'W'.charCodeAt(0);
+Ship.prototype.KEY_DOWN  = 'S'.charCodeAt(0);
 Ship.prototype.KEY_LEFT   = 'A'.charCodeAt(0);
 Ship.prototype.KEY_RIGHT  = 'D'.charCodeAt(0);
 
 Ship.prototype.KEY_FIRE   = ' '.charCodeAt(0);
 
 // Initial, inheritable, default values
-Ship.prototype.rotation = 0;
+Ship.prototype.rotation = 1 / 2 * Math.PI;
 Ship.prototype.cx = 200;
 Ship.prototype.cy = 200;
 Ship.prototype.velX = 0;
@@ -159,22 +159,36 @@ Ship.prototype.update = function (du) {
 };
 
 Ship.prototype.computeSubStep = function (du) {
-    
-    var thrust = this.computeThrustMag();
 
-    // Apply thrust directionally, based on our rotation
-    var accelX = +Math.sin(this.rotation) * thrust;
-    var accelY = -Math.cos(this.rotation) * thrust;
-    
-    accelY += this.computeGravity();
 
-    this.applyAccel(accelX, accelY, du);
+    // represent edges of the ship
+    const yUpperLimit = this.cy - this.getRadius();
+    const yLowerLimit = this.cy + this.getRadius();
+    const xLeftLimit = this.cx - this.getRadius();
+    const xRightLimit = this.cx + this.getRadius();
+
+    // allows the ship to move up within the canvas
+    if (keys[this.KEY_UP] && yUpperLimit > 0) {
+        this.cy -= 5;
+    }
+          
+    // allows the ship to move down within the canvas
+    if (keys[this.KEY_DOWN] && yLowerLimit < g_canvas.height) {
+        this.cy += 5;
+    }
+            
+    // allows the ship to move left within its boundaries    
+    if(keys[this.KEY_LEFT] && xLeftLimit > 0 ) {
+        this.cx -= 5;
+    }
+          
+    // allows the ship to move right within its boundaries
+    if(keys[this.KEY_RIGHT]  && xRightLimit < g_canvas.width) {
+        this.cx += 5;
+    }     
+
     
     this.wrapPosition();
-    
-    if (thrust === 0 || g_allowMixedActions) {
-        this.updateRotation(du);
-    }
 };
 
 var NOMINAL_GRAVITY = 0.12;
