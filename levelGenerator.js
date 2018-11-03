@@ -43,6 +43,13 @@ g_levelGenerator.update = function (du) {
             entityManager.generateWall(this.blockDesc(i, this.blocksPerRow));
         }
 
+        //Random extending blocks
+        if(util.random() > 0.5) {
+            entityManager.generateWall(this.blockDesc(rows, this.blocksPerRow));
+            if(util.random() > 0.5)
+                entityManager.generateWall(this.blockDesc(rows+1, this.blocksPerRow));
+        }
+
         //Bottom rows
         for(let i = 0; i < rows; i++){
             let desc = this.blockDesc(rows+i, this.blocksPerRow);
@@ -50,6 +57,23 @@ g_levelGenerator.update = function (du) {
                 cx: desc.cx,
                 cy: g_ctx.canvas.height - desc.cy + this.layerHeightInPixels,
                 velX: desc.velX});
+        }
+
+        if(util.random() > 0.5) {
+            let desc = this.blockDesc(2*rows-1, this.blocksPerRow);
+            entityManager.generateWall({scale: desc.scale,
+                cx: desc.cx,
+                cy: g_ctx.canvas.height - desc.cy + this.layerHeightInPixels,
+                velX: desc.velX});
+
+            if(util.random() > 0.5) {
+                let desc = this.blockDesc(2*rows, this.blocksPerRow);
+                entityManager.generateWall({
+                    scale: desc.scale,
+                    cx: desc.cx,
+                    cy: g_ctx.canvas.height - desc.cy + this.layerHeightInPixels,
+                    velX: desc.velX});
+            }
         }
         //Reset timer
         this.timer = 0;

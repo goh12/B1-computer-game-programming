@@ -8,7 +8,7 @@
 
 var util = {
 
-
+seed : 1,
 // RANGES
 // ======
 
@@ -107,6 +107,13 @@ strokeBox: function (ctx, x, y, w, h) {
     ctx.beginPath();
     ctx.strokeRect(x, y, w, h);
     ctx.stroke();
+},
+
+// RANDOM NUMBERS
+// ==============
+random : function (){
+    var x = Math.sin(this.seed++) * 10000;
+    return x - Math.floor(x);
 }
 
 };

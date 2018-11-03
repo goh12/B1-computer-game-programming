@@ -150,7 +150,6 @@ Ship.prototype.update = function (du) {
     // Handle firing
     this.maybeFireBullet();
 
-    // TODO: YOUR STUFF HERE! --- Warp if isColliding, otherwise Register
     if (this.isColliding()) {
         this.warp();
     } else {
