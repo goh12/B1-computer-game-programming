@@ -78,6 +78,7 @@ Entity.prototype.findHitEntity = function () {
 
 // This is just little "convenience wrapper"
 Entity.prototype.isColliding = function () {
+
     return this.findHitEntity();
 };
 
@@ -85,3 +86,12 @@ Entity.prototype.wrapPosition = function () {
     this.cx = util.wrapRange(this.cx, 0, g_canvas.width);
     this.cy = util.wrapRange(this.cy, 0, g_canvas.height);
 };
+
+Entity.prototype.setTag = function(tag) {
+    this._tag = tag;
+}
+
+//Returns tag of object.
+Entity.prototype.getTag = function(){
+    return this._tag;
+}

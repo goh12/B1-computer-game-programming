@@ -80,7 +80,7 @@ findEntityInRange: function(posX, posY, radius) {
         }
 
         if(entity.entity.isCircle){
-            const currDistSq = util.wrappedDistSq(posX, posY, entity.posX,
+            const currDistSq = util.distSq(posX, posY, entity.posX,
                                                 entity.posY, g_canvas.width, g_canvas.height);
 
             // determine the range using radius squared

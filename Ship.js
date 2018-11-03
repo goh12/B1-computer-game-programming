@@ -14,7 +14,7 @@
 
 // A generic contructor which accepts an arbitrary descriptor object
 function Ship(descr) {
-
+    this.setTag("player");
     // Common inherited setup logic from Entity
     this.setup(descr);
 
@@ -149,13 +149,15 @@ Ship.prototype.update = function (du) {
 
     // Handle firing
     this.maybeFireBullet();
-
-    if (this.isColliding()) {
-        this.warp();
+    
+    const collisionEntity = this.isColliding();
+    if (collisionEntity) {
+        if(collisionEntity.getTag() !== "playerBullet") {
+            this.warp();
+        }
     } else {
         spatialManager.register(this);
     }
-
 };
 
 Ship.prototype.computeSubStep = function (du) {
@@ -256,20 +258,12 @@ Ship.prototype.applyAccel = function (accelX, accelY, du) {
 };
 
 Ship.prototype.maybeFireBullet = function () {
-
     if (keys[this.KEY_FIRE]) {
-    
-        var dX = +Math.sin(this.rotation);
-        var dY = -Math.cos(this.rotation);
-        var launchDist = this.getRadius() * 1.2;
-        
-        var relVel = this.launchVel;
-        var relVelX = dX * relVel;
-        var relVelY = dY * relVel;
+        const BULLET_SPEED = 4;
 
         entityManager.fireBullet(
-           this.cx + dX * launchDist, this.cy + dY * launchDist,
-           this.velX + relVelX, this.velY + relVelY,
+           this.cx + this.sprite.width/2, this.cy,
+           BULLET_SPEED, 0,
            this.rotation);
            
     }
@@ -281,7 +275,7 @@ Ship.prototype.getRadius = function () {
 };
 
 Ship.prototype.takeBulletHit = function () {
-    this.warp();
+    //Nothing happens
 };
 
 Ship.prototype.reset = function () {

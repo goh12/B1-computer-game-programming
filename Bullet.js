@@ -14,6 +14,7 @@
 
 // A generic contructor which accepts an arbitrary descriptor object
 function Bullet(descr) {
+    this.setTag("playerBullet");
 
     // Common inherited setup logic from Entity
     this.setup(descr);
@@ -63,11 +64,12 @@ Bullet.prototype.update = function (du) {
     this.cx += this.velX * du;
     this.cy += this.velY * du;
 
+    if (this.cx > g_canvas.width + 20) this.kill();
+
     this.rotation += 1 * du;
     this.rotation = util.wrapRange(this.rotation,
                                    0, consts.FULL_CIRCLE);
 
-    this.wrapPosition();
     
     // TODO? NO, ACTUALLY, I JUST DID THIS BIT FOR YOU! :-)
     //
@@ -104,7 +106,7 @@ Bullet.prototype.render = function (ctx) {
         ctx.globalAlpha = this.lifeSpan / fadeThresh;
     }
 
-    g_sprites.bullet.drawWrappedCentredAt(
+    g_sprites.bullet.drawCentredAt(
         ctx, this.cx, this.cy, this.rotation
     );
 

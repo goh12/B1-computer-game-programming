@@ -57,7 +57,7 @@ Block.prototype.getHeight = function () {
 };
 
 Block.prototype.takeBulletHit = function () {
-    this.evaporateSound.play();
+    //this.evaporateSound.play();
 };
 
 Block.prototype.render = function (ctx) {
