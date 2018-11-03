@@ -56,8 +56,9 @@ function gatherInputs() {
 function updateSimulation(du) {
     
     processDiagnostics();
-    
+
     entityManager.update(du);
+    g_levelGenerator.update(du);
 
     // Prevent perpetual firing!
     eatKey(Ship.prototype.KEY_FIRE);
@@ -153,7 +154,8 @@ function requestPreloads() {
     var requiredImages = {
         ship   : "https://notendur.hi.is/~pk/308G/images/ship.png",
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
-        rock   : "https://notendur.hi.is/~pk/308G/images/rock.png"
+        rock   : "https://notendur.hi.is/~pk/308G/images/rock.png",
+        block : "https://i.imgur.com/8kG3VLf.jpg"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -166,9 +168,10 @@ function preloadDone() {
     g_sprites.ship  = new Sprite(g_images.ship);
     g_sprites.ship2 = new Sprite(g_images.ship2);
     g_sprites.rock  = new Sprite(g_images.rock);
+    g_sprites.block = new Sprite(g_images.block);
 
     g_sprites.bullet = new Sprite(g_images.ship);
-    g_sprites.bullet.scale = 0.25;
+    g_sprites.bullet.scale = {x:0.25, y:0.25};
 
     entityManager.init();
     createInitialShips();

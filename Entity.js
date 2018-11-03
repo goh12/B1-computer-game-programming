@@ -30,7 +30,7 @@ function Entity() {
     console.dir(this);
 */
 
-};
+}
 
 Entity.prototype.setup = function (descr) {
 
@@ -44,6 +44,8 @@ Entity.prototype.setup = function (descr) {
     
     // I am not dead yet!
     this._isDeadNow = false;
+
+    this.isCircle = true;
 };
 
 Entity.prototype.setPos = function (cx, cy) {

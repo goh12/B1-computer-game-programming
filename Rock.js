@@ -23,15 +23,14 @@ function Rock(descr) {
       
     // Default sprite and scale, if not otherwise specified
     this.sprite = this.sprite || g_sprites.rock;
-    this.scale  = this.scale  || 1;
+    this.scale  = this.scale  || {x:1, y:1};
 
 /*
     // Diagnostics to check inheritance stuff
     this._rockProperty = true;
     console.dir(this);
 */
-
-};
+}
 
 Rock.prototype = new Entity();
 
@@ -84,7 +83,7 @@ Rock.prototype.update = function (du) {
 };
 
 Rock.prototype.getRadius = function () {
-    return this.scale * (this.sprite.width / 2) * 0.9;
+    return this.scale.x * (this.sprite.width / 2) * 0.9;
 };
 
 // HACKED-IN AUDIO (no preloading)
@@ -96,7 +95,7 @@ Rock.prototype.evaporateSound = new Audio(
 Rock.prototype.takeBulletHit = function () {
     this.kill();
     
-    if (this.scale > 0.25) {
+    if (this.scale.x > 0.25) {
         this._spawnFragment();
         this._spawnFragment();
         
@@ -110,7 +109,7 @@ Rock.prototype._spawnFragment = function () {
     entityManager.generateRock({
         cx : this.cx,
         cy : this.cy,
-        scale : this.scale /2
+        scale : {x:this.scale.x /2, y:this.scale.y /2}
     });
 };
 
@@ -121,4 +120,5 @@ Rock.prototype.render = function (ctx) {
     this.sprite.drawWrappedCentredAt(
         ctx, this.cx, this.cy, this.rotation
     );
+    this.sprite.scale = origScale;
 };

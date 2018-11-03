@@ -30,6 +30,7 @@ var entityManager = {
 _rocks   : [],
 _bullets : [],
 _ships   : [],
+_walls   : [],
 
 _bShowRocks : true,
 
@@ -87,7 +88,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._rocks, this._bullets, this._ships];
+    this._categories = [this._rocks, this._bullets, this._ships, this._walls];
 },
 
 init: function() {
@@ -112,6 +113,10 @@ generateRock : function(descr) {
 
 generateShip : function(descr) {
     this._ships.push(new Ship(descr));
+},
+
+generateWall : function(descr) {
+    this._walls.push(new Block(descr));
 },
 
 killNearestShip : function(xPos, yPos) {
@@ -141,7 +146,6 @@ toggleRocks: function() {
 },
 
 update: function(du) {
-
     for (var c = 0; c < this._categories.length; ++c) {
 
         var aCategory = this._categories[c];
@@ -188,7 +192,7 @@ render: function(ctx) {
     }
 }
 
-}
+};
 
 // Some deferred setup which needs the object to have been created first
 entityManager.deferredSetup();

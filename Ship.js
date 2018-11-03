@@ -24,9 +24,9 @@ function Ship(descr) {
     this.sprite = this.sprite || g_sprites.ship;
     
     // Set normal drawing scale, and warp state off
-    this._scale = 1;
+    this._scale = {x:1, y:1};
     this._isWarping = false;
-};
+}
 
 Ship.prototype = new Entity();
 
@@ -71,17 +71,18 @@ Ship.prototype.warp = function () {
 Ship.prototype._updateWarp = function (du) {
 
     var SHRINK_RATE = 3 / SECS_TO_NOMINALS;
-    this._scale += this._scaleDirn * SHRINK_RATE * du;
+    this._scale = {x: this._scale.x + this._scaleDirn * SHRINK_RATE * du,
+                   y: this._scale.y + this._scaleDirn * SHRINK_RATE * du};
     
-    if (this._scale < 0.2) {
+    if (this._scale.x < 0.2) {
     
         this._moveToASafePlace();
         this.halt();
         this._scaleDirn = 1;
         
-    } else if (this._scale > 1) {
+    } else if (this._scale.x > 1) {
     
-        this._scale = 1;
+        this._scale = {x: 1, y: 1};
         this._isWarping = false;
         
         // Reregister me from my old posistion
@@ -159,8 +160,6 @@ Ship.prototype.update = function (du) {
 };
 
 Ship.prototype.computeSubStep = function (du) {
-
-
     // represent edges of the ship
     const yUpperLimit = this.cy - this.getRadius();
     const yLowerLimit = this.cy + this.getRadius();

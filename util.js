@@ -33,8 +33,8 @@ wrapRange: function(value, lowBound, highBound) {
 
 isBetween: function(value, lowBound, highBound) {
     if (value < lowBound) { return false; }
-    if (value > highBound) { return false; }
-    return true;
+    return value <= highBound;
+
 },
 
 
@@ -66,7 +66,7 @@ wrappedDistSq: function(x1, y1, x2, y2, xWrap, yWrap) {
 	dy = Math.abs(y2-y1);
     if (dx > xWrap/2) {
 	dx = xWrap - dx;
-    };
+    }
     if (dy > yWrap/2) {
 	dy = yWrap - dy;
     }
@@ -101,6 +101,12 @@ fillBox: function (ctx, x, y, w, h, style) {
     ctx.fillStyle = style;
     ctx.fillRect(x, y, w, h);
     ctx.fillStyle = oldStyle;
+},
+
+strokeBox: function (ctx, x, y, w, h) {
+    ctx.beginPath();
+    ctx.strokeRect(x, y, w, h);
+    ctx.stroke();
 }
 
 };

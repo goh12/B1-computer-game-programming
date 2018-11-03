@@ -33,7 +33,6 @@ _entities : [],
 
 getNewSpatialID : function() {
 
-    // TODO: YOUR STUFF HERE!
     // increment the next spatial id to give a new slot in the entity array
     return this._nextSpatialID++;
 },
@@ -41,21 +40,27 @@ getNewSpatialID : function() {
 register: function(entity) {
     var pos = entity.getPos();
     var spatialID = entity.getSpatialID();
-    
-    // TODO: YOUR STUFF HERE!
-    this._entities[spatialID] = {
-        entity : entity,
-        posX : pos.posX,
-        posY : pos.posY,
-        radius : entity.getRadius()
-    }
+    var hasCircleCollider = entity.isCircle;
+    if(hasCircleCollider)
+        this._entities[spatialID] = {
+            entity: entity,
+            posX: pos.posX,
+            posY: pos.posY,
+            radius: entity.getRadius()
+        };
+    else
+        this._entities[spatialID] = {
+            entity: entity,
+            posX: pos.posX,
+            posY: pos.posY,
+            width : entity.getWidth(),
+            height : entity.getHeight()
+        };
 
 },
 
 unregister: function(entity) {
     var spatialID = entity.getSpatialID();
-
-    // TODO: YOUR STUFF HERE!
 
     // "delete" is a good way of removing things from an array
     // since we know their index (spatialId)
@@ -63,8 +68,6 @@ unregister: function(entity) {
 },
 
 findEntityInRange: function(posX, posY, radius) {
-
-    // TODO: YOUR STUFF HERE!
     let minDistSq = Infinity;
     let minSpatialId;
 
@@ -76,20 +79,45 @@ findEntityInRange: function(posX, posY, radius) {
             continue;
         }
 
-        const currDistSq = util.wrappedDistSq(posX, posY, entity.posX,
-                                            entity.posY, g_canvas.width, g_canvas.height);
-        
-        // determine the range using radius squared
-        const rangeSq = util.square(radius + entity.radius);
+        if(entity.entity.isCircle){
+            const currDistSq = util.wrappedDistSq(posX, posY, entity.posX,
+                                                entity.posY, g_canvas.width, g_canvas.height);
 
-        if (currDistSq < rangeSq) {
+            // determine the range using radius squared
+            const rangeSq = util.square(radius + entity.radius);
 
-            // find the minimum distance
+            if (currDistSq < rangeSq) {
 
-            if (minDistSq > currDistSq) {
-                minDistSq = currDistSq;
+                // find the minimum distance
+
+                if (minDistSq > currDistSq) {
+                    minDistSq = currDistSq;
+                    minSpatialId = i;
+                }
+            }
+        }
+        if(!entity.entity.isCircle){
+            let distX = Math.abs(posX - entity.posX - entity.width / 2);
+            let distY = Math.abs(posY - entity.posY);
+
+            if (distX > (entity.width / 2 + radius)) {
+                continue;
+            }
+            if (distY > (entity.height/ 2 + radius)) {
+                continue;
+            }
+
+            if (distX <= (entity.width / 2)) {
                 minSpatialId = i;
             }
+            if (distY <= (entity.height / 2)) {
+                minSpatialId = i;
+            }
+
+            let dx = distX - entity.width/ 2;
+            let dy = distY - entity.height/ 2;
+            if (dx * dx + dy * dy <= (radius * radius))
+                minSpatialId = i;
         }
     }
 
@@ -108,9 +136,13 @@ render: function(ctx) {
     
     for (var ID in this._entities) {
         var e = this._entities[ID];
-        util.strokeCircle(ctx, e.posX, e.posY, e.radius);
+        if(e.entity.isCircle)
+            util.strokeCircle(ctx, e.posX, e.posY, e.radius);
+        else
+            util.strokeBox(ctx, e.posX-e.entity.getWidth()/2,
+                                e.posY-e.entity.getHeight()/2,
+                           e.width, e.height);
     }
     ctx.strokeStyle = oldStyle;
 }
-
-}
+};
