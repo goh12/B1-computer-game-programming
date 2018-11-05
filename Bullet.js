@@ -98,15 +98,7 @@ Bullet.prototype.takeBulletHit = function () {
 
 Bullet.prototype.render = function (ctx) {
 
-    var fadeThresh = Bullet.prototype.lifeSpan / 3;
-
-    if (this.lifeSpan < fadeThresh) {
-        ctx.globalAlpha = this.lifeSpan / fadeThresh;
-    }
-
     g_sprites.bullet.drawCentredAt(
         ctx, this.cx, this.cy, this.rotation
     );
-
-    ctx.globalAlpha = 1;
 };
