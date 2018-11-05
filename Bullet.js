@@ -50,7 +50,7 @@ Bullet.prototype.lifeSpan = 3000 / NOMINAL_UPDATE_INTERVAL;
 
 Bullet.prototype.update = function (du) {
 
-    // TODO: YOUR STUFF HERE! --- Unregister and check for death
+    // Unregister and check for death
     spatialManager.unregister(this);
 
     // if it's dead(inherited from Entity), return the kill me now value
@@ -71,10 +71,8 @@ Bullet.prototype.update = function (du) {
                                    0, consts.FULL_CIRCLE);
 
     
-    // TODO? NO, ACTUALLY, I JUST DID THIS BIT FOR YOU! :-)
-    //
+
     // Handle collisions
-    //
     var hitEntity = this.findHitEntity();
     if (hitEntity) {
         var canTakeHit = hitEntity.takeBulletHit;
@@ -82,7 +80,7 @@ Bullet.prototype.update = function (du) {
         return entityManager.KILL_ME_NOW;
     }
     
-    // TODO: YOUR STUFF HERE! --- (Re-)Register
+    // (Re-)Register
     spatialManager.register(this);
 
 };

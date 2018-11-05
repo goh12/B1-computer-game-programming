@@ -36,7 +36,7 @@ Enemy.prototype.tag = "enemy";
 
 Enemy.prototype.update = function (du) {
 
-    // TODO: YOUR STUFF HERE! --- Unregister and check for death
+    // Unregister and check for death
     spatialManager.unregister(this);
 
     // if it's dead(inherited from Entity), return the kill me now value
@@ -48,7 +48,7 @@ Enemy.prototype.update = function (du) {
 
     if(this.cx < -100) this.kill();
     
-    // TODO: YOUR STUFF HERE! --- (Re-)Register
+    // (Re-)Register
     spatialManager.register(this);
 };
 

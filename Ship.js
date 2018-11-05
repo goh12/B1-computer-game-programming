@@ -133,7 +133,7 @@ Ship.prototype.update = function (du) {
         return;
     }
     
-    // TODO: YOUR STUFF HERE! --- Unregister and check for death
+    // Unregister and check for death
     spatialManager.unregister(this);
 
     // if it's dead(inherited from Entity), return the kill me now value
@@ -186,9 +186,6 @@ Ship.prototype.computeSubStep = function (du) {
     if(keys[this.KEY_RIGHT]  && xRightLimit < g_canvas.width) {
         this.cx += 5;
     }     
-
-    
-    this.wrapPosition();
 };
 
 var NOMINAL_GRAVITY = 0.12;
