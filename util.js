@@ -114,6 +114,16 @@ strokeBox: function (ctx, x, y, w, h) {
 random : function (){
     var x = Math.sin(this.seed++) * 10000;
     return x - Math.floor(x);
+},
+
+// AUDIO STUFF
+// ======================
+// function that clones the audio file to be able to 
+// play it repeatedly
+playSound : function (soundFile = new Audio(), volume) {
+    const soundClone = soundFile.cloneNode(true);
+    soundClone.volume = volume;
+    soundClone.play();
 }
 
 };

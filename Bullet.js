@@ -20,7 +20,7 @@ function Bullet(descr) {
     this.setup(descr);
 
     // Make a noise when I am created (i.e. fired)
-    this.fireSound.play();
+    util.playSound(this.fireSound, 1);
     
 /*
     // Diagnostics to check inheritance stuff
