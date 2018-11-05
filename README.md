@@ -1,5 +1,4 @@
 # R-Type
-========
 A remake of the classic arcade game R-Type in Javascript.
 
 This is the final project of the course Computer Game Programming (TÖL308G) at the University of Iceland in November 2018.
