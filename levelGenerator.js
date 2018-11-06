@@ -5,7 +5,7 @@
 let g_levelGenerator = {
     baseLayerAmount : 3,
     blocksPerRow : 10,
-    layerHeightInPixels : 100,
+    layerHeightInPixels : 70,
     isInitialized : false,
     blocks : [],
     seed : 1,

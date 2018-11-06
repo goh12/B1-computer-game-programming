@@ -16,11 +16,12 @@ function Formation(stateInterval, entityCount, entityType, xVel, spaceBetween) {
     this.entityInterval = spaceBetween;
     this.entityCount = entityCount;
     this.entityType = entityType;
+    
+    this.entities = [];
 }
 
 Formation.prototype = Entity.prototype;
 
-Formation.prototype.entities = [];
 
 /**
  * Sets states for entities in formation.
