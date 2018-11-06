@@ -14,7 +14,6 @@
 
 // A generic contructor which accepts an arbitrary descriptor object
 function Bullet(descr) {
-    this.setTag("playerBullet");
 
     // Common inherited setup logic from Entity
     this.setup(descr);

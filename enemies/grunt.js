@@ -25,6 +25,7 @@ Grunt.prototype.maybeFireBullet = function () {
         entityManager.fireBullet(
            this.cx - this.sprite.width/2, this.cy,
            -BULLET_SPEED, 0,
-           this.rotation);
+           this.rotation,
+           "enemyBullet");
     }
 };
