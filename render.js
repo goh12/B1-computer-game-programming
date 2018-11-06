@@ -5,6 +5,7 @@ var g_doBox = false;
 var g_undoBox = false;
 var g_doFlipFlop = false;
 var g_doRender = true;
+var g_doPause = false;
 
 var g_frameCounter = 1;
 
@@ -13,6 +14,7 @@ var TOGGLE_BOX = 'B'.charCodeAt(0);
 var TOGGLE_UNDO_BOX = 'U'.charCodeAt(0);
 var TOGGLE_FLIPFLOP = 'F'.charCodeAt(0);
 var TOGGLE_RENDER = 'R'.charCodeAt(0);
+var TOGGLE_PAUSE = 'L'.charCodeAt(0);
 
 function render(ctx) {
     
@@ -23,6 +25,7 @@ function render(ctx) {
     if (eatKey(TOGGLE_UNDO_BOX)) g_undoBox = !g_undoBox;
     if (eatKey(TOGGLE_FLIPFLOP)) g_doFlipFlop = !g_doFlipFlop;
     if (eatKey(TOGGLE_RENDER)) g_doRender = !g_doRender;
+    if (eatKey(TOGGLE_PAUSE)) g_doPause = !g_doPause;
     
     // I've pulled the clear out of `renderSimulation()` and into
     // here, so that it becomes part of our "diagnostic" wrappers
@@ -69,4 +72,16 @@ function render(ctx) {
     if (g_undoBox) ctx.clearRect(200, 200, 50, 50);
     
     ++g_frameCounter;
+
+    if (g_doPause) {
+        var btnW = 300;
+        var btnH = 80;
+        var menuItems = ["Resume", "High Scores", "Sound on/off"];
+        var menuColors = ["red", "green", "blue"]
+        for (var i=0; i<menuItems.length; i++) {
+            util.fillBox(ctx, g_canvas.width/2 - btnW/2, g_canvas.height/2 - (menuItems.length-2*i)*(btnH/2+5),
+                btnW, btnH, menuColors[i]);
+            ctx.fillText(menuItems[i], g_canvas.width/2 - btnW/2, g_canvas.height/2 - (menuItems.length-2*i)*(btnH/2+5)+10);
+        }
+    }
 }

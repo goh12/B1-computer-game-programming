@@ -57,8 +57,10 @@ function updateSimulation(du) {
     
     processDiagnostics();
 
-    entityManager.update(du);
-    g_levelGenerator.update(du);
+    if (!g_doPause) {
+        entityManager.update(du);
+        g_levelGenerator.update(du);
+    }
 
     // Prevent perpetual firing!
     eatKey(Ship.prototype.KEY_FIRE);
