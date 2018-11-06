@@ -56,8 +56,10 @@ Enemy.prototype.getRadius = function () {
     return this.scale.x * (this.sprite.width / 2) * 0.9;
 };
 
-Enemy.prototype.takeBulletHit = function () {
-    this.kill();
+Enemy.prototype.takeBulletHit = function (bullet) {
+    if(bullet.getTag() !== "enemyBullet") {
+        this.kill();
+    }
 };
 
 

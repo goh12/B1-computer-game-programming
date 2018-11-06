@@ -272,8 +272,10 @@ Ship.prototype.getRadius = function () {
     return (this.sprite.width / 2) * 0.9;
 };
 
-Ship.prototype.takeBulletHit = function () {
-    //Nothing happens
+Ship.prototype.takeBulletHit = function (bullet) {
+    if(bullet.getTag() !== "playerBullet") {
+        this.warp();
+    }
 };
 
 Ship.prototype.reset = function () {
