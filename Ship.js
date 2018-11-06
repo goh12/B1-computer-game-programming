@@ -274,6 +274,7 @@ Ship.prototype.getRadius = function () {
 
 Ship.prototype.takeBulletHit = function (bullet) {
     if(bullet.getTag() !== "playerBullet") {
+        bullet.kill();
         this.warp();
     }
 };

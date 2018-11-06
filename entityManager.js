@@ -37,16 +37,17 @@ _bShowEnemies : true,
 // "PRIVATE" METHODS
 
 _generateEnemies : function() {
-    const NUM_ENEMIES = 4;
+    const STATE_INTERVAL = 500;
+    const NUM_ENEMIES = Math.floor(4 + Math.random() * 6);
+    const FORMATION_SPEED = 1 + Math.random() * 2;
+    const SPACE_BETWEEN = 60;
 
-    for(let i = 0; i < NUM_ENEMIES; i++) {
-        this.generateEnemy(Grunt, {
-            cx: 700 + i * 40,
-            cy: 300 + (-100 + Math.random() * 200),
-            velY: 0,
-            velX: -3,
-        });
-    }
+    const states = [{x: 0, y: 0}, {x: 0, y: 50}, {x: 0, y: 50}, {x: 0, y: 100}, {x: 0, y: 100}, {x: 0, y: 50}, {x: 0, y: 0}];
+    const formation = new Formation(STATE_INTERVAL, NUM_ENEMIES, Grunt, -FORMATION_SPEED, SPACE_BETWEEN);
+    formation.setStates(states);
+    formation.init();
+
+    this._enemies.push(formation);
 },
 
 _findNearestShip : function(posX, posY) {
@@ -172,6 +173,10 @@ update: function(du) {
     
     if (this._enemies.length === 0) this._generateEnemies();
 
+},
+
+getPlayer: function() {
+    return this._ships[0];
 },
 
 render: function(ctx) {

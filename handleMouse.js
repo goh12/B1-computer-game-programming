@@ -10,7 +10,7 @@
 0        1         2         3         4         5         6         7         8
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 */
-
+/*
 var g_mouseX = 0,
     g_mouseY = 0;
 
@@ -29,3 +29,4 @@ function handleMouse(evt) {
 // Handle "down" and "move" events the same way.
 window.addEventListener("mousedown", handleMouse);
 window.addEventListener("mousemove", handleMouse);
+*/

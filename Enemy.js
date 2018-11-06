@@ -37,7 +37,7 @@ Enemy.prototype.tag = "enemy";
 Enemy.prototype.update = function (du) {
 
     // Unregister and check for death
-    spatialManager.unregister(this);
+    if (!this.inFormation) spatialManager.unregister(this);
 
     // if it's dead(inherited from Entity), return the kill me now value
     if (this._isDeadNow) {
@@ -49,7 +49,7 @@ Enemy.prototype.update = function (du) {
     if(this.cx < -100) this.kill();
     
     // (Re-)Register
-    spatialManager.register(this);
+    if(!this.inFormation) spatialManager.register(this);
 };
 
 Enemy.prototype.getRadius = function () {
@@ -59,6 +59,7 @@ Enemy.prototype.getRadius = function () {
 Enemy.prototype.takeBulletHit = function (bullet) {
     if(bullet.getTag() !== "enemyBullet") {
         this.kill();
+        bullet.kill();
     }
 };
 

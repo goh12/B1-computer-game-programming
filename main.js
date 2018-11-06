@@ -132,3 +132,7 @@ main.init = function () {
 
     this._requestNextIteration();
 };
+
+main.deltaTime = function() {
+    return this._frameTimeDelta_ms;
+}

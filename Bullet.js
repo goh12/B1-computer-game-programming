@@ -63,7 +63,8 @@ Bullet.prototype.update = function (du) {
     this.cx += this.velX * du;
     this.cy += this.velY * du;
 
-    if (this.cx > g_canvas.width + 20) this.kill();
+    if (this.cx > g_canvas.width + 20
+        || this.cx < 0 - 20) this.kill();
 
     this.rotation += 1 * du;
     this.rotation = util.wrapRange(this.rotation,
@@ -77,7 +78,6 @@ Bullet.prototype.update = function (du) {
         var canTakeHit = hitEntity.takeBulletHit;
         //Pass this bullet as extra parameter. (Might not be used.)
         if (canTakeHit) canTakeHit.call(hitEntity, this); 
-        return entityManager.KILL_ME_NOW;
     }
     
     // (Re-)Register
