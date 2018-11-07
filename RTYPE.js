@@ -57,13 +57,19 @@ function updateSimulation(du) {
     
     processDiagnostics();
 
-    if (!g_doPause) {
-        entityManager.update(du);
-        g_levelGenerator.update(du);
+    if (gameManager.isInMenu()) {
+        return;
+    } else  {
+
+        if (!g_doPause) {
+            entityManager.update(du);
+            g_levelGenerator.update(du);
+        }
+    
+        // Prevent perpetual firing!
+        eatKey(Ship.prototype.KEY_FIRE);
     }
 
-    // Prevent perpetual firing!
-    eatKey(Ship.prototype.KEY_FIRE);
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
@@ -77,9 +83,9 @@ var KEY_MIXED   = keyCode('M');
 var KEY_GRAVITY = keyCode('G');
 var KEY_AVE_VEL = keyCode('V');
 var KEY_SPATIAL = keyCode('X');
+var KEY_START = keyCode('R');
 
 var KEY_HALT  = keyCode('H');
-var KEY_RESET = keyCode('R');
 
 var KEY_0 = keyCode('0');
 
@@ -101,7 +107,8 @@ function processDiagnostics() {
 
     if (eatKey(KEY_HALT)) entityManager.haltShips();
 
-    if (eatKey(KEY_RESET)) entityManager.resetShips();
+    
+    if (eatKey(KEY_START)) gameManager.startGame();
 
     if (eatKey(KEY_0)) entityManager.toggleRocks();
 
@@ -139,9 +146,15 @@ function processDiagnostics() {
 
 function renderSimulation(ctx) {
 
-    entityManager.render(ctx);
+    if (gameManager.isInMenu()) {
 
-    if (g_renderSpatialDebug) spatialManager.render(ctx);
+        gameManager.renderMenu(ctx);
+    } else {
+        
+        entityManager.render(ctx);
+    
+        if (g_renderSpatialDebug) spatialManager.render(ctx);
+    }
 }
 
 
