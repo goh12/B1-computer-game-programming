@@ -37,6 +37,7 @@ _bShowEnemies : true,
 // "PRIVATE" METHODS
 
 _generateEnemies : function() {
+    /*
     const STATE_INTERVAL = 500;
     const NUM_ENEMIES = Math.floor(4 + Math.random() * 6);
     const FORMATION_SPEED = 1 + Math.random() * 2;
@@ -48,6 +49,18 @@ _generateEnemies : function() {
     formation.init();
 
     this._enemies.push(formation);
+    */
+
+    /*
+    this._enemies.push(
+        new Tentacle(
+            { posX: 700, posY: g_canvas.width/2 },
+            [300, 350, 400, 350, 300]
+        )
+    );
+    */
+
+    this._enemies.push(new BossFalmer());
 },
 
 _findNearestShip : function(posX, posY) {

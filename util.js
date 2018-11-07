@@ -124,6 +124,13 @@ playSound : function (soundFile = new Audio(), volume) {
     const soundClone = soundFile.cloneNode(true);
     soundClone.volume = volume;
     soundClone.play();
+},
+
+swap : function (arr, i, j) {
+    const temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp; 
 }
 
 };
+

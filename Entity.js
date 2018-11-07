@@ -66,7 +66,12 @@ Entity.prototype.getSpatialID = function () {
 };
 
 Entity.prototype.kill = function () {
-    this._isDeadNow = true;
+    if(this.owner) {
+        //Ask owner if entity can be killed.
+        if(this.owner.canKill(this)) this._isDeadNow = true;
+    } else {
+        this._isDeadNow = true;
+    }
 };
 
 Entity.prototype.findHitEntity = function () {
