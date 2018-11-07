@@ -154,6 +154,8 @@ Ship.prototype.update = function (du) {
     if (collisionEntity) {
         if(collisionEntity.getTag() !== "playerBullet") {
             this.warp();
+        } else {
+            spatialManager.register(this);
         }
     } else {
         spatialManager.register(this);
