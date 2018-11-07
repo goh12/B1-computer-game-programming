@@ -52,6 +52,8 @@ Ship.prototype.velX = 0;
 Ship.prototype.velY = 0;
 Ship.prototype.launchVel = 2;
 Ship.prototype.numSubSteps = 1;
+Ship.prototype.livesLeft = 3;
+
 
 // HACKED-IN AUDIO (no preloading)
 Ship.prototype.warpSound = new Audio(
@@ -154,6 +156,7 @@ Ship.prototype.update = function (du) {
     if (collisionEntity) {
         if(collisionEntity.getTag() !== "playerBullet") {
             this.warp();
+            this.livesLeft--;
         }
     } else {
         spatialManager.register(this);
@@ -309,5 +312,11 @@ Ship.prototype.render = function (ctx) {
     this.sprite.drawCentredAt(
 	ctx, this.cx, this.cy, this.rotation
     );
+    gameManager.extraLives(ctx, this.livesLeft);
+
+    // Here just temporarily:   
+    //gameManager.toggleSound(ctx);
+
     this.sprite.scale = origScale;
+
 };
