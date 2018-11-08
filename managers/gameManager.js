@@ -70,13 +70,17 @@ const gameManager = {
         this.sprite.drawCentredAt(ctx, g_canvas.width - 40, g_canvas.height - 140, 0);
     },
 
-    extraLives: function(ctx, livesLeft) {
+    extraLives: function(ctx) {
         this.sprite = g_sprites.ship;
         var origScale = this.sprite.scale;
         this.sprite.scale = {x: 0.7, y: 0.7};
-        for (var i=0; i<livesLeft; i++) {
-            this.sprite.drawCentredAt(ctx, 30 + i*50, g_canvas.height - 70, Math.PI/4);
+        for (var i=0; i<extraLives(); i++) {
+            this.sprite.drawCentredAt(ctx, 30 + i*50, g_canvas.height - 30, Math.PI/4);
         }
         this.sprite.scale = origScale;
+    },
+
+    renderUI: function(ctx) {
+        this.extraLives(ctx);
     }
 }

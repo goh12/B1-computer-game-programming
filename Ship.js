@@ -11,6 +11,7 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 */
 
+var g_livesLeft = 3;
 
 // A generic contructor which accepts an arbitrary descriptor object
 function Ship(descr) {
@@ -52,7 +53,6 @@ Ship.prototype.velX = 0;
 Ship.prototype.velY = 0;
 Ship.prototype.launchVel = 2;
 Ship.prototype.numSubSteps = 1;
-Ship.prototype.livesLeft = 3;
 
 
 // HACKED-IN AUDIO (no preloading)
@@ -156,7 +156,7 @@ Ship.prototype.update = function (du) {
     if (collisionEntity) {
         if(collisionEntity.getTag() !== "playerBullet") {
             this.warp();
-            this.livesLeft--;
+            g_livesLeft--;
         } else {
             spatialManager.register(this);
         }
@@ -281,6 +281,7 @@ Ship.prototype.takeBulletHit = function (bullet) {
     if(bullet.getTag() !== "playerBullet") {
         bullet.kill();
         this.warp();
+        g_livesLeft--;
     }
 };
 
@@ -314,7 +315,6 @@ Ship.prototype.render = function (ctx) {
     this.sprite.drawCentredAt(
 	ctx, this.cx, this.cy, this.rotation
     );
-    gameManager.extraLives(ctx, this.livesLeft);
 
     // Here just temporarily:   
     //gameManager.toggleSound(ctx);
@@ -322,3 +322,7 @@ Ship.prototype.render = function (ctx) {
     this.sprite.scale = origScale;
 
 };
+
+function extraLives () {
+    return g_livesLeft;
+}

@@ -152,6 +152,7 @@ function renderSimulation(ctx) {
     } else {
         
         entityManager.render(ctx);
+        gameManager.renderUI(ctx);
     
         if (g_renderSpatialDebug) spatialManager.render(ctx);
     }
