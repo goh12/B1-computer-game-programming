@@ -41,6 +41,7 @@ function update(dt) {
     var du = (dt / NOMINAL_UPDATE_INTERVAL);
     
     updateSimulation(du);
+    debugPrinter.update();
     
     g_prevUpdateDt = original_dt;
     g_prevUpdateDu = du;
