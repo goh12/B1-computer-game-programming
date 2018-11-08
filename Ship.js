@@ -46,7 +46,7 @@ Ship.prototype.KEY_RIGHT  = 'D'.charCodeAt(0);
 Ship.prototype.KEY_FIRE   = ' '.charCodeAt(0);
 
 // Initial, inheritable, default values
-Ship.prototype.rotation = 1 / 2 * Math.PI;
+Ship.prototype.rotation = Math.PI*0;
 Ship.prototype.cx = 200;
 Ship.prototype.cy = 200;
 Ship.prototype.velX = 0;
@@ -142,12 +142,18 @@ Ship.prototype.update = function (du) {
     if (this._isDeadNow) {
         return entityManager.KILL_ME_NOW;
     }
+
     // Perform movement substeps
     var steps = this.numSubSteps;
     var dStep = du / steps;
     for (var i = 0; i < steps; ++i) {
         this.computeSubStep(dStep);
     }
+
+    //Check if we are hitting the top or bottom of the level
+    if(this.cy + this.getRadius() > ctx.canvas.height - g_levelGenerator.layerHeightInPixels ||
+       this.cy - this.getRadius() < g_levelGenerator.layerHeightInPixels)
+        this.warp();
 
     // Handle firing
     this.maybeFireBullet();

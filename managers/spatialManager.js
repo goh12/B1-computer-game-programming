@@ -97,7 +97,7 @@ findEntityInRange: function(posX, posY, radius) {
             }
         }
         if(!entity.entity.isCircle){
-            let distX = Math.abs(posX - entity.posX - entity.width / 2);
+            let distX = Math.abs(posX - entity.posX);
             let distY = Math.abs(posY - entity.posY);
 
             if (distX > (entity.width / 2 + radius)) {
@@ -143,6 +143,9 @@ render: function(ctx) {
                                 e.posY-e.entity.getHeight()/2,
                            e.width, e.height);
     }
+
+    util.strokeBox(ctx, 0, g_levelGenerator.layerHeightInPixels, ctx.canvas.width, 0);
+    util.strokeBox(ctx, 0, ctx.canvas.height - g_levelGenerator.layerHeightInPixels, ctx.canvas.width, 0);
     ctx.strokeStyle = oldStyle;
 }
 };

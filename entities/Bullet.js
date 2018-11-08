@@ -57,6 +57,10 @@ Bullet.prototype.update = function (du) {
         return entityManager.KILL_ME_NOW;
     }
 
+    if(this.cx < 0-this.getRadius()*1.5 ||
+        this.cx > g_ctx.canvas.width + this.getRadius()*1.5)
+        this._isDeadNow = true;
+
     this.lifeSpan -= du;
     if (this.lifeSpan < 0) return entityManager.KILL_ME_NOW;
 
