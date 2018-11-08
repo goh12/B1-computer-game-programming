@@ -81,6 +81,26 @@ Enemy.prototype.setPosition = function(cx, cy) {
 }
 
 /**
+ * Overwrite the kill function to add the 
+ * possibility of dropping powerups
+ */
+Enemy.prototype.kill = function() {
+    if (!this._isDeadNow) {
+        console.log(this.cx);
+        // currently there is 5% chance of dropping a powerup
+        if (Math.random() > 0.9) {
+            entityManager.createPowerup(this.cx, this.cy);
+        }
+    }
+
+    if(this.owner) {
+        //Ask owner if entity can be killed.
+        if(this.owner.canKill(this)) this._isDeadNow = true;
+    } else {
+        this._isDeadNow = true;
+    }
+}
+/**
  * Method should be defined by descendant type. 
  */
 Enemy.prototype.updateThis = function(du) {

@@ -31,6 +31,7 @@ _enemies   : [],
 _bullets : [],
 _ships   : [],
 _walls   : [],
+_powerups : [],
 
 _bShowEnemies : true,
 
@@ -106,7 +107,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._enemies, this._bullets, this._ships, this._walls];
+    this._categories = [this._enemies, this._powerups, this._bullets, this._ships, this._walls];
 },
 
 init: function() {
@@ -161,6 +162,10 @@ haltShips: function() {
 
 toggleEnemies: function() {
     this._bShowEnemies = !this._bShowEnemies;
+},
+
+createPowerup : function (cx, cy) {
+    this._powerups.push(new Powerup(cx, cy));
 },
 
 update: function(du) {

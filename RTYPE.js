@@ -189,6 +189,7 @@ function preloadDone() {
     g_sprites.block = new Sprite(g_images.block);
     g_sprites.soundOn = new Sprite(g_images.soundOn);
     g_sprites.soundOff = new Sprite(g_images.soundOff);
+    g_sprites.powerup = new Sprite(g_images.rock);
 
     g_sprites.bullet = new Sprite(g_images.ship);
     g_sprites.bullet.scale = {x:0.25, y:0.25};
