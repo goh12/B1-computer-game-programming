@@ -137,7 +137,10 @@ Tentacle.prototype.update = function(du) {
         };
     }
 
-    if(this.sectionCount === 0) return entityManager.KILL_ME_NOW;
+    if(this.sectionCount === 0) {
+        this._isDeadNow = true;
+        return entityManager.KILL_ME_NOW;
+    }
 }
 
 Tentacle.prototype.render = function(ctx) {
