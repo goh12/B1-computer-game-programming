@@ -174,10 +174,14 @@ function requestPreloads() {
         bullet : "images/orb.png",
         block : "https://i.imgur.com/8kG3VLf.jpg",
         soundOn : "images/soundon.png",
-        soundOff : "images/soundoff.png"
+        soundOff : "images/soundoff.png",
+        falmerHead : "https://notendur.hi.is/frg17/tlf/img/falmerbosshead.png",
+        falmerSection : "https://notendur.hi.is/frg17/tlf/img/falmerbosssection.png",
     };
 
-    imagesPreload(requiredImages, g_images, preloadDone);
+    SpriteSheetManager.loadAnimations(() => {
+        imagesPreload(requiredImages, g_images, preloadDone);
+    });
 }
 
 var g_sprites = {};
@@ -191,6 +195,9 @@ function preloadDone() {
     g_sprites.soundOn = new Sprite(g_images.soundOn);
     g_sprites.soundOff = new Sprite(g_images.soundOff);
     g_sprites.powerup = new Sprite(g_images.rock);
+
+    g_sprites.falmerHead = new Sprite(g_images.falmerHead);
+    g_sprites.falmerSection = new Sprite(g_images.falmerSection);
 
     g_sprites.bullet = new Sprite(g_images.bullet);
     g_sprites.bullet.scale = {x:0.03, y:0.03};

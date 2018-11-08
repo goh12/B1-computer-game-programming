@@ -20,6 +20,7 @@ function Tentacle(startPos, initialStates) {
     if(initialStates.length && initialStates.length > 0) {
         
         const first = new Grunt();      //Create first section
+        first.sprite = g_sprites.falmerSection;
         first.owner = this; //Set owner of section
         first.fireChance = 0;
         first.setPos(this.cx, this.cy);
@@ -27,7 +28,8 @@ function Tentacle(startPos, initialStates) {
         
         for (let i = 1; i < initialStates.length; i++) { //Rest of sections
             const scale = 1 - i/initialStates.length;
-            const section = new Grunt();        
+            const section = new Grunt();
+            section.sprite = g_sprites.falmerSection;
             section.owner = this;       //Set owner of section.
             section.fireChance = 0;
             section.scale = { x: scale, y: scale };
@@ -47,7 +49,7 @@ function Tentacle(startPos, initialStates) {
  */
 Tentacle.prototype._initSectionOffsets = function(states) {
     for(let i = 0; i < states.length; i++) {
-        const maxOffs = this.yMaxOffset -this.sections[i].getRadius();
+        const maxOffs = this.yMaxOffset - this.sections[i].getRadius();
         const offs = maxOffs * (states[i]/this.yOffsetTime); 
         const asc = offs < 0 ? true : false; 
         this.sectionOffsets.push({
@@ -171,14 +173,10 @@ function BossFalmer() {
     this.cx = g_canvas.width + 400;  //Starting positions
     this.cy = g_canvas.height/2;
 
-    this.head = new Grunt();            //Boss head configuration
-    this.head.scale = { x: 5, y: 5};
-    this.head.setPos(this.cx, this.cy);
-    this.head.owner = this;
-    this.head.fireChance = 0;
-
     this.speed = -1;                //Boss speed configuration
     this.stopCx = 680;            //Where boss will stop
+
+    this._initHead();
 
     this.tentacles = [];        //Tentacle container
     this.tentacleCount = 4;     //Tentacle count
@@ -190,6 +188,30 @@ function BossFalmer() {
 }
 
 BossFalmer.prototype = Entity.prototype;
+
+/**
+ * Configures the head of boss.
+ */
+BossFalmer.prototype._initHead = function() {
+    this.head = new Grunt();
+    this.head.sprite = g_sprites.falmerHead;
+    this.head.setPos(this.cx, this.cy);
+    this.head.owner = this;
+    this.head.fireChance = 0;
+
+    //Configure animator.
+    const an = new Animator(g_ctx);
+    an.addAnimation("eye", SpriteSheetManager.get("blinkeye"));
+    an.playAnimation("eye");
+    this.head.animator = an;
+
+    this.head.getRadius = function() {
+        //This is boss hard coded specifically for this boss animation.
+        const offset = 9 - Math.abs(this.animator.getCurrentFrame() - 9);
+        return 150 - offset;
+    };
+    
+}
 
 /**
  * Creates the tentacles for this boss and pushes to container.
@@ -225,10 +247,10 @@ BossFalmer.prototype._updateChildrenPositions = function() {
     const cy = this.cy;
 
     this.tentaclePos = [  //Update positions for tentacles.
-        { posX: cxRad + 44, posY: cy - rad + 15 },
-        { posX: cxRad, posY: cy - rad/2 + 30 },
-        { posX: cxRad, posY: cy + rad/2 - 30 },
-        { posX: cxRad + 44, posY: cy + rad - 15 }
+        { posX: cxRad + 10, posY: cy - rad + 50 },
+        { posX: cxRad - 15, posY: cy - 35 },
+        { posX: cxRad - 15, posY: cy + 35 },
+        { posX: cxRad + 10, posY: cy + rad - 50 }
     ];
 }
 
@@ -239,9 +261,9 @@ BossFalmer.prototype.update = function(du) {
     //If boss hasn't moved to it's desired location.
     if(this.cx > this.stopCx) {
         this.cx += this.speed * du;
-        this._updateChildrenPositions();
     }
-
+    
+    this._updateChildrenPositions();
     //Update head.
     if(this.head.update(du) === entityManager.KILL_ME_NOW) this.kill();
 
@@ -261,7 +283,8 @@ BossFalmer.prototype.update = function(du) {
 }
 
 BossFalmer.prototype.render = function(ctx) {
-    this.head.render(ctx);
+    this.head.animator.update(main.deltaTime(), this.cx, this.cy, 0);
+
     for(let i = 0; i < this.tentacles.length; i++) {
         if(!this.tentacles[i]) continue;
 

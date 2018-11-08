@@ -53,7 +53,7 @@ Enemy.prototype.update = function (du) {
 };
 
 Enemy.prototype.getRadius = function () {
-    return this.scale.x * (this.sprite.width / 2) * 0.9;
+    return this.scale.x * (this.sprite.width / 2);
 };
 
 Enemy.prototype.takeBulletHit = function (bullet) {
