@@ -85,7 +85,7 @@ var KEY_AVE_VEL = keyCode('V');
 var KEY_SPATIAL = keyCode('X');
 var KEY_START = keyCode('R');
 
-var KEY_HALT  = keyCode('H');
+var KEY_STOPMOVING  = keyCode('H');
 
 var KEY_0 = keyCode('0');
 
@@ -105,7 +105,7 @@ function processDiagnostics() {
 
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
-    if (eatKey(KEY_HALT)) entityManager.haltShips();
+    if (eatKey(KEY_STOPMOVING)) g_levelGenerator.toggleMoving();
 
     
     if (eatKey(KEY_START)) gameManager.startGame();
@@ -168,9 +168,10 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-        ship   : "https://notendur.hi.is/~pk/308G/images/ship.png",
+        ship   : "images/flappy.png",
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         rock   : "https://notendur.hi.is/~pk/308G/images/rock.png",
+        bullet : "images/orb.png",
         block : "https://i.imgur.com/8kG3VLf.jpg",
         soundOn : "images/soundon.png",
         soundOff : "images/soundoff.png"
@@ -190,8 +191,8 @@ function preloadDone() {
     g_sprites.soundOn = new Sprite(g_images.soundOn);
     g_sprites.soundOff = new Sprite(g_images.soundOff);
 
-    g_sprites.bullet = new Sprite(g_images.ship);
-    g_sprites.bullet.scale = {x:0.25, y:0.25};
+    g_sprites.bullet = new Sprite(g_images.bullet);
+    g_sprites.bullet.scale = {x:0.03, y:0.03};
 
     entityManager.init();
     createInitialShips();

@@ -21,8 +21,9 @@ function Block(descr) {
     // Default sprite and scale, if not otherwise specified
     this.sprite = this.sprite || g_sprites.block;
     this.scale  = this.scale || 1;
-    this.velX = this.velX || -1;
+    this.velX = g_levelGenerator.moveSpeed;
     this.velY = this.velY || 0;
+    this.isCollider = this.isCollider || false;
 
     /*
         // Diagnostics to check inheritance stuff
@@ -34,17 +35,24 @@ function Block(descr) {
 Block.prototype = new Entity();
 
 Block.prototype.update = function (du) {
-    spatialManager.unregister(this);
+    if(this.isCollider)
+        spatialManager.unregister(this);
+
+    this.velX = g_levelGenerator.moveSpeed;
     this.isCircle = false;
 
     if (this._isDeadNow) {
         return entityManager.KILL_ME_NOW
     }
 
+    if(this.cx < 0-this.getWidth()*1.5)
+        this._isDeadNow = true;
+
     this.cx += this.velX * du;
     this.cy += this.velY * du;
 
-    spatialManager.register(this);
+    if(this.isCollider)
+        spatialManager.register(this);
 
 };
 

@@ -45,6 +45,11 @@ randRange: function(min, max) {
     return (min + Math.random() * (max - min));
 },
 
+random : function (){
+    var x = Math.sin(this.seed++) * 10000;
+    return x - Math.floor(x);
+},
+
 
 // MISC
 // ====
@@ -107,13 +112,6 @@ strokeBox: function (ctx, x, y, w, h) {
     ctx.beginPath();
     ctx.strokeRect(x, y, w, h);
     ctx.stroke();
-},
-
-// RANDOM NUMBERS
-// ==============
-random : function (){
-    var x = Math.sin(this.seed++) * 10000;
-    return x - Math.floor(x);
 },
 
 // AUDIO STUFF
