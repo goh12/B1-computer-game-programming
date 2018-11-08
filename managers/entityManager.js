@@ -131,6 +131,7 @@ generateEnemy : function(Type, descr = undefined) {
 },
 
 generateShip : function(descr) {
+    console.log("Creating ship");
     this._ships.push(new Ship(descr));
 },
 

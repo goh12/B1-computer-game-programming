@@ -302,7 +302,7 @@ Ship.prototype.render = function (ctx) {
     // pass my scale into the sprite, for drawing
     this.sprite.scale = this._scale;
     this.sprite.drawCentredAt(
-	ctx, this.cx, this.cy, this.rotation
+	ctx, this.cx, this.cy, this.rotation - Math.PI/2
     );
 
     // Here just temporarily:   

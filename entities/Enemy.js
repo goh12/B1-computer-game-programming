@@ -86,7 +86,6 @@ Enemy.prototype.setPosition = function(cx, cy) {
  */
 Enemy.prototype.kill = function() {
     if (!this._isDeadNow) {
-        console.log(this.cx);
         // currently there is 5% chance of dropping a powerup
         if (Math.random() > 0.9) {
             entityManager.createPowerup(this.cx, this.cy);

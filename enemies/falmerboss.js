@@ -40,7 +40,6 @@ function Tentacle(startPos, initialStates) {
         this._updateFireChance();
     }
 
-    debugPrinter.add("Tentacle", this, ["cx", "cy"]);
 }
 
 /**
@@ -188,7 +187,6 @@ function BossFalmer() {
     this._updateChildrenPositions();  //Setup positions for children.
     this._initTentacles();            //Build tentacles.
 
-    debugPrinter.add("Boss", this, ["cx", "cy"]);
 }
 
 BossFalmer.prototype = Entity.prototype;
