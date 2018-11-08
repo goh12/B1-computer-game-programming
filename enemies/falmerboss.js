@@ -21,6 +21,7 @@ function Tentacle(startPos, initialStates) {
         
         const first = new Grunt();      //Create first section
         first.owner = this; //Set owner of section
+        first.fireChance = 0;
         first.setPos(this.cx, this.cy);
         this.sections.push(first);
         
@@ -28,6 +29,7 @@ function Tentacle(startPos, initialStates) {
             const scale = 1 - i/initialStates.length;
             const section = new Grunt();        
             section.owner = this;       //Set owner of section.
+            section.fireChance = 0;
             section.scale = { x: scale, y: scale };
             
             this.sections.push(section);
@@ -102,10 +104,15 @@ Tentacle.prototype._updatePositions = function() {
  * when they are fewer.
  */
 Tentacle.prototype._updateFireChance = function() {
-    const NO_SHOOT_CHANCE = 0.99;
-    const newEntityFireChance = 1 - Math.pow(NO_SHOOT_CHANCE, 1/this.sectionCount);
-    for(let i = 0; i < this.sectionCount; i++) {
-        this.sections[i].fireChance = newEntityFireChance;
+    const fireChance = 0.01;
+    
+    let i = this.sectionCount - 1;
+    while(i >= 0) {
+        if(this.sections[i]) {
+            this.sections[i].fireChance = fireChance;
+            break;
+        }
+        i--;
     }
 }
 
@@ -166,6 +173,7 @@ function BossFalmer() {
     this.head.scale = { x: 5, y: 5};
     this.head.setPos(this.cx, this.cy);
     this.head.owner = this;
+    this.head.fireChance = 0;
 
     this.speed = -1;                //Boss speed configuration
     this.stopCx = 680;            //Where boss will stop

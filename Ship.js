@@ -174,22 +174,22 @@ Ship.prototype.computeSubStep = function (du) {
 
     // allows the ship to move up within the canvas
     if (keys[this.KEY_UP] && yUpperLimit > 0) {
-        this.cy -= 5;
+        this.cy -= 5 * du;
     }
           
     // allows the ship to move down within the canvas
     if (keys[this.KEY_DOWN] && yLowerLimit < g_canvas.height) {
-        this.cy += 5;
+        this.cy += 5 * du;
     }
             
     // allows the ship to move left within its boundaries    
     if(keys[this.KEY_LEFT] && xLeftLimit > 0 ) {
-        this.cx -= 5;
+        this.cx -= 5 * du;
     }
           
     // allows the ship to move right within its boundaries
     if(keys[this.KEY_RIGHT]  && xRightLimit < g_canvas.width) {
-        this.cx += 5;
+        this.cx += 5 * du;
     }     
 };
 

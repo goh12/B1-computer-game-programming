@@ -36,7 +36,7 @@ Grunt.prototype.maybeFireBullet = function (du) {
             const bulletYVel = Math.sin(angleRadians) * BULLET_SPEED;
     
             entityManager.fireBullet(
-               this.cx - this.sprite.width/2, this.cy,
+               this.cx - this.getRadius(), this.cy,
                bulletXVel, bulletYVel,
                this.rotation,
                "enemyBullet");
