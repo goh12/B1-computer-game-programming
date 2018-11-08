@@ -37,6 +37,8 @@ function Tentacle(startPos, initialStates) {
         this._updatePositions(); //Set positions of sections
         this._updateFireChance();
     }
+
+    debugPrinter.add("Tentacle", this, ["cx", "cy"]);
 }
 
 /**
@@ -94,12 +96,22 @@ Tentacle.prototype._updatePositions = function() {
     }
 }
 
+/**
+ * Updates fire chance for tentacle.
+ * (Fire chance should get higher for each Grunt on tentacle)
+ * when they are fewer.
+ */
 Tentacle.prototype._updateFireChance = function() {
     const NO_SHOOT_CHANCE = 0.99;
     const newEntityFireChance = 1 - Math.pow(NO_SHOOT_CHANCE, 1/this.sectionCount);
     for(let i = 0; i < this.sectionCount; i++) {
         this.sections[i].fireChance = newEntityFireChance;
     }
+}
+
+Tentacle.prototype.setPos = function(cx, cy) {
+    this.cx = cx;
+    this.cy = cy;
 }
 
 Tentacle.prototype.update = function(du) {
@@ -143,55 +155,93 @@ Tentacle.prototype.canKill = function(ob) {
 
 
 
-
+/**
+ * Big boss type enemy.
+ */
 function BossFalmer() {
-    this.cx = 650;
+    this.cx = g_canvas.width + 400;  //Starting positions
     this.cy = g_canvas.height/2;
 
-    this.head = new Grunt();
+    this.head = new Grunt();            //Boss head configuration
     this.head.scale = { x: 5, y: 5};
     this.head.setPos(this.cx, this.cy);
     this.head.owner = this;
 
-    this.tentacles = [];
-    this.tentacleCount = 4;
-    this._initTentacles();
+    this.speed = -1;                //Boss speed configuration
+    this.stopCx = 680;            //Where boss will stop
 
+    this.tentacles = [];        //Tentacle container
+    this.tentacleCount = 4;     //Tentacle count
+    this.tentaclePos = null;
+
+    this._updateChildrenPositions();  //Setup positions for children.
+    this._initTentacles();            //Build tentacles.
+
+    debugPrinter.add("Boss", this, ["cx", "cy"]);
 }
 
 BossFalmer.prototype = Entity.prototype;
 
+/**
+ * Creates the tentacles for this boss and pushes to container.
+ */
 BossFalmer.prototype._initTentacles = function() {
-    const rad = this.head.getRadius();
-    const cxRad = this.cx - rad;
-    const cy = this.cy;
     
-    this.tentacles.push( new Tentacle({ posX: cxRad + 44, posY: cy - rad + 15 },
+    this.tentacles.push( new Tentacle(this.tentaclePos[0],
         [-310, -330, -350, -300, -250, -200, -250, -300, -350]
     ));
 
-    this.tentacles.push( new Tentacle({ posX: cxRad, posY: cy - rad/2 + 30 },
-        [200, 280, 360, 340, 260, 200]
+    this.tentacles.push( new Tentacle(this.tentaclePos[1],
+        [320, 250, 200, 260, 330, 400]
     ));
 
-    this.tentacles.push( new Tentacle({ posX: cxRad, posY: cy + rad/2 - 30 },
+    this.tentacles.push( new Tentacle(this.tentaclePos[2],
         [-320, -250, -200, -260, -330, -400]
     ));
 
-    this.tentacles.push( new Tentacle({ posX: cxRad + 44, posY: cy + rad - 15 },
+    this.tentacles.push( new Tentacle(this.tentaclePos[3],
         [310, 330, 350, 300, 250, 200, 250, 300, 350]
     ));
 
 }
 
+/**
+ * Updates absolute positions for children.
+ */
+BossFalmer.prototype._updateChildrenPositions = function() {
+    this.head.setPos(this.cx, this.cy);  //Set head positions
+
+    const rad = this.head.getRadius();  
+    const cxRad = this.cx - rad;
+    const cy = this.cy;
+
+    this.tentaclePos = [  //Update positions for tentacles.
+        { posX: cxRad + 44, posY: cy - rad + 15 },
+        { posX: cxRad, posY: cy - rad/2 + 30 },
+        { posX: cxRad, posY: cy + rad/2 - 30 },
+        { posX: cxRad + 44, posY: cy + rad - 15 }
+    ];
+}
+
 BossFalmer.prototype.update = function(du) {
-    if(this._isDeadNow || this.tentacleCount === 0) return entityManager.KILL_ME_NOW;
+    //If dead
+    if(this._isDeadNow) return entityManager.KILL_ME_NOW;
 
-    this.head.update(du); //Update head
+    //If boss hasn't moved to it's desired location.
+    if(this.cx > this.stopCx) {
+        this.cx += this.speed * du;
+        this._updateChildrenPositions();
+    }
 
+    //Update head.
+    if(this.head.update(du) === entityManager.KILL_ME_NOW) this.kill();
+
+    //Update tentacles
     for(let i = 0; i < this.tentacles.length; i++) {//Update tentacles
         if(!this.tentacles[i]) continue; //if tentacle is destroyed
 
+        const tPos = this.tentaclePos[i];
+        this.tentacles[i].setPos(tPos.posX, tPos.posY);
         if(this.tentacles[i].update(du) === entityManager.KILL_ME_NOW) {
             this.tentacleCount--;
             this.tentacles[i] = null;
@@ -213,7 +263,6 @@ BossFalmer.prototype.render = function(ctx) {
 //Checks weather this.head can be killed.
 BossFalmer.prototype.canKill = function(ob) {
     if(this.tentacleCount == 0) {
-        this.kill();
         return true;
     }
     return false;
