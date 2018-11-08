@@ -46,7 +46,7 @@ Ship.prototype.KEY_RIGHT  = 'D'.charCodeAt(0);
 Ship.prototype.KEY_FIRE   = ' '.charCodeAt(0);
 
 // Initial, inheritable, default values
-Ship.prototype.rotation = Math.PI*0;
+Ship.prototype.rotation = 1 / 2 * Math.PI;
 Ship.prototype.cx = 200;
 Ship.prototype.cy = 200;
 Ship.prototype.velX = 0;
@@ -142,18 +142,12 @@ Ship.prototype.update = function (du) {
     if (this._isDeadNow) {
         return entityManager.KILL_ME_NOW;
     }
-
     // Perform movement substeps
     var steps = this.numSubSteps;
     var dStep = du / steps;
     for (var i = 0; i < steps; ++i) {
         this.computeSubStep(dStep);
     }
-
-    //Check if we are hitting the top or bottom of the level
-    if(this.cy + this.getRadius() > ctx.canvas.height - g_levelGenerator.layerHeightInPixels ||
-       this.cy - this.getRadius() < g_levelGenerator.layerHeightInPixels)
-        this.warp();
 
     // Handle firing
     this.maybeFireBullet();
@@ -180,22 +174,22 @@ Ship.prototype.computeSubStep = function (du) {
 
     // allows the ship to move up within the canvas
     if (keys[this.KEY_UP] && yUpperLimit > 0) {
-        this.cy -= 5 * du;
+        this.cy -= 5;
     }
           
     // allows the ship to move down within the canvas
     if (keys[this.KEY_DOWN] && yLowerLimit < g_canvas.height) {
-        this.cy += 5 * du;
+        this.cy += 5;
     }
             
     // allows the ship to move left within its boundaries    
     if(keys[this.KEY_LEFT] && xLeftLimit > 0 ) {
-        this.cx -= 5 * du;
+        this.cx -= 5;
     }
           
     // allows the ship to move right within its boundaries
     if(keys[this.KEY_RIGHT]  && xRightLimit < g_canvas.width) {
-        this.cx += 5 * du;
+        this.cx += 5;
     }     
 };
 
@@ -303,17 +297,6 @@ Ship.prototype.halt = function () {
     this.velY = 0;
 };
 
-var NOMINAL_ROTATE_RATE = 0.1;
-
-Ship.prototype.updateRotation = function (du) {
-    if (keys[this.KEY_LEFT]) {
-        this.rotation -= NOMINAL_ROTATE_RATE * du;
-    }
-    if (keys[this.KEY_RIGHT]) {
-        this.rotation += NOMINAL_ROTATE_RATE * du;
-    }
-};
-
 Ship.prototype.render = function (ctx) {
     var origScale = this.sprite.scale;
     // pass my scale into the sprite, for drawing
@@ -328,6 +311,13 @@ Ship.prototype.render = function (ctx) {
     this.sprite.scale = origScale;
 
 };
+
+// Begin Powerup related functions
+Ship.prototype.extraLifePowerup = function () {
+    g_livesLeft++;
+}
+
+// End Powerup related functions
 
 function extraLives () {
     return g_livesLeft;
