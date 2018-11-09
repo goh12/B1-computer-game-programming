@@ -240,7 +240,7 @@ function BossFalmer() {
     this.cx = g_canvas.width + 400;  //Starting positions
     this.cy = g_canvas.height/2;
 
-    this.speed = -10;                //Boss speed configuration
+    this.speed = -1;                //Boss speed configuration
     this.stopCx = 680;            //Where boss will stop
 
     this._initHead();
