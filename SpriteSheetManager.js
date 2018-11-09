@@ -407,6 +407,6 @@ const SpriteSheetManager = (function() {
  })();
 
  SpriteSheetManager.addSpriteSheetAnimation("blinkeye",
-    "https://res.cloudinary.com/frozenscloud/image/upload/v1541698920/blinkeye.png",
+    "https://res.cloudinary.com/frozenscloud/image/upload/v1541766941/blinkeye.png",
     300, 300, 17, 2000);
 
