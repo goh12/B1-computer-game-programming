@@ -5,6 +5,7 @@ function Grunt(descr) {
     this.scale  = this.scale  || {x:1, y:1};
     this.fireChance = 0.005;
     this.bulletFireChecks = 0;
+
 }
 
 Grunt.prototype = Enemy.prototype;

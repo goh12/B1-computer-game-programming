@@ -5,7 +5,7 @@
  * @param {*} initialStates (array of numbers between -500 and 500)
  *                          to set starting y offsets of entities in tentacle.
  */
-function Tentacle(startPos, initialStates) {
+function Tentacle(startPos, initialStates, isLasher) {
     this.sectionCount = initialStates.length;
 
     this.yMaxOffset = 60;  //Max (absolute) offset of entites from this.cy
@@ -17,6 +17,20 @@ function Tentacle(startPos, initialStates) {
     this.cx = startPos.posX;
     this.cy = startPos.posY;
 
+
+    //LASHER PROPERTIES
+    this.lasher = isLasher;  //Tentacle is a lasher?
+    this.lashing = false;   //Is currently lashing.
+    this.lashTo = { x: 0, y: 0 };  //Is lashing to.
+    this.lashTime = 1000;   //Time it takes to lash (ms)    
+    this.lashProgress = 0;  //Current progress in mid lash
+
+
+    this._initSections(initialStates);
+
+}
+
+Tentacle.prototype._initSections = function(initialStates) {
     if(initialStates.length && initialStates.length > 0) {
         
         const first = new Grunt();      //Create first section
@@ -41,7 +55,6 @@ function Tentacle(startPos, initialStates) {
         this._updatePositions(); //Set positions of sections
         this._updateFireChance();
     }
-
 }
 
 /**
@@ -62,6 +75,8 @@ Tentacle.prototype._initSectionOffsets = function(states) {
 
 /**
  * Updates offsets for all sections.
+ * (offsets get updated to make it seem like the tentacle is
+ * moving around)
  */
 Tentacle.prototype._updateSectionOffsets = function(initial) {
     const dt = main.deltaTime();
@@ -97,6 +112,47 @@ Tentacle.prototype._updatePositions = function() {
         const yPos = this.cy + this.sectionOffsets[i].offs;
         this.sections[i].setPos(xPos, yPos);
     }
+
+    //If tentacle is lashing, perform extra calculation.
+    if(this.lashing) {
+        this.lash();
+    }
+
+}
+
+/**
+ * Calculates position in mid lash for tentacle.
+ * Used only if a tentacle is a lasher.
+ */
+Tentacle.prototype.lash = function() {
+    this.lashProgress += main.deltaTime();
+
+    // percentage of progress in mid lash.
+    let prog = this.lashProgress / this.lashTime;
+    if(prog > 1) prog = 1 - (prog - 1);
+
+    for (let i = 0; i < this.sectionCount; i++) {
+        const section = this.sections[i];
+
+        //Distances between section position and lashTo positions.
+        const deltaX = section.cx -  this.lashTo.x;
+        const deltaY = section.cy - this.lashTo.y;
+        
+        //Calculates extra distance this section should move.
+        //relative to lash progress.
+        const dx = deltaX * prog * ((i+1)/this.sectionCount);
+        const dy = deltaY * prog * ((i+1)/this.sectionCount);
+
+        //update positions
+        section.cx -= dx;
+        section.cy -= dy;
+    }
+
+    if(this.lashProgress > 2 * this.lashTime) {
+        //Lash is over.
+        this.lashing = false;
+        this.lashProgress = 0;
+    }
 }
 
 /**
@@ -105,7 +161,8 @@ Tentacle.prototype._updatePositions = function() {
  * when they are fewer.
  */
 Tentacle.prototype._updateFireChance = function() {
-    const fireChance = 0.01;
+    if(this.lasher) return;  //Lashers do not fire.
+    const fireChance = 0.015;
     
     let i = this.sectionCount - 1;
     while(i >= 0) {
@@ -138,9 +195,19 @@ Tentacle.prototype.update = function(du) {
         };
     }
 
+    //Check if tentacle is dead.
     if(this.sectionCount === 0) {
         this._isDeadNow = true;
         return entityManager.KILL_ME_NOW;
+    }
+
+    // LASH PROTO
+    if(this.lasher && !this.lashing) {
+        this.lashing = Math.random() < 0.01 ? true : false;
+        if(this.lashing) {
+            const playerPos = entityManager.getPlayer().getPos();
+            this.lashTo = { x: playerPos.posX, y: playerPos.posY };
+        }
     }
 }
 
@@ -173,7 +240,7 @@ function BossFalmer() {
     this.cx = g_canvas.width + 400;  //Starting positions
     this.cy = g_canvas.height/2;
 
-    this.speed = -1;                //Boss speed configuration
+    this.speed = -10;                //Boss speed configuration
     this.stopCx = 680;            //Where boss will stop
 
     this._initHead();
@@ -219,19 +286,23 @@ BossFalmer.prototype._initHead = function() {
 BossFalmer.prototype._initTentacles = function() {
     
     this.tentacles.push( new Tentacle(this.tentaclePos[0],
-        [-310, -330, -350, -300, -250, -200, -250, -300, -350]
+        [-310, -330, -350, -300, -250, -200, -250, -300, -350],
+        true
     ));
 
     this.tentacles.push( new Tentacle(this.tentaclePos[1],
-        [320, 250, 200, 260, 330, 400]
+        [320, 250, 200, 260, 330, 400],
+        false
     ));
 
     this.tentacles.push( new Tentacle(this.tentaclePos[2],
-        [-320, -250, -200, -260, -330, -400]
+        [-320, -250, -200, -260, -330, -400],
+        false
     ));
 
     this.tentacles.push( new Tentacle(this.tentaclePos[3],
-        [310, 330, 350, 300, 250, 200, 250, 300, 350]
+        [310, 330, 350, 300, 250, 200, 250, 300, 350],
+        true
     ));
 
 }
