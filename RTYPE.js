@@ -177,6 +177,7 @@ function requestPreloads() {
         soundOff : "images/soundoff.png",
         falmerHead : "https://notendur.hi.is/frg17/tlf/img/falmerbosshead.png",
         falmerSection : "https://notendur.hi.is/frg17/tlf/img/falmerbosssection.png",
+        grunt : "https://notendur.hi.is/frg17/tlf/img/grunt.png",
     };
 
     SpriteSheetManager.loadAnimations(() => {
@@ -198,6 +199,7 @@ function preloadDone() {
 
     g_sprites.falmerHead = new Sprite(g_images.falmerHead);
     g_sprites.falmerSection = new Sprite(g_images.falmerSection);
+    g_sprites.grunt = new Sprite(g_images.grunt);
 
     g_sprites.bullet = new Sprite(g_images.bullet);
     g_sprites.bullet.scale = {x:0.03, y:0.03};

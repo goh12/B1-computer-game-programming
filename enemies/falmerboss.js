@@ -24,6 +24,7 @@ function Tentacle(startPos, initialStates, isLasher) {
     this.lashTo = { x: 0, y: 0 };  //Is lashing to.
     this.lashTime = 1000;   //Time it takes to lash (ms)    
     this.lashProgress = 0;  //Current progress in mid lash
+    this.lashEntityCount = 0; //Number of entities in tentacle at beginning of lash.
 
 
     this._initSections(initialStates);
@@ -140,8 +141,8 @@ Tentacle.prototype.lash = function() {
         
         //Calculates extra distance this section should move.
         //relative to lash progress.
-        const dx = deltaX * prog * ((i+1)/this.sectionCount);
-        const dy = deltaY * prog * ((i+1)/this.sectionCount);
+        const dx = deltaX * prog * ((i+1)/this.lashEntityCount);
+        const dy = deltaY * prog * ((i+1)/this.lashEntityCount);
 
         //update positions
         section.cx -= dx;
@@ -207,6 +208,7 @@ Tentacle.prototype.update = function(du) {
         if(this.lashing) {
             const playerPos = entityManager.getPlayer().getPos();
             this.lashTo = { x: playerPos.posX, y: playerPos.posY };
+            this.lashEntityCount = this.sectionCount;
         }
     }
 }
