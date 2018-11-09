@@ -256,7 +256,7 @@ function BossFalmer() {
 
 }
 
-BossFalmer.prototype = Entity.prototype;
+BossFalmer.prototype = new Entity();
 
 /**
  * Configures the head of boss.

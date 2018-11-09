@@ -5,10 +5,9 @@ function Grunt(descr) {
     this.scale  = this.scale  || {x:1, y:1};
     this.fireChance = 0.005;
     this.bulletFireChecks = 0;
-
 }
 
-Grunt.prototype = Enemy.prototype;
+Grunt.prototype = new Enemy();
 
 //Object specific update function (called automatically in Enemy update function.)
 Grunt.prototype.updateThis = function(du) {

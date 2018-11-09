@@ -20,7 +20,7 @@ function Formation(stateInterval, entityCount, entityType, xVel, spaceBetween) {
     this.entities = [];
 }
 
-Formation.prototype = Entity.prototype;
+Formation.prototype = new Entity();
 
 
 /**

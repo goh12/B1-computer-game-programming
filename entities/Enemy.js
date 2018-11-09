@@ -17,11 +17,9 @@
 
 // A generic contructor which accepts an arbitrary descriptor object
 function Enemy(descr) {
-
     // Common inherited setup logic from Entity
     this.setup(descr);
 
-    this.sprite = this.sprite || g_sprites.rock;
     this.scale  = this.scale  || {x:1, y:1};
 
 /*
@@ -32,6 +30,7 @@ function Enemy(descr) {
 }
 
 Enemy.prototype = new Entity();
+
 Enemy.prototype.tag = "enemy";
 
 Enemy.prototype.update = function (du) {

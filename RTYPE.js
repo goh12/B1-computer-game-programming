@@ -177,7 +177,7 @@ function requestPreloads() {
         soundOff : "images/soundoff.png",
         falmerHead : "https://notendur.hi.is/frg17/tlf/img/falmerbosshead.png",
         falmerSection : "https://notendur.hi.is/frg17/tlf/img/falmerbosssection.png",
-        grunt : "https://notendur.hi.is/frg17/tlf/img/grunt.png",
+        grunt : "https://notendur.hi.is/frg17/tlf/img/yelloweye.png",
     };
 
     SpriteSheetManager.loadAnimations(() => {
