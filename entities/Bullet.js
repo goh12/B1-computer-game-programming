@@ -97,7 +97,7 @@ Bullet.prototype.takeBulletHit = function () {
     this.kill();
     
     // Make a noise when I am zapped by another bullet
-    this.zappedSound.play();
+    util.playSound(this.zappedSound,1);
 };
 
 Bullet.prototype.render = function (ctx) {

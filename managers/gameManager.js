@@ -27,7 +27,13 @@ const gameManager = {
     _onMenu: true,
     _isGameOver: false,
     _isWon: false,
-    
+    _audioOn: true,
+    _soundSpeaker: {x: g_canvas.width-40, y: g_canvas.height-40},
+    _menuButtonWidth: 300,
+    _menuButtonHeight: 80,
+    _menuButtons: [],
+    _score: 0,
+
     startGame: function () {
         this._onMenu = false;
     },
@@ -65,9 +71,8 @@ const gameManager = {
         ctx.restore();
     },
 
-    toggleSound: function(ctx) {
-        this.sprite = g_sprites.soundOn;
-        this.sprite.drawCentredAt(ctx, g_canvas.width - 40, g_canvas.height - 140, 0);
+    toggleSound: function() {
+        this._audioOn = !this._audioOn;
     },
 
     extraLives: function(ctx) {
@@ -75,12 +80,100 @@ const gameManager = {
         var origScale = this.sprite.scale;
         this.sprite.scale = {x: 0.7, y: 0.7};
         for (var i=0; i<extraLives(); i++) {
-            this.sprite.drawCentredAt(ctx, 30 + i*50, g_canvas.height - 30, Math.PI/4);
+            this.sprite.drawCentredAt(ctx, 30 + i*50, g_canvas.height - 30, 0);
         }
         this.sprite.scale = origScale;
     },
 
+    menuText: function(ctx) {
+        ctx.save();
+
+        ctx.fillStyle = "#333";
+        ctx.textAlign = "center";
+        ctx.font = "bold 15px sans-serif";
+        ctx.fillText("Press L for Pause Menu", g_canvas.width/2, g_canvas.height-20);
+
+        ctx.restore();
+    },
+
+    scoreText: function(ctx) {
+        ctx.save()
+
+        ctx.fillStyle = "#FFF";
+        ctx.textAlign = "center";
+        ctx.font = "bold 25px sans-serif";
+        ctx.fillText("Score: " + this._score, g_canvas.width/2, 30);
+
+        ctx.restore();
+    },
+
+    soundSpeaker: function(ctx) {
+        ctx.save();
+        if (this._audioOn) {
+            this.sprite = g_sprites.soundOn;
+            this.sprite.drawCentredAt(ctx, this._soundSpeaker.x, this._soundSpeaker.y, 0);
+        } else {
+            this.sprite = g_sprites.soundOff;
+            this.sprite.drawCentredAt(ctx, this._soundSpeaker.x, this._soundSpeaker.y, 0);
+        }
+        ctx.restore();
+    },
+
+    pauseMenu: function(ctx) {
+        if (g_doPause) {
+            ctx.save();
+
+            // Grey overlay
+            ctx.fillStyle = "black";
+            ctx.globalAlpha = 0.2;
+            ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            ctx.globalAlpha = 1;
+
+            ctx.fillStyle = "#FFF";
+            ctx.textAlign = "center";
+            ctx.font = "bold 20px sans-serif";
+
+            var menuItems = ["Resume", "High Scores", "Sound on/off"];
+            for (var i=0; i<menuItems.length; i++) {
+                var x = g_canvas.width/2 - this._menuButtonWidth/2;
+                var y = g_canvas.height/2 - (menuItems.length-2*i)*(this._menuButtonHeight/2+5);
+                util.fillBox(ctx, x, y, this._menuButtonWidth, this._menuButtonHeight, "#333");
+                ctx.fillText(menuItems[i], g_canvas.width/2,
+                    g_canvas.height/2 - (menuItems.length-2*i)*(this._menuButtonHeight/2+5)+40);
+                this._menuButtons[i] = {name: menuItems[i], x: x, y: y};
+            }
+            ctx.restore();
+        }
+    },
+
+    mouseClick: function(mouseX, mouseY) {
+        if (util.isBetween(mouseX, this._soundSpeaker.x, this._soundSpeaker.x+40)
+                && util.isBetween(mouseY, this._soundSpeaker.y, this._soundSpeaker.y+40)) {
+            this.toggleSound();
+        }
+
+        if (g_doPause) {
+            for (var i=0; i<this._menuButtons.length; i++) {
+                if (util.isBetween(mouseX, this._menuButtons[i].x, this._menuButtons[i].x+this._menuButtonWidth)
+                    && util.isBetween(mouseY, this._menuButtons[i].y, this._menuButtons[i].y+this._menuButtonHeight)) {
+                    if (i===0) g_doPause = !g_doPause;
+                    if (i===1) this.displayHighScores(ctx);
+                    if (i===2) this.toggleSound();
+                }
+            }
+        }
+    },
+
+    displayHighScores: function(ctx) {
+        // TODO
+    },
+
     renderUI: function(ctx) {
         this.extraLives(ctx);
+        this.scoreText(ctx);
+        this.menuText(ctx);
+        this.soundSpeaker(ctx);
+        this.pauseMenu(ctx);
     }
+
 }

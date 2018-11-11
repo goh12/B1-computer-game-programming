@@ -10,7 +10,7 @@
 0        1         2         3         4         5         6         7         8
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 */
-/*
+
 var g_mouseX = 0,
     g_mouseY = 0;
 
@@ -22,11 +22,11 @@ function handleMouse(evt) {
     // If no button is being pressed, then bail
     var button = evt.buttons === undefined ? evt.which : evt.buttons;
     if (!button) return;
-    
-    entityManager.yoinkNearestShip(g_mouseX, g_mouseY);
+
+    gameManager.mouseClick(g_mouseX, g_mouseY);
+//    entityManager.yoinkNearestShip(g_mouseX, g_mouseY);
 }
 
 // Handle "down" and "move" events the same way.
 window.addEventListener("mousedown", handleMouse);
-window.addEventListener("mousemove", handleMouse);
-*/
+//window.addEventListener("mousemove", handleMouse);

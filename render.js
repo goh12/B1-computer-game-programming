@@ -73,15 +73,4 @@ function render(ctx) {
     
     ++g_frameCounter;
 
-    if (g_doPause) {
-        var btnW = 300;
-        var btnH = 80;
-        var menuItems = ["Resume", "High Scores", "Sound on/off"];
-        var menuColors = ["red", "green", "blue"]
-        for (var i=0; i<menuItems.length; i++) {
-            util.fillBox(ctx, g_canvas.width/2 - btnW/2, g_canvas.height/2 - (menuItems.length-2*i)*(btnH/2+5),
-                btnW, btnH, menuColors[i]);
-            ctx.fillText(menuItems[i], g_canvas.width/2 - btnW/2, g_canvas.height/2 - (menuItems.length-2*i)*(btnH/2+5)+10);
-        }
-    }
 }

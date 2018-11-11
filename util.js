@@ -119,9 +119,11 @@ strokeBox: function (ctx, x, y, w, h) {
 // function that clones the audio file to be able to 
 // play it repeatedly
 playSound : function (soundFile = new Audio(), volume) {
-    const soundClone = soundFile.cloneNode(true);
-    soundClone.volume = volume;
-    soundClone.play();
+    if (gameManager._audioOn) {
+        const soundClone = soundFile.cloneNode(true);
+        soundClone.volume = volume;
+        soundClone.play();
+    }
 },
 
 swap : function (arr, i, j) {

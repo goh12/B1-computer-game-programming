@@ -63,8 +63,8 @@ Ship.prototype.warp = function () {
 
     this._isWarping = true;
     this._scaleDirn = -1;
-    this.warpSound.play();
-    
+    util.playSound(this.warpSound, 1);
+
     // Unregister me from my old posistion
     // ...so that I can't be collided with while warping
     spatialManager.unregister(this);
@@ -321,9 +321,6 @@ Ship.prototype.render = function (ctx) {
     this.sprite.drawCentredAt(
 	ctx, this.cx, this.cy, this.rotation
     );
-
-    // Here just temporarily:   
-    //gameManager.toggleSound(ctx);
 
     this.sprite.scale = origScale;
 
