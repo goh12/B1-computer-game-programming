@@ -11,8 +11,6 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 */
 
-var g_livesLeft = 3;
-
 // A generic contructor which accepts an arbitrary descriptor object
 function Ship(descr) {
     this.setTag("player");
@@ -27,6 +25,8 @@ function Ship(descr) {
     // Set normal drawing scale, and warp state off
     this._scale = {x:1, y:1};
     this._isWarping = false;
+    this._lives = 3;
+    this._speed = 4;
 }
 
 Ship.prototype = new Entity();
@@ -160,9 +160,15 @@ Ship.prototype.update = function (du) {
     
     const collisionEntity = this.isColliding();
     if (collisionEntity) {
-        if(collisionEntity.getTag() !== "playerBullet") {
+
+        // check if it is a powerup
+        const isPowerUp = collisionEntity.hitByPlayer;
+
+        if(isPowerUp) {
+           isPowerUp.call(collisionEntity);
+        } else if(collisionEntity.getTag() !== "playerBullet") {
             this.warp();
-            g_livesLeft--;
+            this._lives--;
         } else {
             spatialManager.register(this);
         }
@@ -180,22 +186,22 @@ Ship.prototype.computeSubStep = function (du) {
 
     // allows the ship to move up within the canvas
     if (keys[this.KEY_UP] && yUpperLimit > 0) {
-        this.cy -= 5 * du;
+        this.cy -= this._speed * du;
     }
           
     // allows the ship to move down within the canvas
     if (keys[this.KEY_DOWN] && yLowerLimit < g_canvas.height) {
-        this.cy += 5 * du;
+        this.cy += this._speed * du;
     }
             
     // allows the ship to move left within its boundaries    
     if(keys[this.KEY_LEFT] && xLeftLimit > 0 ) {
-        this.cx -= 5 * du;
+        this.cx -= this._speed * du;
     }
           
     // allows the ship to move right within its boundaries
     if(keys[this.KEY_RIGHT]  && xRightLimit < g_canvas.width) {
-        this.cx += 5 * du;
+        this.cx += this._speed * du;
     }     
 };
 
@@ -287,7 +293,7 @@ Ship.prototype.takeBulletHit = function (bullet) {
     if(bullet.getTag() !== "playerBullet") {
         bullet.kill();
         this.warp();
-        g_livesLeft--;
+        this._lives--;
     }
 };
 
@@ -326,6 +332,18 @@ Ship.prototype.render = function (ctx) {
 
 };
 
-function extraLives () {
-    return g_livesLeft;
+Ship.prototype.addLife = function () {
+    this._lives++;
+}
+
+Ship.prototype.removeLife = function () {
+    this._lives--;
+}
+
+Ship.prototype.getLives = function () {
+    return this._lives;
+}
+
+Ship.prototype.increaseSpeed = function () {
+    this._speed++;
 }

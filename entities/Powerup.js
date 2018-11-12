@@ -9,6 +9,12 @@ function Powerup(descr) {
 
     // Common inherited setup logic from Entity
     this.setup(descr);
+
+    if (this.type < 0.7) {
+        this.isExtralife = true;
+    } else if (this.type < 1) {
+        this.isSpeedBoost = true;
+    }
     
     // Default sprite, if not otherwise specified
     this.sprite = this.sprite || g_sprites.powerup;
@@ -20,7 +26,6 @@ Powerup.prototype.isExtralife = false;
 Powerup.prototype.isSpeedBoost = false;
 Powerup.prototype.isScoreMultiplier = false;
 Powerup.prototype.isShield = false;
-Powerup.prototype.loop = SECS_TO_NOMINALS;
 
 Powerup.prototype.update = function (du) {
 
@@ -33,15 +38,24 @@ Powerup.prototype.update = function (du) {
     spatialManager.register(this);
 };
 
-Powerup.prototype.takePlayerHit = function () {
+Powerup.prototype.hitByPlayer = function () {
     
-    
+    const player = entityManager.getPlayer();
+
+    if (this.isExtralife) {
+        player.addLife();
+    }
+
+    if (this.isSpeedBoost) {
+        player.increaseSpeed();
+    }
+
     this.kill();
     
 };
 
 Powerup.prototype.getRadius = function () {
-    return 8;
+    return 13;
 };
 
 Powerup.prototype.render = function (ctx) {

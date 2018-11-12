@@ -166,7 +166,9 @@ toggleEnemies: function() {
 },
 
 createPowerup : function (cx, cy) {
-    this._powerups.push(new Powerup(cx, cy));
+    const typeOfPowerUp = Math.random();
+
+    this._powerups.push(new Powerup({cx, cy, type : typeOfPowerUp}));
 },
 
 update: function(du) {

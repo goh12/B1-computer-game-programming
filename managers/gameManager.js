@@ -79,7 +79,9 @@ const gameManager = {
         this.sprite = g_sprites.ship;
         var origScale = this.sprite.scale;
         this.sprite.scale = {x: 0.7, y: 0.7};
-        for (var i=0; i<extraLives(); i++) {
+
+        const player = entityManager.getPlayer();
+        for (var i=0; i< player.getLives(); i++) {
             this.sprite.drawCentredAt(ctx, 30 + i*50, g_canvas.height - 30, 0);
         }
         this.sprite.scale = origScale;
