@@ -141,12 +141,6 @@ generateBackground : function(descr) {
         }
     });
 },
-killNearestShip : function(xPos, yPos) {
-    var theShip = this._findNearestShip(xPos, yPos).theShip;
-    if (theShip) {
-        theShip.kill();
-    }
-},
 
 createPowerup : function (cx, cy) {
     const typeOfPowerUp = Math.random();

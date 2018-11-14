@@ -55,15 +55,10 @@ Ship.prototype.launchVel = 2;
 Ship.prototype.numSubSteps = 1;
 
 
-// HACKED-IN AUDIO (no preloading)
-Ship.prototype.warpSound = new Audio(
-    "sounds/shipWarp.ogg");
-
 Ship.prototype.warp = function () {
 
     this._isWarping = true;
     this._scaleDirn = -1;
-    util.playSound(this.warpSound, 1);
 
     // Unregister me from my old posistion
     // ...so that I can't be collided with while warping

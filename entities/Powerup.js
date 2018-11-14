@@ -4,28 +4,36 @@
 
 "use strict";
 
+let g_greenOrbHasDropped = false;
+
 // A generic contructor which accepts an arbitrary descriptor object
 function Powerup(descr) {
 
     // Common inherited setup logic from Entity
     this.setup(descr);
+    
+    // Default sprite
+    this.sprite = this.sprite;
 
-    if (this.type < 0.7) {
+    if (this.type < 0.1 && !g_greenOrbHasDropped) {
+        g_greenOrbHasDropped = true; // only get one green orb drop per game
+        this.isGreenOrb = true;
+        this.sprite = g_sprites.powerupGreenOrb;
+    } else if (this.type < 0.7) {
         this.isExtralife = true;
+        this.sprite = g_sprites.powerupLife;
     } else if (this.type < 1) {
         this.isSpeedBoost = true;
+        this.sprite = g_sprites.powerupSpeed;
     }
     
-    // Default sprite, if not otherwise specified
-    this.sprite = this.sprite || g_sprites.powerup;
 }
 
 
 Powerup.prototype = new Entity();
 Powerup.prototype.isExtralife = false;
 Powerup.prototype.isSpeedBoost = false;
-Powerup.prototype.isScoreMultiplier = false;
-Powerup.prototype.isShield = false;
+Powerup.prototype.isGreenOrb = false;
 
 Powerup.prototype.update = function (du) {
 
