@@ -133,7 +133,13 @@ generateWall : function(descr) {
 },
 
 generateBackground : function(descr) {
-    this._background.push(new Block(descr));
+    //this._background.push(new Block(descr));
+    this._background.push({
+        update: function() {},
+        render: function(ctx) {
+            ctx.drawImage(g_images.background, 0, 0);
+        }
+    });
 },
 killNearestShip : function(xPos, yPos) {
     var theShip = this._findNearestShip(xPos, yPos).theShip;

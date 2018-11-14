@@ -172,14 +172,14 @@ function requestPreloads() {
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         rock   : "https://notendur.hi.is/~pk/308G/images/rock.png",
         bullet : "images/orb.png",
-        block : "https://i.imgur.com/8kG3VLf.jpg",
+        block : "images/block.jpg",
         soundOn : "images/soundon.png",
         soundOff : "images/soundoff.png",
         falmerHead : "https://notendur.hi.is/frg17/tlf/img/falmerbosshead.png",
         falmerSection : "https://notendur.hi.is/frg17/tlf/img/falmerbosssection.png",
         grunt : "https://notendur.hi.is/frg17/tlf/img/yelloweye.png",
         powerup : "images/star-powerup-icon.png",
-        background : "images/cave.jpg"
+        background : "images/backg.png"
     };
 
     SpriteSheetManager.loadAnimations(() => {
