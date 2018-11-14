@@ -26,7 +26,7 @@ with suitable 'data' and 'methods'.
 var entityManager = {
 
 // "PRIVATE" DATA
-
+_background : [],
 _enemies   : [],
 _bullets : [],
 _ships   : [],
@@ -38,7 +38,7 @@ _bShowEnemies : true,
 // "PRIVATE" METHODS
 
 _generateEnemies : function() {
-    /*
+
     const STATE_INTERVAL = 500;
     const NUM_ENEMIES = Math.floor(4 + Math.random() * 6);
     const FORMATION_SPEED = 1 + Math.random() * 2;
@@ -50,17 +50,9 @@ _generateEnemies : function() {
     formation.init();
 
     this._enemies.push(formation);
-    */
+},
 
-    /*
-    this._enemies.push(
-        new Tentacle(
-            { posX: 700, posY: g_canvas.width/2 },
-            [300, 350, 400, 350, 300]
-        )
-    );
-    */
-
+_generateBoss : function () {
     this._enemies.push(new BossFalmer());
 },
 
@@ -107,12 +99,13 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._enemies, this._powerups, this._bullets, this._ships, this._walls];
+    this._categories = [this._background, this._enemies,
+                        this._powerups, this._bullets,
+                        this._ships, this._walls];
 },
 
 init: function() {
-    this._generateEnemies();
-    //this._generateShip();
+
 },
 
 fireBullet: function(cx, cy, velX, velY, rotation, tag) {
@@ -139,30 +132,14 @@ generateWall : function(descr) {
     this._walls.push(new Block(descr));
 },
 
+generateBackground : function(descr) {
+    this._background.push(new Block(descr));
+},
 killNearestShip : function(xPos, yPos) {
     var theShip = this._findNearestShip(xPos, yPos).theShip;
     if (theShip) {
         theShip.kill();
     }
-},
-
-yoinkNearestShip : function(xPos, yPos) {
-    var theShip = this._findNearestShip(xPos, yPos).theShip;
-    if (theShip) {
-        theShip.setPos(xPos, yPos);
-    }
-},
-
-resetShips: function() {
-    this._forEachOf(this._ships, Ship.prototype.reset);
-},
-
-haltShips: function() {
-    this._forEachOf(this._ships, Ship.prototype.halt);
-},	
-
-toggleEnemies: function() {
-    this._bShowEnemies = !this._bShowEnemies;
 },
 
 createPowerup : function (cx, cy) {
@@ -191,8 +168,6 @@ update: function(du) {
             }
         }
     }
-    
-    if (this._enemies.length === 0) this._generateEnemies();
 
 },
 

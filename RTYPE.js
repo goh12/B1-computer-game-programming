@@ -178,7 +178,8 @@ function requestPreloads() {
         falmerHead : "https://notendur.hi.is/frg17/tlf/img/falmerbosshead.png",
         falmerSection : "https://notendur.hi.is/frg17/tlf/img/falmerbosssection.png",
         grunt : "https://notendur.hi.is/frg17/tlf/img/yelloweye.png",
-        powerup : "images/star-powerup-icon.png"
+        powerup : "images/star-powerup-icon.png",
+        background : "images/cave.jpg"
     };
 
     SpriteSheetManager.loadAnimations(() => {
@@ -198,6 +199,7 @@ function preloadDone() {
     g_sprites.soundOff = new Sprite(g_images.soundOff);
     g_sprites.powerup = new Sprite(g_images.powerup);
     g_sprites.powerup.scale = {x:0.02, y:0.02};
+    g_sprites.background = new Sprite(g_images.background);
 
     g_sprites.falmerHead = new Sprite(g_images.falmerHead);
     g_sprites.falmerSection = new Sprite(g_images.falmerSection);

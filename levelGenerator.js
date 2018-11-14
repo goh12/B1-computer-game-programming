@@ -3,21 +3,34 @@
 // ===============
 
 let g_levelGenerator = {
-    baseLayerAmount : 3,
-    blocksPerRow : 10,
-    layerHeightInPixels : 70,
-    isInitialized : false,
-    blocks : [],
-    seed : 1,
-    timer : 0,
-    moveSpeed : -1,
-    maxRockGrowth : 3,
-    isMoving : true
+    baseLayerAmount : 4, //How many blocks vertically stacked
+                         //in base layer
+    blocksPerRow : 8,
+    layerHeightInPixels : 60, //Base layer height in pixels
+    maxRockGrowth : 3, //How much does the rock growth deviate
+
+    isInitialized : false, //Is the level initialized?
+    seed : 1, //Random seed used for level generation
+
+    //Timers for spawning new blocks and background
+    timerBlock : 0,
+    timerBackground : 0,
+
+    moveSpeed : -1, //Move speed of blocks
+    backgroundMoveSpeed : -0.4, //Move speeds of background
+
+    isMoving : true, //Is the environment moving?
+    enemySpacing : 5, //Spacing between wave spawns in blocks
+    currentBlock : 0, //Used for counting blocks until enemy spawn
+
+    wavesLeft : 3 //How many waves are left until the boss
 };
 
 g_levelGenerator.blockDesc = function (i,j) {
     let blockLength = this.blockLength;
     let rows = this.baseLayerAmount;
+    //Scale and position our blocks dynamically with respect
+    //to sprite size
     return {scale: {x:1.0/g_sprites.block.width*blockLength*1.1,
             y:1.0/g_sprites.block.height*
                 this.layerHeightInPixels/(rows)*1.1},
@@ -30,20 +43,52 @@ g_levelGenerator.update = function (du) {
     //Initialize wall for play if not initialized
     if(!this.isInitialized) {
         this.blockLength = g_ctx.canvas.width/this.blocksPerRow;
-        this.timer = this.blockLength;
+        this.timerBlock = this.blockLength;
+        this.timerBackground = this.blockLength;
         g_levelGenerator.init();
         this.isInitialized = true;
     }
 
-    if(this.isMoving)
+    if(this.isMoving) {
         this.moveSpeed = -1;
-    else
+        this.backgroundMoveSpeed = -0.4
+    }
+    else {
         this.moveSpeed = 0;
+        this.backgroundMoveSpeed = 0;
+    }
 
     //Update the timer with the move speed.
-    this.timer += Math.abs(this.moveSpeed) * du;
+    this.timerBlock += Math.abs(this.moveSpeed) * du;
+    this.timerBackground += Math.abs(this.backgroundMoveSpeed) * du;
+
+    //Reset waves and boss. Not to be used for final version.
+    //For testing purposes only.
+    if(entityManager._enemies.length === 0 && this.wavesLeft < 0){
+        this.wavesLeft = 4;
+        this.isMoving = true;
+    }
+
     //See if we have moved the distance of a block length
-    if(this.timer >= this.blockLength){
+    if(this.timerBlock >= this.blockLength){
+        //Spawn a wave and decrement the waves left
+        if(this.currentBlock === 0) {
+            this.wavesLeft--;
+            if(this.wavesLeft > 0) {
+                entityManager._generateEnemies();
+                this.currentBlock = this.enemySpacing;
+            }
+        }
+        //Spawn the boss if we have no waves left
+        if(this.wavesLeft === 0) {
+            entityManager._generateBoss();
+            this.wavesLeft--;
+            this.isMoving = false;
+        }
+
+        //Decrement amount of blocks until next wave
+        this.currentBlock--;
+
         let rows = this.baseLayerAmount;
         //Top rows
         for(let i = 0; i < rows; i++){
@@ -78,7 +123,28 @@ g_levelGenerator.update = function (du) {
                 velX: desc.velX});
         }
         //Reset timer
-        this.timer = 0;
+        this.timerBlock = 0;
+    }
+    if(this.timerBackground >= this.blockLength) {
+        //Background
+        var rows = this.baseLayerAmount;
+        for (let i = 0; i < rows * 10; i++) {
+            let desc = this.blockDesc(rows + i, this.blocksPerRow);
+            entityManager.generateBackground({
+                scale: {
+                    x: 1.0 / g_sprites.background.width *
+                        this.blockLength * 1.1,
+                    y: 1.0 / g_sprites.background.height *
+                        this.layerHeightInPixels / (rows) * 1.1
+                },
+                cx: desc.cx,
+                cy: g_ctx.canvas.height - desc.cy + this.layerHeightInPixels,
+                velX: desc.velX,
+                isBackground: true,
+                sprite: g_sprites.background
+            });
+        }
+        this.timerBackground = 0;
     }
 
 
@@ -95,13 +161,6 @@ g_levelGenerator.toggleMoving = function () {
 g_levelGenerator.init = function () {
     let rows = this.baseLayerAmount;
     let cols = this.blocksPerRow;
-    this.blocks = [];
-
-    //Generate two sets of rows, one for top of screen and one for bottom.
-    for (let i = 0; i < rows*2; i++ ) {
-        this.blocks[i] = [];
-    }
-    //Iterate through the 2D array and create Block objects for each index (i, j)
 
     //Top rows
     for(let i = 0; i < rows; i++)
@@ -117,5 +176,20 @@ g_levelGenerator.init = function () {
                                         cx: desc.cx,
                                         cy: g_ctx.canvas.height - desc.cy + this.layerHeightInPixels,
                                         velX: desc.velX});
+        }
+
+    //Background
+    for(let i = 0; i < rows*10; i++)
+        for(let j = 0; j < cols; j++){
+            let desc = this.blockDesc(i,j);
+            entityManager.generateBackground({scale: {x:1.0/g_sprites.background.width*
+                        this.blockLength*1.1,
+                    y:1.0/g_sprites.background.height*
+                        this.layerHeightInPixels/(rows)*1.1},
+                cx: desc.cx,
+                cy: g_ctx.canvas.height - desc.cy + this.layerHeightInPixels,
+                velX: desc.velX,
+                isBackground : true,
+                sprite : g_sprites.background});
         }
 };

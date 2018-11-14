@@ -24,6 +24,7 @@ function Block(descr) {
     this.velX = g_levelGenerator.moveSpeed;
     this.velY = this.velY || 0;
     this.isCollider = this.isCollider || false;
+    this.isBackground = this.isBackground || false;
 
     /*
         // Diagnostics to check inheritance stuff
@@ -38,14 +39,18 @@ Block.prototype.update = function (du) {
     if(this.isCollider)
         spatialManager.unregister(this);
 
-    this.velX = g_levelGenerator.moveSpeed;
+
+    if(!this.isBackground)
+        this.velX = g_levelGenerator.moveSpeed;
+    else
+        this.velX = g_levelGenerator.backgroundMoveSpeed;
     this.isCircle = false;
 
     if (this._isDeadNow) {
         return entityManager.KILL_ME_NOW
     }
 
-    if(this.cx < 0-this.getWidth()*1.5)
+    if(this.cx < -100)
         this._isDeadNow = true;
 
     this.cx += this.velX * du;
