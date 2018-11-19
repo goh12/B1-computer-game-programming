@@ -40,6 +40,7 @@ Enemy.prototype.update = function (du) {
 
     // if it's dead(inherited from Entity), return the kill me now value
     if (this._isDeadNow) {
+		gameManager._score += 100;
         return entityManager.KILL_ME_NOW
     }
 

@@ -14,7 +14,8 @@ var TOGGLE_BOX = 'B'.charCodeAt(0);
 var TOGGLE_UNDO_BOX = 'U'.charCodeAt(0);
 var TOGGLE_FLIPFLOP = 'F'.charCodeAt(0);
 var TOGGLE_RENDER = 'R'.charCodeAt(0);
-var TOGGLE_PAUSE = 'L'.charCodeAt(0);
+var TOGGLE_PAUSE = 'P'.charCodeAt(0);
+var TOGGLE_SOUND = 'N'.charCodeAt(0);
 
 function render(ctx) {
     
@@ -26,6 +27,7 @@ function render(ctx) {
     if (eatKey(TOGGLE_FLIPFLOP)) g_doFlipFlop = !g_doFlipFlop;
     if (eatKey(TOGGLE_RENDER)) g_doRender = !g_doRender;
     if (eatKey(TOGGLE_PAUSE)) g_doPause = !g_doPause;
+	if (eatKey(TOGGLE_SOUND)) gameManager.toggleSound();
     
     // I've pulled the clear out of `renderSimulation()` and into
     // here, so that it becomes part of our "diagnostic" wrappers

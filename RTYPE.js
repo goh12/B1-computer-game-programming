@@ -102,6 +102,7 @@ function processDiagnostics() {
 
     
     if (eatKey(KEY_START)) gameManager.startGame();
+	
 }
 
 
@@ -147,8 +148,8 @@ function requestPreloads() {
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         bullet : "images/orb.png",
         block : "images/block.jpg",
-        soundOn : "images/soundon.png",
-        soundOff : "images/soundoff.png",
+        soundOn : "images/soundon32px.png",
+        soundOff : "images/soundoff32px.png",
         falmerHead : "https://notendur.hi.is/frg17/tlf/img/falmerbosshead.png",
         falmerSection : "https://notendur.hi.is/frg17/tlf/img/falmerbosssection.png",
         grunt : "https://notendur.hi.is/frg17/tlf/img/yelloweye.png",

@@ -28,7 +28,7 @@ const gameManager = {
     _isGameOver: false,
     _isWon: false,
     _audioOn: true,
-    _soundSpeaker: {x: g_canvas.width-40, y: g_canvas.height-40},
+    _soundSpeaker: {x: g_canvas.width-20, y: g_canvas.height-20},
     _menuButtonWidth: 300,
     _menuButtonHeight: 80,
     _menuButtons: [],
@@ -52,7 +52,7 @@ const gameManager = {
 
     drawMenu: function (ctx) {
 
-        const startMessage = "Press R to start the game";
+        const startMessage = "Press [R] to start the game";
         const halfHeight = g_canvas.height / 2;
         const halfWidth = g_canvas.width / 2; 
         
@@ -73,6 +73,7 @@ const gameManager = {
 
     toggleSound: function() {
         this._audioOn = !this._audioOn;
+		console.log("sound toggled");
     },
 
     extraLives: function(ctx) {
@@ -90,11 +91,10 @@ const gameManager = {
     menuText: function(ctx) {
         ctx.save();
 
-        ctx.fillStyle = "#333";
+        ctx.fillStyle = "#FFF";
         ctx.textAlign = "center";
         ctx.font = "bold 15px sans-serif";
-        ctx.fillText("Press L for Pause Menu", g_canvas.width/2, g_canvas.height-20);
-
+        ctx.fillText("Press [P] for Pause Menu", g_canvas.width/2, g_canvas.height-20);
         ctx.restore();
     },
 
@@ -135,7 +135,7 @@ const gameManager = {
             ctx.textAlign = "center";
             ctx.font = "bold 20px sans-serif";
 
-            var menuItems = ["Resume", "High Scores", "Sound on/off"];
+            var menuItems = ["Resume [P]", "High Scores", "Mute/unmute sound [N]"];
             for (var i=0; i<menuItems.length; i++) {
                 var x = g_canvas.width/2 - this._menuButtonWidth/2;
                 var y = g_canvas.height/2 - (menuItems.length-2*i)*(this._menuButtonHeight/2+5);
