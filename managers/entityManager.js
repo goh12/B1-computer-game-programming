@@ -34,6 +34,8 @@ _walls   : [],
 _powerups : [],
 
 _bShowEnemies : true,
+bgAlpha : 0,
+
 
 // "PRIVATE" METHODS
 
@@ -124,7 +126,6 @@ generateEnemy : function(Type, descr = undefined) {
 },
 
 generateShip : function(descr) {
-    console.log("Creating ship");
     this._ships.push(new Ship(descr));
 },
 
@@ -132,12 +133,14 @@ generateWall : function(descr) {
     this._walls.push(new Block(descr));
 },
 
-generateBackground : function(descr) {
-    //this._background.push(new Block(descr));
+generateBackground : function(background) {
     this._background.push({
         update: function() {},
         render: function(ctx) {
-            ctx.drawImage(g_images.background, 0, 0);
+            ctx.save();
+            ctx.globalAlpha = this.bgAlpha;
+            ctx.drawImage(background, 0, 0);
+            ctx.restore();
         }
     });
 },
@@ -179,6 +182,7 @@ render: function(ctx) {
 
     var debugX = 10, debugY = 100;
 
+    this.bgAlpha += 0.01;
     for (var c = 0; c < this._categories.length; ++c) {
 
         var aCategory = this._categories[c];

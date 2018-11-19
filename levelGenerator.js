@@ -153,17 +153,5 @@ g_levelGenerator.init = function () {
         }
 
     //Background
-    for(let i = 0; i < rows*10; i++)
-        for(let j = 0; j < cols; j++){
-            let desc = this.blockDesc(i,j);
-            entityManager.generateBackground({scale: {x:1.0/g_sprites.background.width*
-                        this.blockLength*1.1,
-                    y:1.0/g_sprites.background.height*
-                        this.layerHeightInPixels/(rows)*1.1},
-                cx: desc.cx,
-                cy: g_ctx.canvas.height - desc.cy + this.layerHeightInPixels,
-                velX: desc.velX,
-                isBackground : true,
-                sprite : g_sprites.background});
-        }
+    entityManager.generateBackground(g_images.background);
 };

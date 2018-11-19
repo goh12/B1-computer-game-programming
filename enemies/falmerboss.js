@@ -65,7 +65,7 @@ Tentacle.prototype._initSectionOffsets = function(states) {
     for(let i = 0; i < states.length; i++) {
         const maxOffs = this.yMaxOffset - this.sections[i].getRadius();
         const offs = maxOffs * (states[i]/this.yOffsetTime); 
-        const asc = offs < 0 ? true : false; 
+        const asc = offs < 0;
         this.sectionOffsets.push({
             offs,
             asc,
@@ -88,13 +88,12 @@ Tentacle.prototype._updateSectionOffsets = function(initial) {
         const so = this.sectionOffsets[i];
         so.state = so.asc ? so.state + dt : so.state - dt;  //Update current state
         if(Math.abs(so.state) > this.yOffsetTime) {
-            const backTrack = so.state % this.yOffsetTime; //Fix offset state so
-            so.state -= backTrack;                          // !(Math.abs(so.state) > this.yOffsetTime)
+            so.state -= so.state % this.yOffsetTime;                          // !(Math.abs(so.state) > this.yOffsetTime)
             so.asc = !so.asc; //Start counting the other way.
         }
         so.offs = maxOffs * (so.state/this.yOffsetTime);  //Calculate new offset.
     }
-}
+};
 
 /** 
  * Updates absolute positions of entities in tentacle
@@ -119,7 +118,7 @@ Tentacle.prototype._updatePositions = function() {
         this.lash();
     }
 
-}
+};
 
 /**
  * Calculates position in mid lash for tentacle.
@@ -154,7 +153,7 @@ Tentacle.prototype.lash = function() {
         this.lashing = false;
         this.lashProgress = 0;
     }
-}
+};
 
 /**
  * Updates fire chance for tentacle.
@@ -173,12 +172,12 @@ Tentacle.prototype._updateFireChance = function() {
         }
         i--;
     }
-}
+};
 
 Tentacle.prototype.setPos = function(cx, cy) {
     this.cx = cx;
     this.cy = cy;
-}
+};
 
 Tentacle.prototype.update = function(du) {
     this._updateSectionOffsets();
@@ -193,7 +192,7 @@ Tentacle.prototype.update = function(du) {
             this.sections[i] = null;
             this.sectionCount--;
             this._updateFireChance();
-        };
+        }
     }
 
     //Check if tentacle is dead.
@@ -204,21 +203,21 @@ Tentacle.prototype.update = function(du) {
 
     // LASH PROTO
     if(this.lasher && !this.lashing) {
-        this.lashing = Math.random() < 0.01 ? true : false;
+        this.lashing = Math.random() < 0.01;
         if(this.lashing) {
             const playerPos = entityManager.getPlayer().getPos();
             this.lashTo = { x: playerPos.posX, y: playerPos.posY };
             this.lashEntityCount = this.sectionCount;
         }
     }
-}
+};
 
 Tentacle.prototype.render = function(ctx) {
     for(let i = 0; i < this.sections.length; i++) {
         if(!this.sections[i]) break; //Rest should be null.
         this.sections[i].render(ctx);
     }
-}
+};
 
 /**
  * Check if allowed to kill object.
@@ -231,7 +230,7 @@ Tentacle.prototype.canKill = function(ob) {
     }
 
     return false;
- }
+ };
 
 
 
@@ -280,7 +279,7 @@ BossFalmer.prototype._initHead = function() {
         return 150 - offset;
     };
     
-}
+};
 
 /**
  * Creates the tentacles for this boss and pushes to container.
@@ -307,7 +306,7 @@ BossFalmer.prototype._initTentacles = function() {
         true
     ));
 
-}
+};
 
 /**
  * Updates absolute positions for children.
