@@ -3,7 +3,7 @@
 // ===============
 
 let g_levelGenerator = {
-    baseLayerAmount : 4, //How many blocks vertically stacked
+    baseLayerAmount : 2, //How many blocks vertically stacked
                          //in base layer
     blocksPerRow : 8,
     layerHeightInPixels : 60, //Base layer height in pixels
@@ -17,7 +17,6 @@ let g_levelGenerator = {
     timerBackground : 0,
 
     moveSpeed : -1, //Move speed of blocks
-    backgroundMoveSpeed : -0.4, //Move speeds of background
 
     isMoving : true, //Is the environment moving?
     enemySpacing : 5, //Spacing between wave spawns in blocks
@@ -40,6 +39,7 @@ g_levelGenerator.blockDesc = function (i,j) {
 };
 
 g_levelGenerator.update = function (du) {
+    console.log(entityManager._walls.length);
     //Initialize wall for play if not initialized
     if(!this.isInitialized) {
         this.blockLength = g_ctx.canvas.width/this.blocksPerRow;
@@ -49,23 +49,20 @@ g_levelGenerator.update = function (du) {
         this.isInitialized = true;
     }
 
-    if(this.isMoving) {
+    if(this.isMoving)
         this.moveSpeed = -1;
-        this.backgroundMoveSpeed = -0.4
-    }
-    else {
+    else
         this.moveSpeed = 0;
-        this.backgroundMoveSpeed = 0;
-    }
 
     //Update the timer with the move speed.
     this.timerBlock += Math.abs(this.moveSpeed) * du;
-    this.timerBackground += Math.abs(this.backgroundMoveSpeed) * du;
 
     //Reset waves and boss. Not to be used for final version.
     //For testing purposes only.
     if(entityManager._enemies.length === 0 && this.wavesLeft < 0){
+        console.log("boss defeated");
         this.wavesLeft = 4;
+        this.currentBlock = this.enemySpacing;
         this.isMoving = true;
     }
 
@@ -125,28 +122,6 @@ g_levelGenerator.update = function (du) {
         //Reset timer
         this.timerBlock = 0;
     }
-    if(this.timerBackground >= this.blockLength) {
-        //Background
-        var rows = this.baseLayerAmount;
-        for (let i = 0; i < rows * 10; i++) {
-            let desc = this.blockDesc(rows + i, this.blocksPerRow);
-            entityManager.generateBackground({
-                scale: {
-                    x: 1.0 / g_sprites.background.width *
-                        this.blockLength * 1.1,
-                    y: 1.0 / g_sprites.background.height *
-                        this.layerHeightInPixels / (rows) * 1.1
-                },
-                cx: desc.cx,
-                cy: g_ctx.canvas.height - desc.cy + this.layerHeightInPixels,
-                velX: desc.velX,
-                isBackground: true,
-                sprite: g_sprites.background
-            });
-        }
-        this.timerBackground = 0;
-    }
-
 
 };
 
