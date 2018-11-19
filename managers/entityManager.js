@@ -36,6 +36,8 @@ _powerups : [],
 _bShowEnemies : true,
 bgAlpha : 0,
 
+_bulletDu : 0,
+
 
 // "PRIVATE" METHODS
 
@@ -111,6 +113,13 @@ init: function() {
 },
 
 fireBullet: function(cx, cy, velX, velY, rotation, tag) {
+    const player = this.getPlayer();
+    if (this._bulletDu < player.getFireRate() && tag === 'playerBullet') {
+        this._bulletDu++;
+        return;
+    }
+
+    this._bulletDu = 0; // reset the bullet's du
     this._bullets.push(new Bullet({
         cx   : cx,
         cy   : cy,
@@ -119,6 +128,25 @@ fireBullet: function(cx, cy, velX, velY, rotation, tag) {
         _tag : tag,
         rotation : rotation
     }));
+
+    if (player.getHasShotgun() && tag === 'playerBullet') {
+        this._bullets.push(new Bullet({
+            cx   : cx,
+            cy   : cy - 5,
+            velX : velX,
+            velY : -velX,
+            _tag : tag,
+            rotation : rotation
+        }));
+        this._bullets.push(new Bullet({
+            cx   : cx,
+            cy   : cy + 5,
+            velX : velX,
+            velY : velX,
+            _tag : tag,
+            rotation : rotation
+        }));
+    }
 },
 
 generateEnemy : function(Type, descr = undefined) {
@@ -152,6 +180,9 @@ createPowerup : function (cx, cy) {
 },
 
 update: function(du) {
+
+    this._bulletDu += du;
+
     for (var c = 0; c < this._categories.length; ++c) {
 
         var aCategory = this._categories[c];

@@ -28,6 +28,8 @@ function Ship(descr) {
     this._lives = 3;
     this._speed = 4;
     this._hasShotgun = false;
+    this._fireRate = 10;
+
 }
 
 Ship.prototype = new Entity();
@@ -54,7 +56,6 @@ Ship.prototype.velX = 0;
 Ship.prototype.velY = 0;
 Ship.prototype.launchVel = 2;
 Ship.prototype.numSubSteps = 1;
-
 
 Ship.prototype.warp = function () {
 
@@ -276,20 +277,6 @@ Ship.prototype.maybeFireBullet = function () {
            BULLET_SPEED, 0,
            this.rotation,
            "playerBullet");
-
-        if (this._hasShotgun) {
-            entityManager.fireBullet(
-                this.cx + this.sprite.width/2, this.cy - 10,
-                BULLET_SPEED, -BULLET_SPEED,
-                this.rotation,
-                "playerBullet");
-            entityManager.fireBullet(
-                this.cx + this.sprite.width/2, this.cy + 10,
-                BULLET_SPEED, BULLET_SPEED,
-                this.rotation,
-                "playerBullet");
-        }
-           
     }
     
 };
@@ -359,4 +346,12 @@ Ship.prototype.increaseSpeed = function () {
 
 Ship.prototype.toggleShotgun = function () {
     this._hasShotgun = !this._hasShotgun;
+}
+
+Ship.prototype.getHasShotgun = function () {
+    return this._hasShotgun;
+}
+
+Ship.prototype.getFireRate = function () {
+    return this._fireRate;
 }

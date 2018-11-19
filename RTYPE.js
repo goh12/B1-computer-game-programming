@@ -145,8 +145,8 @@ function requestPreloads() {
         bullet : "images/orb.png",
         block : "images/block.jpg",
         blockHell : "images/blockHell.jpg",
-        soundOn : "images/soundon32px.png",
-        soundOff : "images/soundoff32px.png",
+        soundOn : "images/soundon.png",
+        soundOff : "images/soundoff.png",
         falmerHead : "https://notendur.hi.is/frg17/tlf/img/falmerbosshead.png",
         falmerSection : "https://notendur.hi.is/frg17/tlf/img/falmerbosssection.png",
         grunt : "https://notendur.hi.is/frg17/tlf/img/yelloweye.png",
@@ -172,7 +172,9 @@ function preloadDone() {
     g_sprites.block = new Sprite(g_images.block);
     g_sprites.blockHell = new Sprite(g_images.blockHell);
     g_sprites.soundOn = new Sprite(g_images.soundOn);
+    g_sprites.soundOn.scale = {x:0.5, y:0.5};
     g_sprites.soundOff = new Sprite(g_images.soundOff);
+    g_sprites.soundOff.scale = {x:0.5, y:0.5};
 
     g_sprites.powerupLife = new Sprite(g_images.powerupLife);
     g_sprites.powerupLife.scale = {x:0.045, y:0.045};
