@@ -144,6 +144,7 @@ function requestPreloads() {
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         bullet : "images/orb.png",
         block : "images/block.jpg",
+        blockHell : "images/blockHell.jpg",
         soundOn : "images/soundon32px.png",
         soundOff : "images/soundoff32px.png",
         falmerHead : "https://notendur.hi.is/frg17/tlf/img/falmerbosshead.png",
@@ -154,6 +155,7 @@ function requestPreloads() {
         powerupGreenOrb : "images/powerup-greenorb.png",
         laser : "images/laser.png",
         background : "images/backg.png",
+        backgroundHell : "images/backg-hell.png"
     };
 
     SpriteSheetManager.loadAnimations(() => {
@@ -168,6 +170,7 @@ function preloadDone() {
     g_sprites.ship  = new Sprite(g_images.ship);
     g_sprites.ship2 = new Sprite(g_images.ship2);
     g_sprites.block = new Sprite(g_images.block);
+    g_sprites.blockHell = new Sprite(g_images.blockHell);
     g_sprites.soundOn = new Sprite(g_images.soundOn);
     g_sprites.soundOff = new Sprite(g_images.soundOff);
 
