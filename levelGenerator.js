@@ -22,6 +22,8 @@ let g_levelGenerator = {
     enemySpacing : 5, //Spacing between wave spawns in blocks
     currentBlock : 0, //Used for counting blocks until enemy spawn
 
+    blockSprite : null, //What sprite are we using for our blocks?
+
     wavesLeft : 3 //How many waves are left until the boss
 };
 
@@ -30,12 +32,13 @@ g_levelGenerator.blockDesc = function (i,j) {
     let rows = this.baseLayerAmount;
     //Scale and position our blocks dynamically with respect
     //to sprite size
-    return {scale: {x:1.0/g_sprites.block.width*blockLength*1.1,
-            y:1.0/g_sprites.block.height*
+    return {scale: {x:1.0/this.blockSprite.width*blockLength*1.1,
+            y:1.0/this.blockSprite.height*
                 this.layerHeightInPixels/(rows)*1.1},
         cx : blockLength/2 + (j*blockLength),
         cy : this.layerHeightInPixels/(2*rows) +
-            (i*2*this.layerHeightInPixels/(2*rows))};
+            (i*2*this.layerHeightInPixels/(2*rows)),
+        sprite : this.blockSprite};
 };
 
 g_levelGenerator.update = function (du) {
@@ -59,7 +62,10 @@ g_levelGenerator.update = function (du) {
     //Reset waves and boss. Not to be used for final version.
     //For testing purposes only.
     if(entityManager._enemies.length === 0 && this.wavesLeft < 0){
-        console.log("boss defeated");
+        this.blockSprite = g_sprites.blockHell;
+        entityManager.bgAlpha = 0;
+        entityManager.generateBackground(g_images.backgroundHell);
+
         this.wavesLeft = 4;
         this.currentBlock = this.enemySpacing;
         this.isMoving = true;
@@ -98,13 +104,15 @@ g_levelGenerator.update = function (du) {
             entityManager.generateWall({scale: desc.scale,
                 cx: desc.cx,
                 cy: desc.cy,
-                isCollider : true});
+                isCollider : true,
+                sprite : desc.sprite});
 
             desc = this.blockDesc(2*rows+i, this.blocksPerRow);
             entityManager.generateWall({scale: desc.scale,
                 cx: desc.cx,
                 cy: g_ctx.canvas.height - desc.cy + this.layerHeightInPixels,
-                isCollider : true});
+                isCollider : true,
+                sprite : desc.sprite});
             }
             else
                 break;
@@ -116,7 +124,8 @@ g_levelGenerator.update = function (du) {
             entityManager.generateWall({scale: desc.scale,
                 cx: desc.cx,
                 cy: g_ctx.canvas.height - desc.cy + this.layerHeightInPixels,
-                velX: desc.velX});
+                velX: desc.velX,
+                sprite : desc.sprite});
         }
         //Reset timer
         this.timerBlock = 0;
@@ -133,6 +142,8 @@ g_levelGenerator.toggleMoving = function () {
 };
 
 g_levelGenerator.init = function () {
+    this.blockSprite = g_sprites.block;
+
     let rows = this.baseLayerAmount;
     let cols = this.blocksPerRow;
 
@@ -149,7 +160,8 @@ g_levelGenerator.init = function () {
             entityManager.generateWall({scale: desc.scale,
                                         cx: desc.cx,
                                         cy: g_ctx.canvas.height - desc.cy + this.layerHeightInPixels,
-                                        velX: desc.velX});
+                                        velX: desc.velX,
+                                        sprite : desc.sprite});
         }
 
     //Background

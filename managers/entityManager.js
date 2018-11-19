@@ -142,7 +142,7 @@ generateBackground : function(background) {
         update: function() {},
         render: function(ctx) {
             ctx.save();
-            ctx.globalAlpha = this.bgAlpha;
+            ctx.globalAlpha = entityManager.bgAlpha;
             ctx.drawImage(background, 0, 0);
             ctx.restore();
         }
@@ -186,7 +186,9 @@ render: function(ctx) {
 
     var debugX = 10, debugY = 100;
 
-    this.bgAlpha += 0.01;
+    if(this.bgAlpha < 1)
+        this.bgAlpha += 0.01;
+
     for (var c = 0; c < this._categories.length; ++c) {
 
         var aCategory = this._categories[c];
