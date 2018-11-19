@@ -121,6 +121,10 @@ fireBullet: function(cx, cy, velX, velY, rotation, tag) {
     }));
 },
 
+debugEnemy: function() {
+    this._enemies.push(new Kamikazeye());
+},
+
 generateEnemy : function(Type, descr = undefined) {
     this._enemies.push(new Type(descr));
 },

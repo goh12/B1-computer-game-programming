@@ -78,7 +78,7 @@ Bullet.prototype.update = function (du) {
 
     // Handle collisions
     var hitEntity = this.findHitEntity();
-    if (hitEntity) {
+    if (hitEntity && this.getTag() !== hitEntity.getTag()) {
         var canTakeHit = hitEntity.takeBulletHit;
         //Pass this bullet as extra parameter. (Might not be used.)
         if (canTakeHit) canTakeHit.call(hitEntity, this); 
