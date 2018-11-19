@@ -27,6 +27,7 @@ function Ship(descr) {
     this._isWarping = false;
     this._lives = 3;
     this._speed = 4;
+    this._hasShotgun = false;
 }
 
 Ship.prototype = new Entity();
@@ -275,6 +276,19 @@ Ship.prototype.maybeFireBullet = function () {
            BULLET_SPEED, 0,
            this.rotation,
            "playerBullet");
+
+        if (this._hasShotgun) {
+            entityManager.fireBullet(
+                this.cx + this.sprite.width/2, this.cy - 10,
+                BULLET_SPEED, -BULLET_SPEED,
+                this.rotation,
+                "playerBullet");
+            entityManager.fireBullet(
+                this.cx + this.sprite.width/2, this.cy + 10,
+                BULLET_SPEED, BULLET_SPEED,
+                this.rotation,
+                "playerBullet");
+        }
            
     }
     
@@ -341,4 +355,8 @@ Ship.prototype.getLives = function () {
 
 Ship.prototype.increaseSpeed = function () {
     this._speed++;
+}
+
+Ship.prototype.toggleShotgun = function () {
+    this._hasShotgun = !this._hasShotgun;
 }

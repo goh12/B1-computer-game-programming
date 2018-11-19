@@ -5,6 +5,7 @@
 "use strict";
 
 let g_greenOrbHasDropped = false;
+let g_shotgunHasDropped = false;
 
 // A generic contructor which accepts an arbitrary descriptor object
 function Powerup(descr) {
@@ -19,6 +20,10 @@ function Powerup(descr) {
         g_greenOrbHasDropped = true; // only get one green orb drop per game
         this.isGreenOrb = true;
         this.sprite = g_sprites.powerupGreenOrb;
+    } else if (this.type < 0.2 && !g_shotgunHasDropped) {
+        g_shotgunHasDropped = true; // only one shotgun per game
+        this.isShotgun = true;
+        this.sprite = g_sprites.shotgun;
     } else if (this.type < 0.7) {
         this.isExtralife = true;
         this.sprite = g_sprites.powerupLife;
@@ -34,6 +39,7 @@ Powerup.prototype = new Entity();
 Powerup.prototype.isExtralife = false;
 Powerup.prototype.isSpeedBoost = false;
 Powerup.prototype.isGreenOrb = false;
+Powerup.prototype.isShotgun = false;
 
 Powerup.prototype.update = function (du) {
 
@@ -56,6 +62,10 @@ Powerup.prototype.hitByPlayer = function () {
 
     if (this.isSpeedBoost) {
         player.increaseSpeed();
+    }
+
+    if (this.isShotgun) {
+        player.toggleShotgun();
     }
 
     this.kill();

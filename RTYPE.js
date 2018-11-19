@@ -74,7 +74,6 @@ function updateSimulation(du) {
 
 // GAME-SPECIFIC DIAGNOSTICS
 
-var g_allowMixedActions = true;
 var g_useGravity = false;
 var g_useAveVel = true;
 var g_renderSpatialDebug = false;
@@ -88,9 +87,6 @@ var KEY_START = keyCode('R');
 var KEY_STOPMOVING  = keyCode('H');
 
 function processDiagnostics() {
-
-    if (eatKey(KEY_MIXED))
-        g_allowMixedActions = !g_allowMixedActions;
 
     if (eatKey(KEY_GRAVITY)) g_useGravity = !g_useGravity;
 
@@ -153,12 +149,11 @@ function requestPreloads() {
         falmerHead : "https://notendur.hi.is/frg17/tlf/img/falmerbosshead.png",
         falmerSection : "https://notendur.hi.is/frg17/tlf/img/falmerbosssection.png",
         grunt : "https://notendur.hi.is/frg17/tlf/img/yelloweye.png",
-        powerup : "images/star-powerup-icon.png",
         powerupSpeed : "images/powerup-speed.png",
         powerupLife : "images/powerup-extralife.png",
         powerupGreenOrb : "images/powerup-greenorb.png",
         laser : "images/laser.png",
-        background : "images/backg.png"
+        background : "images/backg.png",
     };
 
     SpriteSheetManager.loadAnimations(() => {
@@ -194,6 +189,8 @@ function preloadDone() {
     g_sprites.laser = new Sprite(g_images.laser);
     g_sprites.laser.scale = {x:0.2, y:0.2};
 
+    g_sprites.shotgun = new Sprite(g_images.bullet);
+    g_sprites.shotgun.scale = {x:0.09, y:0.09};
     entityManager.init();
     createInitialShips();
 

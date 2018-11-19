@@ -39,7 +39,6 @@ g_levelGenerator.blockDesc = function (i,j) {
 };
 
 g_levelGenerator.update = function (du) {
-    console.log(entityManager._walls.length);
     //Initialize wall for play if not initialized
     if(!this.isInitialized) {
         this.blockLength = g_ctx.canvas.width/this.blocksPerRow;

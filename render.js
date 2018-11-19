@@ -15,7 +15,7 @@ var TOGGLE_UNDO_BOX = 'U'.charCodeAt(0);
 var TOGGLE_FLIPFLOP = 'F'.charCodeAt(0);
 var TOGGLE_RENDER = 'R'.charCodeAt(0);
 var TOGGLE_PAUSE = 'P'.charCodeAt(0);
-var TOGGLE_SOUND = 'N'.charCodeAt(0);
+var TOGGLE_SOUND = 'M'.charCodeAt(0);
 
 function render(ctx) {
     

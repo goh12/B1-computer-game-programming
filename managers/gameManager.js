@@ -135,7 +135,7 @@ const gameManager = {
             ctx.textAlign = "center";
             ctx.font = "bold 20px sans-serif";
 
-            var menuItems = ["Resume [P]", "High Scores", "Mute/unmute sound [N]"];
+            var menuItems = ["Resume [P]", "High Scores", "Mute/unmute sound [M]"];
             for (var i=0; i<menuItems.length; i++) {
                 var x = g_canvas.width/2 - this._menuButtonWidth/2;
                 var y = g_canvas.height/2 - (menuItems.length-2*i)*(this._menuButtonHeight/2+5);
