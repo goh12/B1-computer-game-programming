@@ -316,18 +316,7 @@ Ship.prototype.playerReset = function () {
 Ship.prototype.halt = function () {
     this.velX = 0;
     this.velY = 0;
-};
-
-var NOMINAL_ROTATE_RATE = 0.1;
-
-Ship.prototype.updateRotation = function (du) {
-    if (keys[this.KEY_LEFT]) {
-        this.rotation -= NOMINAL_ROTATE_RATE * du;
-    }
-    if (keys[this.KEY_RIGHT]) {
-        this.rotation += NOMINAL_ROTATE_RATE * du;
-    }
-};
+}
 
 Ship.prototype.render = function (ctx) {
     var origScale = this.sprite.scale;

@@ -38,7 +38,7 @@ const gameManager = {
     startGame: function () {
         this._onMenu = false;
         this._isGameOver = false;
-        console.log("im here")
+        this._isInHighScoreMenu = false;
 
         const player = entityManager.getPlayer();
         player.playerReset();
@@ -252,6 +252,20 @@ const gameManager = {
     },
 
     renderHighScoreMenu : function (ctx) {
+
+        const highScoreMessage = "Press [R] to restart the game";
+
+        this.getHighScoreData(); // update the high score data
+
+        ctx.save();
+
+        ctx.textAlign = "center";
+
         this.displayHighScores(ctx);
+
+        ctx.font = "bold 25px sans-serif";
+        ctx.fillText(highScoreMessage, g_canvas.width / 2, g_canvas.height - 70);
+
+        ctx.restore();
     }
 }

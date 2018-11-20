@@ -59,6 +59,10 @@ function updateSimulation(du) {
 
     if (gameManager.isInMenu()) {
         return;
+    } if (gameManager.isGameOver()) {
+        return;
+    } if (gameManager.isInHighScoreMenu()) {
+        return;
     } else  {
 
         if (!g_doPause) {
@@ -117,7 +121,7 @@ function processDiagnostics() {
 // GAME-SPECIFIC RENDERING
 
 function renderSimulation(ctx) {
-
+    
     if (gameManager.isInMenu()) {
 
         gameManager.renderMenu(ctx);
@@ -125,7 +129,7 @@ function renderSimulation(ctx) {
 
         gameManager.renderGameOver(ctx);
     }  else if (gameManager.isInHighScoreMenu()) {
-        
+
         gameManager.renderHighScoreMenu(ctx);
     } else {
         
