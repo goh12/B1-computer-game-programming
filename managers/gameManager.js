@@ -70,6 +70,13 @@ const gameManager = {
         ctx.textAlign = "center";
         ctx.font = "bold 15px sans-serif";
         ctx.fillText("Press [P] for Pause Menu", g_canvas.width/2, g_canvas.height-20);
+
+        // write if the player has shotgun ammo
+        const player = entityManager.getPlayer();
+        if (player.getHasShotgun()) {
+            const ammo = player.getAmmo();
+            ctx.fillText("Ammo: " + ammo, g_canvas.width * (3/4), g_canvas.height-20);
+        }
         ctx.restore();
     },
 

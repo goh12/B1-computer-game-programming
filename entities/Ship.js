@@ -25,7 +25,7 @@ function Ship(descr) {
     // Set normal drawing scale, and warp state off
     this._scale = {x:1, y:1};
     this._isWarping = false;
-    this._lives = 3
+    this._lives = 1;
     this._speed = 4;
     this._hasShotgun = false;
     this._fireRate = 10;
@@ -56,6 +56,7 @@ Ship.prototype.velX = 0;
 Ship.prototype.velY = 0;
 Ship.prototype.launchVel = 2;
 Ship.prototype.numSubSteps = 1;
+Ship.prototype.ammo = 0;
 
 Ship.prototype.warp = function () {
 
@@ -278,11 +279,22 @@ Ship.prototype.maybeFireBullet = function () {
     if (keys[this.KEY_FIRE]) {
         const BULLET_SPEED = 6;
 
+        // if firing from a shotgun, decrease ammo
+        if (this._hasShotgun) {
+            this.ammo--;
+        }
+
         entityManager.fireBullet(
            this.cx + this.sprite.width/2, this.cy,
            BULLET_SPEED, 0,
            this.rotation,
            "playerBullet");
+
+        // remove the shotgun powerup if ammo depleted
+        if (this.ammo < 0) {
+            this.toggleShotgun();
+            this.ammo = 0;
+        }
     }
 };
 
@@ -302,7 +314,7 @@ Ship.prototype.reset = function () {
     this.setPos(this.reset_cx, this.reset_cy);
     this.rotation = this.reset_rotation;
 
-    this._lives = 3
+    this._lives = 1;
     this._speed = 4;
     this._hasShotgun = false;
     this._fireRate = 10;
@@ -328,7 +340,9 @@ Ship.prototype.render = function (ctx) {
 };
 
 Ship.prototype.addLife = function () {
-    this._lives++;
+    if (this._lives < 5) {
+        this._lives++;
+    }
 }
 
 Ship.prototype.removeLife = function () {
@@ -345,6 +359,11 @@ Ship.prototype.increaseSpeed = function () {
 
 Ship.prototype.toggleShotgun = function () {
     this._hasShotgun = !this._hasShotgun;
+
+    // if you're getting a shotgun add ammo
+    if (this._hasShotgun) {
+        this.ammo = 20;
+    }
 }
 
 Ship.prototype.getHasShotgun = function () {
@@ -353,4 +372,8 @@ Ship.prototype.getHasShotgun = function () {
 
 Ship.prototype.getFireRate = function () {
     return this._fireRate;
+}
+
+Ship.prototype.getAmmo = function () {
+    return this.ammo;
 }

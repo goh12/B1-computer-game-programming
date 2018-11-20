@@ -53,7 +53,7 @@ _generateEnemies : function() {
     formation.setStates(states);
     formation.init();
 
-    //this._enemies.push(formation);
+    this._enemies.push(formation);
 },
 
 _generateBoss : function () {
