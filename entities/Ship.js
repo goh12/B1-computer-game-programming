@@ -276,7 +276,7 @@ Ship.prototype.applyAccel = function (accelX, accelY, du) {
 
 Ship.prototype.maybeFireBullet = function () {
     if (keys[this.KEY_FIRE]) {
-        const BULLET_SPEED = 4;
+        const BULLET_SPEED = 6;
 
         entityManager.fireBullet(
            this.cx + this.sprite.width/2, this.cy,
@@ -284,7 +284,6 @@ Ship.prototype.maybeFireBullet = function () {
            this.rotation,
            "playerBullet");
     }
-    
 };
 
 Ship.prototype.getRadius = function () {

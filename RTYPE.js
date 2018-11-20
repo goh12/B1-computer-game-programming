@@ -161,6 +161,7 @@ function requestPreloads() {
         falmerSection : "https://notendur.hi.is/frg17/tlf/img/falmerbosssection.png",
         grunt : "https://notendur.hi.is/frg17/tlf/img/grunt.png",
         kamikazeye : "https://notendur.hi.is/frg17/tlf/img/yelloweye.png",
+        stalker : "https://notendur.hi.is/frg17/tlf/img/stalker.png",
         powerupSpeed : "images/powerup-speed.png",
         powerupLife : "images/powerup-extralife.png",
         powerupGreenOrb : "images/powerup-greenorb.png",
@@ -200,6 +201,7 @@ function preloadDone() {
     g_sprites.falmerSection = new Sprite(g_images.falmerSection);
     g_sprites.grunt = new Sprite(g_images.grunt);
     g_sprites.kamikazeye = new Sprite(g_images.kamikazeye);
+    g_sprites.stalker = new Sprite(g_images.stalker);
 
     g_sprites.bullet = new Sprite(g_images.bullet);
     g_sprites.bullet.scale = {x:0.03, y:0.03};

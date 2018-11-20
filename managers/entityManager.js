@@ -53,7 +53,7 @@ _generateEnemies : function() {
     formation.setStates(states);
     formation.init();
 
-    this._enemies.push(formation);
+    //this._enemies.push(formation);
 },
 
 _generateBoss : function () {
@@ -112,7 +112,7 @@ init: function() {
 
 },
 
-fireBullet: function(cx, cy, velX, velY, rotation, tag) {
+fireBullet: function(cx, cy, velX, velY, rotation, tag, laser = false) {
     const player = this.getPlayer();
     if (this._bulletDu < player.getFireRate() && tag === 'playerBullet') {
         this._bulletDu++;
@@ -127,7 +127,7 @@ fireBullet: function(cx, cy, velX, velY, rotation, tag) {
         velY : velY,
         _tag : tag,
         rotation : rotation
-    }));
+    }, laser));
 
     if (player.getHasShotgun() && tag === 'playerBullet') {
         this._bullets.push(new Bullet({
@@ -150,7 +150,7 @@ fireBullet: function(cx, cy, velX, velY, rotation, tag) {
 },
 
 debugEnemy: function() {
-    this._enemies.push(new Kamikazeye());
+    this._enemies.push(new Stalker(700, 300));
 },
 
 generateEnemy : function(Type, descr = undefined) {

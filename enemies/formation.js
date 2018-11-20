@@ -64,7 +64,7 @@ Formation.prototype.update = function(du) {
         if(e === null) continue; //Move on to next if already destroyed.
         spatialManager.unregister(e);
 
-        if(e.update() === entityManager.KILL_ME_NOW) {
+        if(e.update(du) === entityManager.KILL_ME_NOW) {
             //Destroy entity
             this.entities[i] = null;
             this.entityCount--;
