@@ -276,15 +276,14 @@ Ship.prototype.applyAccel = function (accelX, accelY, du) {
 
 Ship.prototype.maybeFireBullet = function () {
     if (keys[this.KEY_FIRE]) {
-        const BULLET_SPEED = 4;
-        entityManager.debugEnemy() 
+        const BULLET_SPEED = 6;
+
         entityManager.fireBullet(
            this.cx + this.sprite.width/2, this.cy,
            BULLET_SPEED, 0,
            this.rotation,
            "playerBullet");
     }
-    
 };
 
 Ship.prototype.getRadius = function () {

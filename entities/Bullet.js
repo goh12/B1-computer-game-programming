@@ -13,10 +13,11 @@
 
 
 // A generic contructor which accepts an arbitrary descriptor object
-function Bullet(descr) {
+function Bullet(descr, laser = false) {
 
     // Common inherited setup logic from Entity
     this.setup(descr);
+    this.laser = laser;
 
     // Make a noise when I am created (i.e. fired)
     util.playSound(this.fireSound, 1);
@@ -70,9 +71,6 @@ Bullet.prototype.update = function (du) {
     if (this.cx > g_canvas.width + 20
         || this.cx < 0 - 20) this.kill();
 
-    this.rotation += 1 * du;
-    this.rotation = util.wrapRange(this.rotation,
-                                   0, consts.FULL_CIRCLE);
 
     
 
@@ -101,8 +99,14 @@ Bullet.prototype.takeBulletHit = function () {
 };
 
 Bullet.prototype.render = function (ctx) {
-
-    g_sprites.bullet.drawCentredAt(
-        ctx, this.cx, this.cy, this.rotation
-    );
+    if(this.laser) {
+        g_sprites.laser.drawCentredAt(
+            ctx, this.cx, this.cy, this.rotation
+        );
+    } else {
+        g_sprites.bullet.drawCentredAt(
+            ctx, this.cx, this.cy, this.rotation
+        );
+    }
+    
 };

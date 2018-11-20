@@ -43,7 +43,7 @@ Kamikazeye.prototype.updateThis = function(du) {
         }
     }
 
-    
+    //If entity is not exploding. Move it toward blowPosition.
     const dx = this.blowPosition.posX - this.cx; //Calculate delta squared
     const dy = this.blowPosition.posY - this.cy;
     const deltaSq = (dx * dx) + (dy * dy);
