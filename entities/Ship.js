@@ -25,9 +25,11 @@ function Ship(descr) {
     // Set normal drawing scale, and warp state off
     this._scale = {x:1, y:1};
     this._isWarping = false;
-    this._lives = 3;
+    this._lives = 3
     this._speed = 4;
     this._hasShotgun = false;
+    this._fireRate = 10;
+
 }
 
 Ship.prototype = new Entity();
@@ -54,7 +56,6 @@ Ship.prototype.velX = 0;
 Ship.prototype.velY = 0;
 Ship.prototype.launchVel = 2;
 Ship.prototype.numSubSteps = 1;
-
 
 Ship.prototype.warp = function () {
 
@@ -137,6 +138,12 @@ Ship.prototype.update = function (du) {
     // if it's dead(inherited from Entity), return the kill me now value
     if (this._isDeadNow) {
         return entityManager.KILL_ME_NOW;
+    }
+
+    // if lives < 1 set the gameManager to game over
+    if (this._lives < 1) {
+        gameManager.toggleGameOver();
+        return;
     }
 
     // Perform movement substeps
@@ -276,20 +283,6 @@ Ship.prototype.maybeFireBullet = function () {
            BULLET_SPEED, 0,
            this.rotation,
            "playerBullet");
-
-        if (this._hasShotgun) {
-            entityManager.fireBullet(
-                this.cx + this.sprite.width/2, this.cy - 10,
-                BULLET_SPEED, -BULLET_SPEED,
-                this.rotation,
-                "playerBullet");
-            entityManager.fireBullet(
-                this.cx + this.sprite.width/2, this.cy + 10,
-                BULLET_SPEED, BULLET_SPEED,
-                this.rotation,
-                "playerBullet");
-        }
-           
     }
     
 };
@@ -313,21 +306,17 @@ Ship.prototype.reset = function () {
     this.halt();
 };
 
+Ship.prototype.playerReset = function () {
+    this._lives = 3
+    this._speed = 4;
+    this._hasShotgun = false;
+    this._fireRate = 10;
+};
+
 Ship.prototype.halt = function () {
     this.velX = 0;
     this.velY = 0;
-};
-
-var NOMINAL_ROTATE_RATE = 0.1;
-
-Ship.prototype.updateRotation = function (du) {
-    if (keys[this.KEY_LEFT]) {
-        this.rotation -= NOMINAL_ROTATE_RATE * du;
-    }
-    if (keys[this.KEY_RIGHT]) {
-        this.rotation += NOMINAL_ROTATE_RATE * du;
-    }
-};
+}
 
 Ship.prototype.render = function (ctx) {
     var origScale = this.sprite.scale;
@@ -359,4 +348,12 @@ Ship.prototype.increaseSpeed = function () {
 
 Ship.prototype.toggleShotgun = function () {
     this._hasShotgun = !this._hasShotgun;
+}
+
+Ship.prototype.getHasShotgun = function () {
+    return this._hasShotgun;
+}
+
+Ship.prototype.getFireRate = function () {
+    return this._fireRate;
 }
