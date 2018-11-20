@@ -40,13 +40,12 @@ Enemy.prototype.update = function (du) {
 
     // if it's dead(inherited from Entity), return the kill me now value
     if (this._isDeadNow) {
-		gameManager._score += 100;
         return entityManager.KILL_ME_NOW
     }
 
     this.updateThis(du); //Descendant specific update function.
 
-    if(this.cx < -100) this.kill();
+    if(this.cx < -100) this.kill(true);
     
     // (Re-)Register
     if(!this.inFormation) spatialManager.register(this);
@@ -84,16 +83,24 @@ Enemy.prototype.setPosition = function(cx, cy) {
  * Overwrite the kill function to add the 
  * possibility of dropping powerups
  */
-Enemy.prototype.kill = function() {
+Enemy.prototype.kill = function(marginDeath = false) {
 
     if(this.owner) {
         //Ask owner if entity can be killed.
-        if(this.owner.canKill(this)) this._isDeadNow = true;
+        if(this.owner.canKill(this)) {
+            this._isDeadNow = true;
+            gameManager._score += 50; // lower score for parts of the boss
+        }
     } else {
         // currently there is 10% chance of dropping a powerup
         if (Math.random() < 0.1) {
             entityManager.createPowerup(this.cx, this.cy);
         }
+
+        if (!marginDeath) {
+            gameManager._score += 100;
+        }
+
         this._isDeadNow = true;
     }
 }
