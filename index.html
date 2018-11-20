@@ -6,10 +6,18 @@
   </head>
   <body style="display: flex; justify-content: left; flex-direction: row; align-items: flex-start;">
 
-	<canvas id="myCanvas" width="800" height="600"
-		style="border: 1px solid black;">
-	Sorry, but your browser does not support the HTML5 canvas tag.
-	</canvas>
+    <script src="highscores.js"></script>
+    
+    <div style="position:relative;width:800px;height:600px">
+      <canvas id="myCanvas" width="800" height="600"
+        style="border: 1px solid black;">
+      Sorry, but your browser does not support the HTML5 canvas tag.
+      </canvas>
+      
+      <form onsubmit="return submitHighScore()">
+        <input id="PlayerName" type="hidden" style="position:absolute;left:300px;top:300px;width:200px;" />
+      </form>
+    </div>
 
     <script src="debugObjectPrint.js"></script>
     <script src="managers/SpriteSheetManager.js"></script>
@@ -46,6 +54,5 @@
     <script src="main.js"></script>
 
     <script src="RTYPE.js"></script>
-
   </body>
 </html>

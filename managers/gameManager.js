@@ -26,7 +26,7 @@ const gameManager = {
 
     _onMenu: true,
     _isGameOver: false,
-    _isWon: false,
+    _isInHighScoreMenu: false,
     _audioOn: true,
     _soundSpeaker: {x: g_canvas.width-20, y: g_canvas.height-20},
     _menuButtonWidth: 300,
@@ -80,6 +80,10 @@ const gameManager = {
         ctx.fillText("Score: " + this._score, g_canvas.width/2, 30);
 
         ctx.restore();
+    },
+
+    getScore : function(ctx) {
+        return this._score;
     },
 
     soundSpeaker: function(ctx) {
@@ -163,9 +167,9 @@ const gameManager = {
 				}
 			}
 		};
-		xhttp.open("GET", "https://riseofeyes-hs.herokuapp.com/?fbclid=IwAR271FT_gXAD1D40exD2oA-Z4qbeP4J-7n6QDHTU89o3h7qR6GtsKDL1wPc", true);
+		xhttp.open("GET", "https://riseofeyes-hs.herokuapp.com/", true);
 		xhttp.send();
-	},
+    },
 	
     renderUI: function(ctx) {
         this.extraLives(ctx);
@@ -213,28 +217,41 @@ const gameManager = {
         return this._isGameOver;
     },
 
-    renderGameOver : function () {
+    renderGameOver : function (ctx) {
+
+        document.getElementById('PlayerName').type = 'text';
+
         const gameOverMessage = "Game Over";
-        const gameOverInstructions = "Press [R] to restart the game";
+        const gameOverInstructions = "Enter your name to submit your high score";
         const halfHeight = g_canvas.height / 2;
         const halfWidth = g_canvas.width / 2; 
         
         ctx.save();
-        ctx.fillStyle = "#333";
-        ctx.fillRect(0, halfHeight / 2, halfWidth * 2, halfHeight);
-        
+
         ctx.fillStyle = "#0bc3c3";
         ctx.textAlign = "center";
         
         ctx.font = "bold 55px sans-serif";
-        ctx.fillText(gameOverMessage, halfWidth, halfHeight);
+        ctx.fillText(gameOverMessage, halfWidth, halfHeight - 100);
         ctx.font = "bold 25px sans-serif";
-        ctx.fillText(gameOverInstructions, halfWidth, halfHeight * 3 / 2 - 100);
+        ctx.fillText(gameOverInstructions, halfWidth, halfHeight - 50);
         
         ctx.restore();
     },
 
-    setGameOver : function () {
-        this._isGameOver = true;
+    toggleGameOver : function () {
+        this._isGameOver = !this._isGameOver;
     },
+
+    isInHighScoreMenu : function () {
+        return this._isInHighScoreMenu;
+    },
+
+    toggleHighScoreMenu : function () {
+        this._isInHighScoreMenu = !this._isInHighScoreMenu;
+    },
+
+    renderHighScoreMenu : function (ctx) {
+        this.displayHighScores(ctx);
+    }
 }

@@ -140,9 +140,9 @@ Ship.prototype.update = function (du) {
         return entityManager.KILL_ME_NOW;
     }
 
-    // if lives < 0 set the gameManager to game over
-    if (this._lives < 0) {
-        gameManager.setGameOver();
+    // if lives < 1 set the gameManager to game over
+    if (this._lives < 1) {
+        gameManager.toggleGameOver();
         return;
     }
 
