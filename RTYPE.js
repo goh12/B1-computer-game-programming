@@ -121,7 +121,11 @@ function renderSimulation(ctx) {
     if (gameManager.isInMenu()) {
 
         gameManager.renderMenu(ctx);
-    } else {
+    } else if(gameManager.isGameOver()) {
+
+        gameManager.renderGameOver(ctx);
+    }
+    else {
         
         entityManager.render(ctx);
         gameManager.renderUI(ctx);

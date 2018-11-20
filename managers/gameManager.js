@@ -36,39 +36,11 @@ const gameManager = {
 
     startGame: function () {
         this._onMenu = false;
-    },
+        this._isGameOver = false;
+        console.log("im here")
 
-    // ================
-    // Main Menu stuff
-    // ================
-
-    isInMenu: function () {
-        return this._onMenu;
-    },
-
-    renderMenu: function (ctx) {
-        this.drawMenu(ctx, "ROBOTRON");
-    },
-
-    drawMenu: function (ctx) {
-
-        const startMessage = "Press [R] to start the game";
-        const halfHeight = g_canvas.height / 2;
-        const halfWidth = g_canvas.width / 2; 
-        
-        ctx.save();
-        ctx.fillStyle = "#333";
-        ctx.fillRect(0, halfHeight / 2, halfWidth * 2, halfHeight);
-        
-        ctx.fillStyle = "#0bc3c3";
-        ctx.textAlign = "center";
-        
-        ctx.font = "bold 55px sans-serif";
-        ctx.fillText("R-TYPE", halfWidth, halfHeight);
-        ctx.font = "bold 25px sans-serif";
-        ctx.fillText(startMessage, halfWidth, halfHeight * 3 / 2 - 100);
-        
-        ctx.restore();
+        const player = entityManager.getPlayer();
+        player.playerReset();
     },
 
     toggleSound: function() {
@@ -176,6 +148,67 @@ const gameManager = {
         this.menuText(ctx);
         this.soundSpeaker(ctx);
         this.pauseMenu(ctx);
-    }
+    },
 
+    // ================
+    // Main Menu stuff
+    // ================
+
+    isInMenu: function () {
+        return this._onMenu;
+    },
+
+    renderMenu: function (ctx) {
+
+        const startMessage = "Press [R] to start the game";
+        const halfHeight = g_canvas.height / 2;
+        const halfWidth = g_canvas.width / 2; 
+        
+        ctx.save();
+        ctx.fillStyle = "#333";
+        ctx.fillRect(0, halfHeight / 2, halfWidth * 2, halfHeight);
+        
+        ctx.fillStyle = "#0bc3c3";
+        ctx.textAlign = "center";
+        
+        ctx.font = "bold 55px sans-serif";
+        ctx.fillText("R-TYPE", halfWidth, halfHeight);
+        ctx.font = "bold 25px sans-serif";
+        ctx.fillText(startMessage, halfWidth, halfHeight * 3 / 2 - 100);
+        
+        ctx.restore();
+    },
+
+    // =======================
+    // Game Over stuff
+    // =======================
+
+    isGameOver : function () {
+        return this._isGameOver;
+    },
+
+    renderGameOver : function () {
+        const gameOverMessage = "Game Over";
+        const gameOverInstructions = "Press [R] to restart the game";
+        const halfHeight = g_canvas.height / 2;
+        const halfWidth = g_canvas.width / 2; 
+        
+        ctx.save();
+        ctx.fillStyle = "#333";
+        ctx.fillRect(0, halfHeight / 2, halfWidth * 2, halfHeight);
+        
+        ctx.fillStyle = "#0bc3c3";
+        ctx.textAlign = "center";
+        
+        ctx.font = "bold 55px sans-serif";
+        ctx.fillText(gameOverMessage, halfWidth, halfHeight);
+        ctx.font = "bold 25px sans-serif";
+        ctx.fillText(gameOverInstructions, halfWidth, halfHeight * 3 / 2 - 100);
+        
+        ctx.restore();
+    },
+
+    setGameOver : function () {
+        this._isGameOver = true;
+    },
 }

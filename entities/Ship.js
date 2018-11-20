@@ -25,7 +25,7 @@ function Ship(descr) {
     // Set normal drawing scale, and warp state off
     this._scale = {x:1, y:1};
     this._isWarping = false;
-    this._lives = 3;
+    this._lives = 3
     this._speed = 4;
     this._hasShotgun = false;
     this._fireRate = 10;
@@ -138,6 +138,12 @@ Ship.prototype.update = function (du) {
     // if it's dead(inherited from Entity), return the kill me now value
     if (this._isDeadNow) {
         return entityManager.KILL_ME_NOW;
+    }
+
+    // if lives < 0 set the gameManager to game over
+    if (this._lives < 0) {
+        gameManager.setGameOver();
+        return;
     }
 
     // Perform movement substeps
@@ -298,6 +304,13 @@ Ship.prototype.reset = function () {
     this.rotation = this.reset_rotation;
     
     this.halt();
+};
+
+Ship.prototype.playerReset = function () {
+    this._lives = 3
+    this._speed = 4;
+    this._hasShotgun = false;
+    this._fireRate = 10;
 };
 
 Ship.prototype.halt = function () {
