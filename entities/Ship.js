@@ -277,7 +277,7 @@ Ship.prototype.applyAccel = function (accelX, accelY, du) {
 Ship.prototype.maybeFireBullet = function () {
     if (keys[this.KEY_FIRE]) {
         const BULLET_SPEED = 4;
-
+        entityManager.debugEnemy() 
         entityManager.fireBullet(
            this.cx + this.sprite.width/2, this.cy,
            BULLET_SPEED, 0,
@@ -302,15 +302,13 @@ Ship.prototype.takeBulletHit = function (bullet) {
 Ship.prototype.reset = function () {
     this.setPos(this.reset_cx, this.reset_cy);
     this.rotation = this.reset_rotation;
-    
-    this.halt();
-};
 
-Ship.prototype.playerReset = function () {
     this._lives = 3
     this._speed = 4;
     this._hasShotgun = false;
     this._fireRate = 10;
+    
+    this.halt();
 };
 
 Ship.prototype.halt = function () {

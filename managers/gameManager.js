@@ -40,8 +40,10 @@ const gameManager = {
         this._isGameOver = false;
         this._isInHighScoreMenu = false;
 
+
+        // TODO reset the game 
         const player = entityManager.getPlayer();
-        player.playerReset();
+        player.reset();
     },
 
     toggleSound: function() {
