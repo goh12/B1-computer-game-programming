@@ -329,7 +329,7 @@ Ship.prototype.removeLife = function () {
         spatialManager.unregister(this);
 
         // revert invulnerability after 2.5 secs.
-        setInterval(() => {
+        setTimeout(() => {
             this._invulnerable = false;
             spatialManager.register(this);
         }, 2500);
