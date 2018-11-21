@@ -152,7 +152,7 @@ var g_audio = {};
 function requestPreloads() {
 
     var requiredImages = {
-        ship   : "images/flappy.png",
+        ship   : "images/player.png",
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         bullet : "images/orb.png",
         block : "images/block.jpg",
@@ -167,6 +167,7 @@ function requestPreloads() {
         powerupSpeed : "images/powerup-speed.png",
         powerupLife : "images/powerup-extralife.png",
         powerupGreenOrb : "images/powerup-greenorb.png",
+        shotgunPowerup : "images/powerup_shotgun.png",
         laser : "images/laser.png",
         background : "images/backg.png",
         backgroundHell : "images/backg-hell.png",
@@ -235,7 +236,8 @@ function preloadDone() {
     g_sprites.gruntBullet = new Sprite(g_images.gruntBullet);
     g_sprites.laser.scale = {x:0.2, y:0.2};
 
-    g_sprites.shotgun = new Sprite(g_images.bullet);
+    g_sprites.shotgun = new Sprite(g_images.shotgunPowerup);
+    g_sprites.shotgun.scale = {x:0.03, y:0.03};
     entityManager.init();
     createInitialShips();
 
