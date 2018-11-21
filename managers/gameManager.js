@@ -33,7 +33,8 @@ const gameManager = {
     _menuButtonHeight: 80,
     _menuButtons: [],
     _score: 0,
-	_highScore: [0],
+    _highScore: [0],
+    _highScoresFetched: false,
 
     startGame: function () {
         this._onMenu = false;
@@ -164,6 +165,8 @@ const gameManager = {
     },
 
 	getHighScoreData: function() {
+        if(this._highScoresFetched) return;
+        this._highScoresFetched = true;
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
@@ -185,7 +188,6 @@ const gameManager = {
         this.scoreText(ctx);
         this.menuText(ctx);
         this.soundSpeaker(ctx);
-		this.getHighScoreData();
         this.pauseMenu(ctx);
     },
 
@@ -258,6 +260,10 @@ const gameManager = {
 
     toggleHighScoreMenu : function () {
         this._isInHighScoreMenu = !this._isInHighScoreMenu;
+    },
+
+    needUpdateHighScores : function() {
+        this._highScoresFetched = false;
     },
 
     renderHighScoreMenu : function (ctx) {
