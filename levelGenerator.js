@@ -19,7 +19,7 @@ let g_levelGenerator = {
     moveSpeed : -1, //Move speed of blocks
 
     isMoving : true, //Is the environment moving?
-    enemySpacing : 5, //Spacing between wave spawns in blocks
+    enemySpacing : 6, //Spacing between wave spawns in blocks
     currentBlock : 0, //Used for counting blocks until enemy spawn
 
     blockSprite : null, //What sprite are we using for our blocks?
@@ -67,6 +67,7 @@ g_levelGenerator.update = function (du) {
         entityManager.generateBackground(g_images.backgroundHell);
 
         this.wavesLeft = 4;
+        this.enemySpacing = 6;
         this.currentBlock = this.enemySpacing;
         this.isMoving = true;
     }
@@ -85,6 +86,8 @@ g_levelGenerator.update = function (du) {
         if(this.wavesLeft === 0) {
             entityManager._generateBoss();
             this.wavesLeft--;
+            if(this.enemySpacing > 1)
+                this.enemySpacing--;
             this.isMoving = false;
         }
 
