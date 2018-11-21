@@ -44,11 +44,12 @@ Stalker.prototype.updateThis = function(du) {
         this.cx += this.velX * du;
         this.cy += this.velY * du;
     }
+    
 }
 
 
 Stalker.prototype.fire = function() {
-    const BULLET_SPEED = 10;
+    const BULLET_SPEED = 8;
     const playerPos = entityManager.getPlayer().getPos();
     
     var angleRadians = Math.atan2(

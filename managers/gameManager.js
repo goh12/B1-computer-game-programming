@@ -42,6 +42,7 @@ const gameManager = {
         this._isInHighScoreMenu = false;
 
 
+        this.getHighScoreData();
         // Reset the game 
         const player = entityManager.getPlayer();
         entityManager.reset();
