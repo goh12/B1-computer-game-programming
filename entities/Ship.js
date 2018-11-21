@@ -221,9 +221,14 @@ Ship.prototype.maybeFireBullet = function () {
     if (keys[this.KEY_FIRE]) {
         const BULLET_SPEED = 6;
 
-        // if firing from a shotgun, decrease ammo
+        // if firing from a shotgun, decrease ammo and play shotgun sound
         if (this._hasShotgun) {
             this.ammo--;
+            if (typeof g_audio.shotgunFire !== 'undefined') {
+                util.playSound(g_audio.shotgunFire, 1);
+            }
+        } else if (typeof g_audio.bulletFire !== 'undefined') {
+            util.playSound(g_audio.bulletFire, 1);
         }
 
         entityManager.fireBullet(

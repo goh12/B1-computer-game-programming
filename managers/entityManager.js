@@ -214,7 +214,6 @@ getPlayer: function() {
 },
 
 reset : function() {
-    console.log(this._powerups);
     // TO DO this._powerups = [];
 },
 

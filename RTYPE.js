@@ -177,7 +177,9 @@ function requestPreloads() {
     });
 
     var requiredAudio = {
+        bulletFire : "sounds/bulletFire.ogg",
         shotgunFire : "sounds/shotgun.wav",
+        gruntFire : "sounds/gruntFire.wav",
 
     };
 
