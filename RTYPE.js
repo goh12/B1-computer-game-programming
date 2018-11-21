@@ -152,7 +152,7 @@ var g_audio = {};
 function requestPreloads() {
 
     var requiredImages = {
-        ship   : "images/flappy.png",
+        ship   : "images/player.png",
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         bullet : "images/orb.png",
         block : "images/block.jpg",
