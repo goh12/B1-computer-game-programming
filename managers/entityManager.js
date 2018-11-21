@@ -36,9 +36,6 @@ _powerups : [],
 _bShowEnemies : true,
 bgAlpha : 0,
 
-_bulletDu : 0,
-
-
 // "PRIVATE" METHODS
 
 _generateEnemies : function() {
@@ -153,12 +150,7 @@ init: function() {
 
 fireBullet: function(cx, cy, velX, velY, rotation, tag, sprite) {
     const player = this.getPlayer();
-    if (this._bulletDu < player.getFireRate() && tag === 'playerBullet') {
-        this._bulletDu++;
-        return;
-    }
-
-    this._bulletDu = 0; // reset the bullet's du
+ 
     this._bullets.push(new Bullet({
         cx   : cx,
         cy   : cy,
@@ -223,8 +215,6 @@ createPowerup : function (cx, cy) {
 },
 
 update: function(du) {
-
-    this._bulletDu += du;
 
     for (var c = 0; c < this._categories.length; ++c) {
 

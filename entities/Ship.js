@@ -29,7 +29,6 @@ function Ship(descr) {
     this._hasShotgun = false;
     this._fireRate = 10;
     this._invulnerable = false;
-
 }
 
 Ship.prototype = new Entity();
@@ -57,9 +56,13 @@ Ship.prototype.velY = 0;
 Ship.prototype.launchVel = 2;
 Ship.prototype.numSubSteps = 1;
 Ship.prototype.ammo = 0;
+Ship.prototype.bulletDu = 0;
 
     
 Ship.prototype.update = function (du) {
+
+    // update bulletDu to handle firerate
+    this.bulletDu += du;
     
     // Unregister and check for death
     spatialManager.unregister(this);
@@ -224,6 +227,13 @@ Ship.prototype.maybeFireBullet = function () {
     }
     
     if (keys[this.KEY_FIRE]) {
+        // check if player is allowed to fire (fire rate)
+        if (this.bulletDu < this._fireRate) {
+            this.bulletDu++;
+            return;
+        }
+        this.bulletDu = 0; // reset the bullet's du
+
         const BULLET_SPEED = 6;
 
         // if firing from a shotgun, decrease ammo and play shotgun sound

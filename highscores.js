@@ -7,7 +7,7 @@ function submitHighScore() {
     const playerScore = gameManager.getScore();
 
     // post the score to the database
-    // postHighScoreData(playerName, playerScore);
+    postHighScoreData(playerName, playerScore);
 
     // hide the input field again
     document.getElementById('PlayerName').type = 'hidden';
