@@ -45,6 +45,8 @@ const gameManager = {
         // TODO reset the game 
         const player = entityManager.getPlayer();
         player.reset();
+        g_levelGenerator.reset();
+        this._score = 0;
     },
 
     toggleSound: function() {
