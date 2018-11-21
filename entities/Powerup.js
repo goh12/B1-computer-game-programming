@@ -5,7 +5,6 @@
 "use strict";
 
 let g_greenOrbHasDropped = false;
-let g_shotgunHasDropped = false;
 
 // A generic contructor which accepts an arbitrary descriptor object
 function Powerup(descr) {
@@ -20,8 +19,7 @@ function Powerup(descr) {
         g_greenOrbHasDropped = true; // only get one green orb drop per game
         this.isGreenOrb = true;
         this.sprite = g_sprites.powerupGreenOrb;
-    } else if (this.type < 0.2 && !g_shotgunHasDropped) {
-        g_shotgunHasDropped = true; // only one shotgun per game
+    } else if (this.type < 0.2) {
         this.isShotgun = true;
         this.sprite = g_sprites.shotgun;
     } else if (this.type < 0.7) {
@@ -65,7 +63,7 @@ Powerup.prototype.hitByPlayer = function () {
     }
 
     if (this.isShotgun) {
-        player.toggleShotgun();
+        player.addShotgunAmmo();
     }
 
     this.kill();

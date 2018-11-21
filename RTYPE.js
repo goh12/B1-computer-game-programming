@@ -235,7 +235,6 @@ function preloadDone() {
     g_sprites.laser.scale = {x:0.2, y:0.2};
 
     g_sprites.shotgun = new Sprite(g_images.bullet);
-    g_sprites.shotgun.scale = {x:0.09, y:0.09};
     entityManager.init();
     createInitialShips();
 

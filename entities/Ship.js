@@ -255,7 +255,7 @@ Ship.prototype.maybeFireBullet = function () {
 
         // remove the shotgun powerup if ammo depleted
         if (this.ammo < 0) {
-            this.toggleShotgun();
+            this._hasShotgun = false;
             this.ammo = 0;
         }
     }
@@ -344,13 +344,12 @@ Ship.prototype.increaseSpeed = function () {
     this._speed++;
 }
 
-Ship.prototype.toggleShotgun = function () {
-    this._hasShotgun = !this._hasShotgun;
+Ship.prototype.addShotgunAmmo = function () {
 
+    this._hasShotgun = true;
+    
     // if you're getting a shotgun add ammo
-    if (this._hasShotgun) {
-        this.ammo = 20;
-    }
+    this.ammo += 20;
 }
 
 Ship.prototype.getHasShotgun = function () {
