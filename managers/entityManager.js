@@ -151,7 +151,7 @@ init: function() {
 
 },
 
-fireBullet: function(cx, cy, velX, velY, rotation, tag, laser = false) {
+fireBullet: function(cx, cy, velX, velY, rotation, tag, sprite) {
     const player = this.getPlayer();
     if (this._bulletDu < player.getFireRate() && tag === 'playerBullet') {
         this._bulletDu++;
@@ -166,7 +166,7 @@ fireBullet: function(cx, cy, velX, velY, rotation, tag, laser = false) {
         velY : velY,
         _tag : tag,
         rotation : rotation
-    }, laser));
+    }, sprite));
 
     if (player.getHasShotgun() && tag === 'playerBullet') {
         this._bullets.push(new Bullet({

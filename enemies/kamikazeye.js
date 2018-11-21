@@ -36,7 +36,8 @@ Kamikazeye.prototype.updateThis = function(du) {
                     Math.cos((i/8) * Math.PI * 2) * 5,
                     Math.sin((i/8) * Math.PI * 2) * 5,
                     0,
-                    "enemyBullet"
+                    "enemyBullet",
+                    g_sprites.innards
                 );
             }
             this.kill();

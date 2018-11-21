@@ -69,7 +69,7 @@ Stalker.prototype.fire = function() {
         bulletXVel, bulletYVel,
         angleRadians,
         "enemyBullet",
-        true);
+        g_sprites.laser);
 
     this.gunTimer = 30;
 }

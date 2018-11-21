@@ -240,7 +240,8 @@ Ship.prototype.maybeFireBullet = function () {
            this.cx + this.sprite.width/2, this.cy,
            BULLET_SPEED, 0,
            this.rotation,
-           "playerBullet");
+           "playerBullet",
+           g_sprites.bullet);
 
         // remove the shotgun powerup if ammo depleted
         if (this.ammo < 0) {

@@ -45,7 +45,8 @@ Grunt.prototype.maybeFireBullet = function (du) {
                this.cx - this.getRadius(), this.cy,
                bulletXVel, bulletYVel,
                this.rotation,
-               "enemyBullet");
+               "enemyBullet",
+               g_sprites.gruntBullet);
             
             return; //Don't fire twice inside same frame
         }
