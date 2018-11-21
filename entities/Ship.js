@@ -22,13 +22,13 @@ function Ship(descr) {
     // Default sprite, if not otherwise specified
     this.sprite = this.sprite || g_sprites.ship;
     
-    // Set normal drawing scale, and warp state off
+    // Set normal drawing scale
     this._scale = {x:1, y:1};
-    this._isWarping = false;
     this._lives = 1;
     this._speed = 4;
     this._hasShotgun = false;
     this._fireRate = 10;
+    this._invulnerable = false;
 
 }
 
@@ -58,80 +58,8 @@ Ship.prototype.launchVel = 2;
 Ship.prototype.numSubSteps = 1;
 Ship.prototype.ammo = 0;
 
-Ship.prototype.warp = function () {
-
-    this._isWarping = true;
-    this._scaleDirn = -1;
-
-    // Unregister me from my old posistion
-    // ...so that I can't be collided with while warping
-    spatialManager.unregister(this);
-};
-
-Ship.prototype._updateWarp = function (du) {
-
-    var SHRINK_RATE = 3 / SECS_TO_NOMINALS;
-    this._scale = {x: this._scale.x + this._scaleDirn * SHRINK_RATE * du,
-                   y: this._scale.y + this._scaleDirn * SHRINK_RATE * du};
-    
-    if (this._scale.x < 0.2) {
-
-        this._moveToASafePlace();
-        this.halt();
-        this._scaleDirn = 1;
-        
-    } else if (this._scale.x > 1) {
-    
-        this._scale = {x: 1, y: 1};
-        this._isWarping = false;
-        
-        // Reregister me from my old posistion
-        // ...so that I can be collided with again
-        spatialManager.register(this);
-        
-    }
-};
-
-Ship.prototype._moveToASafePlace = function () {
-
-    // Move to a safe place some suitable distance away
-    var origX = this.cx,
-        origY = this.cy,
-        MARGIN = 40,
-        isSafePlace = false;
-
-    for (var attempts = 0; attempts < 100; ++attempts) {
-    
-        var warpDistance = 100 + Math.random() * g_canvas.width /2;
-        var warpDirn = Math.random() * consts.FULL_CIRCLE;
-        
-        this.cx = origX + warpDistance * Math.sin(warpDirn);
-        this.cy = origY - warpDistance * Math.cos(warpDirn);
-        
-        this.wrapPosition();
-        
-        // Don't go too near the edges, and don't move into a collision!
-        if (!util.isBetween(this.cx, MARGIN, g_canvas.width - MARGIN)) {
-            isSafePlace = false;
-        } else if (!util.isBetween(this.cy, MARGIN, g_canvas.height - MARGIN)) {
-            isSafePlace = false;
-        } else {
-            isSafePlace = !this.isColliding();
-        }
-
-        // Get out as soon as we find a safe place
-        if (isSafePlace) break;
-        
-    }
-};
     
 Ship.prototype.update = function (du) {
-
-    // Handle warping
-    if (this._isWarping) {
-        this._updateWarp(du);
-        return;
-    }
     
     // Unregister and check for death
     spatialManager.unregister(this);
@@ -157,7 +85,7 @@ Ship.prototype.update = function (du) {
     //Check if we are hitting the top or bottom of the level
     if(this.cy + this.getRadius() > ctx.canvas.height - g_levelGenerator.layerHeightInPixels ||
        this.cy - this.getRadius() < g_levelGenerator.layerHeightInPixels)
-        this.warp();
+        this.removeLife();
 
     // Handle firing
     this.maybeFireBullet();
@@ -171,8 +99,7 @@ Ship.prototype.update = function (du) {
         if(isPowerUp) {
            isPowerUp.call(collisionEntity);
         } else if(collisionEntity.getTag() !== "playerBullet") {
-            this.warp();
-            this._lives--;
+            this.removeLife();
         } else {
             spatialManager.register(this);
         }
@@ -305,8 +232,7 @@ Ship.prototype.getRadius = function () {
 Ship.prototype.takeBulletHit = function (bullet) {
     if(bullet.getTag() !== "playerBullet") {
         bullet.kill();
-        this.warp();
-        this._lives--;
+        this.removeLife();
     }
 };
 
@@ -314,7 +240,7 @@ Ship.prototype.reset = function () {
     this.setPos(this.reset_cx, this.reset_cy);
     this.rotation = this.reset_rotation;
 
-    this._lives = 1;
+    this._lives = 2;
     this._speed = 4;
     this._hasShotgun = false;
     this._fireRate = 10;
@@ -328,14 +254,27 @@ Ship.prototype.halt = function () {
 }
 
 Ship.prototype.render = function (ctx) {
-    var origScale = this.sprite.scale;
-    // pass my scale into the sprite, for drawing
-    this.sprite.scale = this._scale;
-    this.sprite.drawCentredAt(
-	ctx, this.cx, this.cy, this.rotation
-    );
 
-    this.sprite.scale = origScale;
+    if (this._lives > 0) {
+        
+        ctx.save();
+    
+        var origScale = this.sprite.scale;
+        // pass my scale into the sprite, for drawing
+        this.sprite.scale = this._scale;
+    
+        if (this._invulnerable) {
+            ctx.globalAlpha = 0.3;
+        }
+    
+        this.sprite.drawCentredAt(
+        ctx, this.cx, this.cy, this.rotation
+        );
+    
+        this.sprite.scale = origScale;
+    
+        ctx.restore();
+    }
 
 };
 
@@ -346,7 +285,19 @@ Ship.prototype.addLife = function () {
 }
 
 Ship.prototype.removeLife = function () {
-    this._lives--;
+    // remove a life if the player isn't invulnerable
+    if (!this._invulnerable) {
+        this._lives--;
+        // grant temporary invulnerability after losing a life
+        this._invulnerable = true;
+        spatialManager.unregister(this);
+
+        // revert invulnerability after 3 secs.
+        setInterval(() => {
+            this._invulnerable = false;
+            spatialManager.register(this);
+        }, 3000);
+    }
 }
 
 Ship.prototype.getLives = function () {
@@ -376,4 +327,8 @@ Ship.prototype.getFireRate = function () {
 
 Ship.prototype.getAmmo = function () {
     return this.ammo;
+}
+
+Ship.prototype.setInvulnerable = function (invulnerable) {
+    this._invulnerable = invulnerable
 }
