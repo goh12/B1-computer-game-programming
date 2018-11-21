@@ -77,7 +77,6 @@ g_levelGenerator.update = function (du) {
         if(this.currentBlock === 0) {
             this.wavesLeft--;
             if(this.wavesLeft > 0) {
-                console.log("Generating enemies: Wave " + this.wavesLeft);
                 entityManager._generateEnemies();
                 this.currentBlock = this.enemySpacing;
             }
