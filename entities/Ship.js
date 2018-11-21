@@ -218,6 +218,11 @@ Ship.prototype.applyAccel = function (accelX, accelY, du) {
 };
 
 Ship.prototype.maybeFireBullet = function () {
+    //prevent from firing if invulnerable
+    if (this._invulnerable) {
+        return;
+    }
+    
     if (keys[this.KEY_FIRE]) {
         const BULLET_SPEED = 6;
 
@@ -260,7 +265,7 @@ Ship.prototype.reset = function () {
     this.setPos(this.reset_cx, this.reset_cy);
     this.rotation = this.reset_rotation;
 
-    this._lives = 1;
+    this._lives = 2;
     this._speed = 4;
     this._hasShotgun = false;
     this._fireRate = 10;
@@ -312,11 +317,11 @@ Ship.prototype.removeLife = function () {
         this._invulnerable = true;
         spatialManager.unregister(this);
 
-        // revert invulnerability after 3 secs.
+        // revert invulnerability after 2.5 secs.
         setInterval(() => {
             this._invulnerable = false;
             spatialManager.register(this);
-        }, 3000);
+        }, 2500);
     }
 }
 
