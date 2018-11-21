@@ -2,7 +2,7 @@ function Kamikazeye() {
     this.sprite = g_sprites.kamikazeye;
 
     this.exploding = false;
-    this.speed = 8;
+    this.speed = 10;
     this.speedSq = this.speed * this.speed; //Used in checking for final position.
 
     this.cx = g_canvas.width + this.getRadius() * 2;
@@ -33,13 +33,14 @@ Kamikazeye.prototype.updateThis = function(du) {
             for(let i = 0; i < 8; i++) { //EXPLOSION OCCURRS
                 entityManager.fireBullet(
                     this.cx, this.cy,
-                    Math.cos((i/8) * Math.PI * 2) * 5,
-                    Math.sin((i/8) * Math.PI * 2) * 5,
+                    Math.cos((i/8) * Math.PI * 2) * 8,
+                    Math.sin((i/8) * Math.PI * 2) * 8,
                     0,
                     "enemyBullet",
                     g_sprites.innards
                 );
             }
+            util.playSound(g_audio.kamikazeye, 1);
             this.kill();
         }
     }

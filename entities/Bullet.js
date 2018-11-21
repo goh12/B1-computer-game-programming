@@ -15,7 +15,7 @@
 // A generic contructor which accepts an arbitrary descriptor object
 function Bullet(descr, sprite) {
 
-    this.sprite = sprite;
+    this.sprite = sprite || g_sprites.bullet;
     // Common inherited setup logic from Entity
     this.setup(descr);
     
@@ -84,7 +84,6 @@ Bullet.prototype.update = function (du) {
 Bullet.prototype.getRadius = function () {
     return 8;
 };
-
 Bullet.prototype.takeBulletHit = function () {
     this.kill();
     
