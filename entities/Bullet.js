@@ -13,11 +13,11 @@
 
 
 // A generic contructor which accepts an arbitrary descriptor object
-function Bullet(descr, laser = false) {
+function Bullet(descr, sprite) {
 
+    this.sprite = sprite;
     // Common inherited setup logic from Entity
     this.setup(descr);
-    this.laser = laser;
     
 /*
     // Diagnostics to check inheritance stuff
@@ -93,14 +93,7 @@ Bullet.prototype.takeBulletHit = function () {
 };
 
 Bullet.prototype.render = function (ctx) {
-    if(this.laser) {
-        g_sprites.laser.drawCentredAt(
-            ctx, this.cx, this.cy, this.rotation
-        );
-    } else {
-        g_sprites.bullet.drawCentredAt(
-            ctx, this.cx, this.cy, this.rotation
-        );
-    }
-    
+    this.sprite.drawCentredAt(
+        ctx, this.cx, this.cy, this.rotation
+    );
 };

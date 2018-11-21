@@ -169,7 +169,9 @@ function requestPreloads() {
         powerupGreenOrb : "images/powerup-greenorb.png",
         laser : "images/laser.png",
         background : "images/backg.png",
-        backgroundHell : "images/backg-hell.png"
+        backgroundHell : "images/backg-hell.png",
+        innards : "images/innards.png",
+        gruntBullet : "images/gruntbullet.png",
     };
 
     SpriteSheetManager.loadAnimations(() => {
@@ -226,8 +228,9 @@ function preloadDone() {
     g_sprites.stalker = new Sprite(g_images.stalker);
 
     g_sprites.bullet = new Sprite(g_images.bullet);
-    g_sprites.bullet.scale = {x:0.03, y:0.03};
     g_sprites.laser = new Sprite(g_images.laser);
+    g_sprites.innards = new Sprite(g_images.innards);
+    g_sprites.gruntBullet = new Sprite(g_images.gruntBullet);
     g_sprites.laser.scale = {x:0.2, y:0.2};
 
     g_sprites.shotgun = new Sprite(g_images.bullet);
