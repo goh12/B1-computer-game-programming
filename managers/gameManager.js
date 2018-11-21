@@ -161,7 +161,7 @@ const gameManager = {
 		for (var i=0; i<gameManager._highScore.length; i++) {
 			if (gameManager._highScore[i] != undefined) {
 				ctx.fillText(i+1 + ". " + this._highScore[i].player + " [" + this._highScore[i].score + "]", 
-				g_canvas.width/2, 100 + 30*i);
+				g_canvas.width/2, 105 + 25*i);
 			}
 		}
     },
