@@ -19,12 +19,12 @@ let g_levelGenerator = {
     moveSpeed : -1, //Move speed of blocks
 
     isMoving : true, //Is the environment moving?
-    enemySpacing : 6, //Spacing between wave spawns in blocks
+    enemySpacing : 4, //Spacing between wave spawns in blocks
     currentBlock : 0, //Used for counting blocks until enemy spawn
 
     blockSprite : null, //What sprite are we using for our blocks?
 
-    wavesLeft : 3 //How many waves are left until the boss
+    wavesLeft : 7 //How many waves are left until the boss
 };
 
 g_levelGenerator.blockDesc = function (i,j) {
@@ -66,8 +66,8 @@ g_levelGenerator.update = function (du) {
         entityManager.bgAlpha = 0;
         entityManager.generateBackground(g_images.backgroundHell);
 
-        this.wavesLeft = 4;
-        this.enemySpacing = 6;
+        this.wavesLeft = 7;
+        this.enemySpacing = 4;
         this.currentBlock = this.enemySpacing;
         this.isMoving = true;
     }
@@ -78,6 +78,7 @@ g_levelGenerator.update = function (du) {
         if(this.currentBlock === 0) {
             this.wavesLeft--;
             if(this.wavesLeft > 0) {
+                console.log("Generating enemies: Wave " + this.wavesLeft);
                 entityManager._generateEnemies();
                 this.currentBlock = this.enemySpacing;
             }
@@ -161,10 +162,10 @@ g_levelGenerator.reset = function () {
     this.timerBlock = 0;
     this.timerBackground = 0;
     this.isMoving = true;
-    this.enemySpacing = 5;
+    this.enemySpacing = 4;
     this.currentBlock = 0;
     this.blockSprite = null;
-    this.wavesLeft = 3;
+    this.wavesLeft = 7;
     this.seed = 1;
 
     //Re-initialize

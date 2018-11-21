@@ -42,13 +42,33 @@ _bulletDu : 0,
 // "PRIVATE" METHODS
 
 _generateEnemies : function() {
+    const rand = Math.floor(util.random() * 3);
+    switch(rand) {
+        case 0:
+            this._generateFormation();
+            break;
+        case 1:
+            this._generateKamikazeye();
+            break;
+        case 2:
+            this._generateStalker();
+            break;
+    }
+},
 
+_generateFormation : function() {
     const STATE_INTERVAL = 500;
-    const NUM_ENEMIES = Math.floor(4 + Math.random() * 6);
-    const FORMATION_SPEED = 1 + Math.random() * 2;
+    const NUM_ENEMIES = Math.floor(5 + util.random() * 6);
+    const FORMATION_SPEED = 1 + util.random() * 2;
     const SPACE_BETWEEN = 60;
+    let states = [];
 
-    const states = [{x: 0, y: 0}, {x: 0, y: 50}, {x: 0, y: 50}, {x: 0, y: 100}, {x: 0, y: 100}, {x: 0, y: 50}, {x: 0, y: 0}];
+    for(let i = 0; i < 6; i++) {
+        const y = Math.floor(-10 + util.random() * 21);
+        states.push({ x: 0, y: 10 * y });
+        states.push({ x: 0, y: 10 * y });
+    }
+
     const formation = new Formation(STATE_INTERVAL, NUM_ENEMIES, Grunt, -FORMATION_SPEED, SPACE_BETWEEN);
     formation.setStates(states);
     formation.init();
@@ -56,8 +76,18 @@ _generateEnemies : function() {
     this._enemies.push(formation);
 },
 
+_generateKamikazeye : function() {
+    this._enemies.push(new Kamikazeye());
+},
+
 _generateBoss : function () {
     this._enemies.push(new BossFalmer());
+},
+
+_generateStalker : function() {
+    const x = 400 + util.random() * 300;
+    const y = 200 + util.random() * 200;
+    this._enemies.push(new Stalker(x, y));
 },
 
 _findNearestShip : function(posX, posY) {

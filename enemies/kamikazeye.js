@@ -2,11 +2,11 @@ function Kamikazeye() {
     this.sprite = g_sprites.kamikazeye;
 
     this.exploding = false;
-    this.speed = 6;
+    this.speed = 8;
     this.speedSq = this.speed * this.speed; //Used in checking for final position.
 
     this.cx = g_canvas.width + this.getRadius() * 2;
-    this.cy = g_canvas.height/2 + (-100 + Math.random() * 200   );
+    this.cy = g_canvas.height/2 + (-100 + util.random() * 200   );
 
     this.blowPosition = entityManager.getPlayer().getPos(); //Position where to explode.
 
