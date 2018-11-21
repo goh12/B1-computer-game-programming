@@ -116,25 +116,57 @@ Ship.prototype.computeSubStep = function (du) {
     const xLeftLimit = this.cx - this.getRadius();
     const xRightLimit = this.cx + this.getRadius();
 
+    let vert = false;
+    let hor = false;
+
+    let xAcc = 0;
+    let yAcc = 0;
+
     // allows the ship to move up within the canvas
     if (keys[this.KEY_UP] && yUpperLimit > 0) {
-        this.cy -= this._speed * du;
+        vert = true;
+        yAcc -= 1 * du;
+        if(this.velY > 0) this.velY = 0;
     }
           
     // allows the ship to move down within the canvas
     if (keys[this.KEY_DOWN] && yLowerLimit < g_canvas.height) {
-        this.cy += this._speed * du;
+        if(vert === true) {
+            vert = false
+        } else {
+            vert = true;
+            yAcc += 1 * du;
+            if(this.velY < 0) this.velY = 0;
+        }
     }
             
     // allows the ship to move left within its boundaries    
     if(keys[this.KEY_LEFT] && xLeftLimit > 0 ) {
-        this.cx -= this._speed * du;
+        hor = true;
+        xAcc -= 1 * du;
+        if(this.velX > 0) this.velX = 0;
     }
           
     // allows the ship to move right within its boundaries
     if(keys[this.KEY_RIGHT]  && xRightLimit < g_canvas.width) {
-        this.cx += this._speed * du;
-    }     
+        if(hor === true) {
+            hor = false;
+        } else {
+            hor = true;
+            xAcc += 1 * du;
+            if(this.velX < 0) this.velX = 0;
+        }
+    }
+
+    if(!vert) {
+        yAcc = this.velY * (-1) * 1/2;
+    }
+
+    if(!hor) {
+        xAcc = this.velX * (-1) * 1/2;
+    }
+
+    this.applyAccel(xAcc, yAcc, du);
 };
 
 var NOMINAL_GRAVITY = 0.12;
@@ -175,31 +207,13 @@ Ship.prototype.applyAccel = function (accelX, accelY, du) {
     var aveVelY = (oldVelY + this.velY) / 2;
     
     // Decide whether to use the average or not (average is best!)
-    var intervalVelX = g_useAveVel ? aveVelX : this.velX;
-    var intervalVelY = g_useAveVel ? aveVelY : this.velY;
+    var intervalVelX = util.clampRange(aveVelX, -this._speed, this._speed);
+    var intervalVelY = util.clampRange(aveVelY, -this._speed, this._speed);
     
+    if(Math.abs(this.velX) < 0.2) this.velX = 0;
+    if(Math.abs(this.velY) < 0.2 ) this.velY = 0;
     // s = s + v_ave * t
-    var nextX = this.cx + intervalVelX * du;
-    var nextY = this.cy + intervalVelY * du;
-    
-    // bounce
-    if (g_useGravity) {
-
-	var minY = g_sprites.ship.height / 2;
-	var maxY = g_canvas.height - minY;
-
-	// Ignore the bounce if the ship is already in
-	// the "border zone" (to avoid trapping them there)
-	if (this.cy > maxY || this.cy < minY) {
-	    // do nothing
-	} else if (nextY > maxY || nextY < minY) {
-            this.velY = oldVelY * -0.9;
-            intervalVelY = this.velY;
-        }
-    }
-    
-    // s = s + v_ave * t
-    this.cx += du * intervalVelX;
+    this.cx = util.clampRange(this.cx + du * intervalVelX, 0 + this.getRadius()/2, g_canvas.width - this.getRadius()/2);
     this.cy += du * intervalVelY;
 };
 
