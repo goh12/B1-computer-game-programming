@@ -29,6 +29,11 @@ function Powerup(descr) {
         this.isSpeedBoost = true;
         this.sprite = g_sprites.powerupSpeed;
     }
+
+    //kill the powerup after 5 secs
+    setTimeout(() => {
+        this._isDeadNow = true;
+    }, 5000);
     
 }
 
