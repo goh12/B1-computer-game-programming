@@ -41,7 +41,7 @@ Kamikazeye.prototype.updateThis = function(du) {
                 );
             }
             util.playSound(g_audio.kamikazeye, 1);
-            this.kill();
+            this.kill(true);
         }
     }
 
