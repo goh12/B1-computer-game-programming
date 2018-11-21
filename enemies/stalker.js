@@ -60,6 +60,10 @@ Stalker.prototype.fire = function() {
     const bulletXVel = Math.cos(angleRadians) * BULLET_SPEED;
     const bulletYVel = Math.sin(angleRadians) * BULLET_SPEED;
 
+    if (typeof g_audio.stalkerFire !== 'undefined') {
+        util.playSound(g_audio.stalkerFire, 1);
+    }
+
     entityManager.fireBullet(
         this.cx - this.getRadius(), this.cy,
         bulletXVel, bulletYVel,

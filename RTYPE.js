@@ -180,7 +180,7 @@ function requestPreloads() {
         bulletFire : "sounds/bulletFire.ogg",
         shotgunFire : "sounds/shotgun.wav",
         gruntFire : "sounds/gruntFire.wav",
-
+        stalkerFire : "sounds/stalkerFire.wav",
     };
 
     audioPreload(requiredAudio, g_audio, audioLoadingCompleted);
