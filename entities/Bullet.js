@@ -82,7 +82,7 @@ Bullet.prototype.update = function (du) {
 };
 
 Bullet.prototype.getRadius = function () {
-    return 4;
+    return 8;
 };
 
 Bullet.prototype.takeBulletHit = function () {
