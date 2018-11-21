@@ -243,6 +243,10 @@ getPlayer: function() {
     return this._ships[0];
 },
 
+reset : function() {
+    // TO DO this._powerups = [];
+},
+
 render: function(ctx) {
 
     var debugX = 10, debugY = 100;

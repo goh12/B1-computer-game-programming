@@ -34,7 +34,13 @@ Grunt.prototype.maybeFireBullet = function (du) {
     
             const bulletXVel = Math.cos(angleRadians) * BULLET_SPEED;
             const bulletYVel = Math.sin(angleRadians) * BULLET_SPEED;
-    
+                
+            // play grunt fire sound if it exists
+            if (typeof g_audio.gruntFire !== 'undefined') {
+                
+                util.playSound(g_audio.gruntFire, 1);
+            }
+
             entityManager.fireBullet(
                this.cx - this.getRadius(), this.cy,
                bulletXVel, bulletYVel,

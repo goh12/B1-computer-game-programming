@@ -10,7 +10,6 @@ let g_levelGenerator = {
     maxRockGrowth : 3, //How much does the rock growth deviate
 
     isInitialized : false, //Is the level initialized?
-    seed : 1, //Random seed used for level generation
 
     //Timers for spawning new blocks and background
     timerBlock : 0,
@@ -162,6 +161,7 @@ g_levelGenerator.reset = function () {
     this.timerBlock = 0;
     this.timerBackground = 0;
     this.isMoving = true;
+
     this.enemySpacing = 4;
     this.currentBlock = 0;
     this.blockSprite = null;

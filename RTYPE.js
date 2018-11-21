@@ -146,6 +146,8 @@ function renderSimulation(ctx) {
 // =============
 
 var g_images = {};
+var g_imagesLoadedFlag = false;
+var g_audio = {};
 
 function requestPreloads() {
 
@@ -171,8 +173,28 @@ function requestPreloads() {
     };
 
     SpriteSheetManager.loadAnimations(() => {
-        imagesPreload(requiredImages, g_images, preloadDone);
+        imagesPreload(requiredImages, g_images, () => { g_imagesLoadedFlag = true });
     });
+
+    var requiredAudio = {
+        bulletFire : "sounds/bulletFire.ogg",
+        shotgunFire : "sounds/shotgun.wav",
+        gruntFire : "sounds/gruntFire.wav",
+
+    };
+
+    audioPreload(requiredAudio, g_audio, audioLoadingCompleted);
+
+}
+
+function audioLoadingCompleted() {
+
+    // we won't kick off the game until the images are all loaded as well
+    if(!g_imagesLoadedFlag) {
+        window.setTimeout(audioLoadingCompleted, 100); /* this checks the flag every 100 milliseconds*/
+     } else {
+        preloadDone();
+     }
 }
 
 var g_sprites = {};
@@ -215,6 +237,7 @@ function preloadDone() {
 
     main.init();
 }
+
 
 // Kick it off
 requestPreloads();
