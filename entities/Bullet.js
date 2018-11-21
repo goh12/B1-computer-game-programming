@@ -84,7 +84,10 @@ Bullet.prototype.update = function (du) {
 Bullet.prototype.getRadius = function () {
     return 8;
 };
-Bullet.prototype.takeBulletHit = function () {
+Bullet.prototype.takeBulletHit = function (other) {
+    if(other) {
+        other.takeBulletHit();
+    }
     this.kill();
     
     // Make a noise when I am zapped by another bullet
