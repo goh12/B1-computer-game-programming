@@ -42,8 +42,9 @@ const gameManager = {
         this._isInHighScoreMenu = false;
 
 
-        // TODO reset the game 
+        // Reset the game 
         const player = entityManager.getPlayer();
+        entityManager.reset();
         player.reset();
         g_levelGenerator.reset();
         this._score = 0;

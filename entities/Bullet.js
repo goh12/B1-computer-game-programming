@@ -20,7 +20,14 @@ function Bullet(descr, laser = false) {
     this.laser = laser;
 
     // Make a noise when I am created (i.e. fired)
-    util.playSound(this.fireSound, 1);
+
+    // check if the player is shooting a shotgun round,
+    if (this.getTag() === "playerBullet" && g_audio.shotgunFire !== undefined &&
+                                     entityManager.getPlayer().getAmmo() > 0) {
+        util.playSound(g_audio.shotgunFire, 0.7);
+    } else {
+        util.playSound(this.fireSound, 1);
+    }
     
 /*
     // Diagnostics to check inheritance stuff
@@ -32,7 +39,6 @@ function Bullet(descr, laser = false) {
 
 Bullet.prototype = new Entity();
 
-// HACKED-IN AUDIO (no preloading)
 Bullet.prototype.fireSound = new Audio(
     "sounds/bulletFire.ogg");
 Bullet.prototype.zappedSound = new Audio(

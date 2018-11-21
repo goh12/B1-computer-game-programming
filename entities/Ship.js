@@ -241,7 +241,7 @@ Ship.prototype.reset = function () {
     this.setPos(this.reset_cx, this.reset_cy);
     this.rotation = this.reset_rotation;
 
-    this._lives = 2;
+    this._lives = 1;
     this._speed = 4;
     this._hasShotgun = false;
     this._fireRate = 10;
