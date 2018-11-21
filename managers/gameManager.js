@@ -40,15 +40,19 @@ const gameManager = {
         this._onMenu = false;
         this._isGameOver = false;
         this._isInHighScoreMenu = false;
-
+        this._score = 0;
 
         this.getHighScoreData();
-        // Reset the game 
+        this.resetGame();
+    },
+    
+    resetGame : function () {
+        // Reset the game
         const player = entityManager.getPlayer();
         entityManager.reset();
-        player.reset();
+        spatialManager.reset();
         g_levelGenerator.reset();
-        this._score = 0;
+        player.reset();
     },
 
     toggleSound: function() {

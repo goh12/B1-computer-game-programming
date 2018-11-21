@@ -147,5 +147,11 @@ render: function(ctx) {
     util.strokeBox(ctx, 0, g_levelGenerator.layerHeightInPixels, ctx.canvas.width, 0);
     util.strokeBox(ctx, 0, ctx.canvas.height - g_levelGenerator.layerHeightInPixels, ctx.canvas.width, 0);
     ctx.strokeStyle = oldStyle;
+},
+
+//Reset spatial manager.
+reset : function () {
+    this._entities = [];
 }
+
 };

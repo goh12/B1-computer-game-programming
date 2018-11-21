@@ -243,7 +243,25 @@ getPlayer: function() {
 },
 
 reset : function() {
-    // TO DO this._powerups = [];
+    this._powerups = [];
+    this._categories[2] = this._powerups;
+
+    //Kill all walls
+    for(let i = 0; i < this._walls.length; i++)
+        this._walls[i]._isDeadNow = true;
+
+    //Kill all enemies
+    for(let i = 0; i < this._walls.length; i++) {
+        if(this._enemies[i] != null) {
+            this._enemies[i].inFormation = false;
+            this._enemies[i]._isDeadNow = true;
+        }
+    }
+
+    //Kill all bullets.
+    for(let i = 0; i < this._bullets.length; i++)
+        this._bullets[i]._isDeadNow = true;
+
 },
 
 render: function(ctx) {
