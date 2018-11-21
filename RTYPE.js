@@ -78,12 +78,9 @@ function updateSimulation(du) {
 
 // GAME-SPECIFIC DIAGNOSTICS
 
-var g_useGravity = false;
 var g_useAveVel = true;
 var g_renderSpatialDebug = false;
 
-var KEY_MIXED   = keyCode('M');
-var KEY_GRAVITY = keyCode('G');
 var KEY_AVE_VEL = keyCode('V');
 var KEY_SPATIAL = keyCode('X');
 var KEY_START = keyCode('R');
@@ -92,8 +89,6 @@ var KEY_STOPMOVING  = keyCode('H');
 
 function processDiagnostics() {
 
-    if (eatKey(KEY_GRAVITY)) g_useGravity = !g_useGravity;
-
     if (eatKey(KEY_AVE_VEL)) g_useAveVel = !g_useAveVel;
 
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
@@ -101,8 +96,7 @@ function processDiagnostics() {
     if (eatKey(KEY_STOPMOVING)) g_levelGenerator.toggleMoving();
 
     
-    if (eatKey(KEY_START)) gameManager.startGame();
-	
+    if (eatKey(KEY_START)) gameManager.startGame();	
 }
 
 
@@ -153,7 +147,6 @@ function requestPreloads() {
 
     var requiredImages = {
         ship   : "images/player.png",
-        ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         bullet : "images/orb.png",
         block : "images/block.jpg",
         blockHell : "images/blockHell.jpg",
@@ -207,7 +200,6 @@ var g_sprites = {};
 function preloadDone() {
 
     g_sprites.ship  = new Sprite(g_images.ship);
-    g_sprites.ship2 = new Sprite(g_images.ship2);
     g_sprites.block = new Sprite(g_images.block);
     g_sprites.blockHell = new Sprite(g_images.blockHell);
     g_sprites.soundOn = new Sprite(g_images.soundOn);

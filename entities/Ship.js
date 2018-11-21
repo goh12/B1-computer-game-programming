@@ -172,12 +172,6 @@ Ship.prototype.computeSubStep = function (du) {
     this.applyAccel(xAcc, yAcc, du);
 };
 
-var NOMINAL_GRAVITY = 0.12;
-
-Ship.prototype.computeGravity = function () {
-    return g_useGravity ? NOMINAL_GRAVITY : 0;
-};
-
 var NOMINAL_THRUST = +0.2;
 var NOMINAL_RETRO  = -0.1;
 
@@ -357,14 +351,7 @@ Ship.prototype.getHasShotgun = function () {
     return this._hasShotgun;
 }
 
-Ship.prototype.getFireRate = function () {
-    return this._fireRate;
-}
 
 Ship.prototype.getAmmo = function () {
     return this.ammo;
-}
-
-Ship.prototype.setInvulnerable = function (invulnerable) {
-    this._invulnerable = invulnerable
 }
