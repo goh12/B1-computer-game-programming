@@ -136,25 +136,6 @@ g_levelGenerator.update = function (du) {
 };
 
 g_levelGenerator.reset = function () {
-    //Kill all walls
-    for(let i = 0; i < entityManager._walls.length; i++)
-        entityManager._walls[i]._isDeadNow = true;
-
-    //Kill all enemies
-    for(let i = 0; i < entityManager._walls.length; i++) {
-        if(entityManager._enemies[i] != null) {
-            entityManager._enemies[i].inFormation = false;
-            entityManager._enemies[i]._isDeadNow = true;
-        }
-    }
-
-    //Kill all bullets.
-    for(let i = 0; i < entityManager._bullets.length; i++)
-        entityManager._bullets[i]._isDeadNow = true;
-
-
-    //Reset spatial manager.
-    spatialManager._entities = [];
 
     //Reset all relevant level generating values
     this.timerBlock = 0;
@@ -166,6 +147,7 @@ g_levelGenerator.reset = function () {
     this.blockSprite = null;
     this.wavesLeft = 7;
     this.seed = 1;
+    util.seed = 1;
 
     //Re-initialize
     this.isInitialized = false;

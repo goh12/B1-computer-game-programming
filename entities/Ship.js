@@ -280,6 +280,7 @@ Ship.prototype.reset = function () {
     this._speed = 4;
     this._hasShotgun = false;
     this._fireRate = 10;
+    this.ammo = 0;
     
     this.halt();
 };
@@ -347,7 +348,7 @@ Ship.prototype.increaseSpeed = function () {
 Ship.prototype.addShotgunAmmo = function () {
 
     this._hasShotgun = true;
-    
+
     // if you're getting a shotgun add ammo
     this.ammo += 20;
 }

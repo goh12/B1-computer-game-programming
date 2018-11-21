@@ -94,7 +94,7 @@ Enemy.prototype.kill = function(marginDeath = false) {
         }
     } else {
         // currently there is 10% chance of dropping a powerup
-        if (Math.random() < 0.1) {
+        if (Math.random() < 1) {
             entityManager.createPowerup(this.cx, this.cy);
         }
 
