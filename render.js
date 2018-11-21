@@ -26,7 +26,10 @@ function render(ctx) {
     if (eatKey(TOGGLE_UNDO_BOX)) g_undoBox = !g_undoBox;
     if (eatKey(TOGGLE_FLIPFLOP)) g_doFlipFlop = !g_doFlipFlop;
     if (eatKey(TOGGLE_RENDER)) g_doRender = !g_doRender;
-    if (eatKey(TOGGLE_PAUSE)) g_doPause = !g_doPause;
+    if (eatKey(TOGGLE_PAUSE)) {
+        g_doPause = !g_doPause;  //Update highscores only when paused.
+        if (g_doPause) gameManager.needUpdateHighScores();
+    } 
 	if (eatKey(TOGGLE_SOUND)) gameManager.toggleSound();
     
     // I've pulled the clear out of `renderSimulation()` and into

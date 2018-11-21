@@ -134,13 +134,46 @@ g_levelGenerator.update = function (du) {
 };
 
 g_levelGenerator.reset = function () {
-    g_levelGenerator.init();
+    //Kill all walls
+    for(let i = 0; i < entityManager._walls.length; i++)
+        entityManager._walls[i]._isDeadNow = true;
+
+    //Kill all enemies
+    for(let i = 0; i < entityManager._walls.length; i++) {
+        if(entityManager._enemies[i] != null) {
+            entityManager._enemies[i].inFormation = false;
+            entityManager._enemies[i]._isDeadNow = true;
+        }
+    }
+
+    //Kill all bullets.
+    for(let i = 0; i < entityManager._bullets.length; i++)
+        entityManager._bullets[i]._isDeadNow = true;
+
+
+    //Reset spatial manager.
+    spatialManager._entities = [];
+
+    //Reset all relevant level generating values
+    this.timerBlock = 0;
+    this.timerBackground = 0;
+    this.isMoving = true;
+    this.enemySpacing = 5;
+    this.currentBlock = 0;
+    this.blockSprite = null;
+    this.wavesLeft = 3;
+    this.seed = 1;
+
+    //Re-initialize
+    this.isInitialized = false;
 };
 
 g_levelGenerator.toggleMoving = function () {
     this.isMoving = !this.isMoving;
 };
 
+//For initializing level generation. Generates two rows of blocks,
+//one at the top and one at the bottom.
 g_levelGenerator.init = function () {
     this.blockSprite = g_sprites.block;
 

@@ -77,7 +77,7 @@ Enemy.prototype.render = function (ctx) {
 Enemy.prototype.setPosition = function(cx, cy) {
     this.cx = cx;
     this.cy = cy;
-}
+};
 
 /**
  * Overwrite the kill function to add the 

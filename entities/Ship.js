@@ -72,6 +72,7 @@ Ship.prototype.update = function (du) {
     // if lives < 1 set the gameManager to game over
     if (this._lives < 1) {
         gameManager.toggleGameOver();
+        gameManager.needUpdateHighScores();
         return;
     }
 
