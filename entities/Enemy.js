@@ -59,6 +59,7 @@ Enemy.prototype.takeBulletHit = function (bullet) {
     if(bullet.getTag() !== "enemyBullet") {
         this.kill();
         bullet.kill();
+        util.playSound(g_audio.death, 1);
     }
 };
 

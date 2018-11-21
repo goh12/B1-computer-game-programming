@@ -183,7 +183,8 @@ function requestPreloads() {
         shotgunFire : "sounds/shotgun.wav",
         gruntFire : "sounds/gruntFire.wav",
         stalkerFire : "sounds/stalkerFire.wav",
-        kamikazeye : "sounds/splat.wav"
+        kamikazeye : "sounds/splat.wav",
+        death : "sounds/diesplat.wav",
     };
 
     audioPreload(requiredAudio, g_audio, audioLoadingCompleted);
