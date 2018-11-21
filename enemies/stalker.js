@@ -13,7 +13,7 @@ function Stalker(stayX, stayY) {
     this.cy = g_canvas.height/2 + (-100 + Math.random() * 200);
     this.stayPosition = { posX: stayX, posY: stayY };
 
-    this.gunTimer = 40; //Timer in nominals.
+    this.gunTimer = 30; //Timer in nominals.
 
     const x = this.stayPosition.posX; //Calculate angle between start position
     const y = this.stayPosition.posY; //and blowPosition
@@ -49,7 +49,7 @@ Stalker.prototype.updateThis = function(du) {
 
 
 Stalker.prototype.fire = function() {
-    const BULLET_SPEED = 10;
+    const BULLET_SPEED = 8;
     const playerPos = entityManager.getPlayer().getPos();
     
     var angleRadians = Math.atan2(

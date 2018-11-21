@@ -42,7 +42,7 @@ _bulletDu : 0,
 // "PRIVATE" METHODS
 
 _generateEnemies : function() {
-    const rand = Math.floor(util.random() * 3);
+    const rand = Math.floor(util.random() * 6);
     switch(rand) {
         case 0:
             this._generateFormation();
@@ -51,6 +51,15 @@ _generateEnemies : function() {
             this._generateKamikazeye();
             break;
         case 2:
+            this._generateStalker();
+            break;
+        case 3:
+            this._generateFormation();
+            break;
+        case 4: 
+            this._generateKamikazeye();
+            break;
+        case 5:
             this._generateStalker();
             break;
     }
