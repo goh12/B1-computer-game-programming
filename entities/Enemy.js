@@ -93,8 +93,8 @@ Enemy.prototype.kill = function(marginDeath = false) {
             gameManager._score += 50; // lower score for parts of the boss
         }
     } else {
-        // currently there is 12% chance of dropping a powerup
-        if (Math.random() < 0.12) {
+        // currently there is 15% chance of dropping a powerup
+        if (Math.random() < 0.15) {
             entityManager.createPowerup(this.cx, this.cy);
         }
 
