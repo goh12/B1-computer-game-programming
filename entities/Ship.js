@@ -336,7 +336,10 @@ Ship.prototype.getLives = function () {
 }
 
 Ship.prototype.increaseSpeed = function () {
-    this._speed++;
+    // increase the speed if under the limit
+    if (speed < 9) {
+        this._speed++;        
+    }
 }
 
 Ship.prototype.addShotgunAmmo = function () {

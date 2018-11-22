@@ -1,4 +1,4 @@
-# R-Type
+# iType: Kreyetos' Revenge
 A remake of the classic arcade game [R-Type](https://en.wikipedia.org/wiki/R-Type) in Javascript.
 
 This is the final project of the course Computer Game Programming (TÖL308G) at the University of Iceland in November 2018.
@@ -16,4 +16,5 @@ Instructor:
 ## Controls:
 * WASD keys to move
 * Space to shoot
-* L to pause the game
+* P to pause the game
+* M to mute the game 

@@ -221,7 +221,7 @@ const gameManager = {
         ctx.textAlign = "center";
         
         ctx.font = "bold 55px sans-serif";
-        ctx.fillText("R-TYPE", halfWidth, halfHeight);
+        ctx.fillText("iType", halfWidth, halfHeight);
         ctx.font = "bold 25px sans-serif";
         ctx.fillText(startMessage, halfWidth, halfHeight * 3 / 2 - 100);
         
