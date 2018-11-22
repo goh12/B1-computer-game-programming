@@ -56,6 +56,11 @@ Powerup.prototype.update = function (du) {
 };
 
 Powerup.prototype.hitByPlayer = function () {
+
+    // play the powerup sound if picked up
+    if (typeof g_audio.powerup !== 'undefined') {
+        util.playSound(g_audio.powerup, 1);
+    }
     
     const player = entityManager.getPlayer();
 

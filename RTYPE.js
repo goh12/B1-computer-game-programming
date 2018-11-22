@@ -179,6 +179,7 @@ function requestPreloads() {
         stalkerFire : "sounds/stalkerFire.wav",
         kamikazeye : "sounds/splat.wav",
         death : "sounds/diesplat.wav",
+        powerup : "sounds/powerup.wav"
     };
 
     audioPreload(requiredAudio, g_audio, audioLoadingCompleted);
