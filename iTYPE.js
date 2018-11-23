@@ -159,7 +159,6 @@ function requestPreloads() {
         stalker : "https://notendur.hi.is/frg17/tlf/img/stalker.png",
         powerupSpeed : "images/powerup-speed.png",
         powerupLife : "images/powerup-extralife.png",
-        powerupGreenOrb : "images/powerup-greenorb.png",
         shotgunPowerup : "images/powerup_shotgun.png",
         laser : "images/laser.png",
         background : "images/backg.png",
@@ -213,8 +212,6 @@ function preloadDone() {
     g_sprites.powerupLife.scale = {x:0.045, y:0.045};
     g_sprites.powerupSpeed = new Sprite(g_images.powerupSpeed);
     g_sprites.powerupSpeed.scale = {x:0.3, y:0.3};
-    g_sprites.powerupGreenOrb = new Sprite(g_images.powerupGreenOrb);
-    g_sprites.powerupGreenOrb.scale = {x:0.3, y:0.3};
     
     g_sprites.background = new Sprite(g_images.background);
 

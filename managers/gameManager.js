@@ -49,6 +49,7 @@ const gameManager = {
         if (typeof g_audio.backgroundMusic !== 'undefined') {
             g_audio.backgroundMusic.loop = true;
             g_audio.backgroundMusic.play();
+            g_audio.backgroundMusic.volume = 0.5;
         }
     },
     
