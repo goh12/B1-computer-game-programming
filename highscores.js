@@ -23,6 +23,7 @@ function submitHighScore() {
 
 
 function postHighScoreData (name, score) {
+    gameManager.setPostingHighScore(true);
     const xhttp = new XMLHttpRequest();
     xhttp.open("POST", "https://riseofeyes-hs.herokuapp.com/", true);
 
@@ -33,6 +34,7 @@ function postHighScoreData (name, score) {
         if(xhttp.readyState == 4 && xhttp.status == 200) {
             const json = JSON.parse(xhttp.responseText);
             console.log(json.player + ", " + json.score);
+            gameManager.setPostingHighScore(false);
         }
     }
 

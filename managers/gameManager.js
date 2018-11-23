@@ -35,6 +35,12 @@ const gameManager = {
     _score: 0,
     _highScore: [0],
     _highScoresFetched: false,
+    _fetchingHighScores: false,
+    _postingHighScore: false,
+
+    setPostingHighScore: function(bool) {
+        this._postingHighScore = bool;
+    },
 
     startGame: function () {
         this._onMenu = false;
@@ -43,6 +49,7 @@ const gameManager = {
         this._score = 0;
 
         this.getHighScoreData();
+
         this.resetGame();
 
         // play the background music if it exists
@@ -187,7 +194,10 @@ const gameManager = {
     },
 
 	getHighScoreData: function() {
+        if(this._postingHighScore) return;
         if(this._highScoresFetched) return;
+
+        this._fetchingHighScores = true;
         this._highScoresFetched = true;
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
@@ -198,7 +208,8 @@ const gameManager = {
 				});
 				for (var j=0; j<10; j++) {
 					gameManager._highScore[j] = json.scores[j];
-				}
+                }
+                gameManager._fetchingHighScores = false;
 			}
 		};
 		xhttp.open("GET", "https://riseofeyes-hs.herokuapp.com/", true);
@@ -295,20 +306,34 @@ const gameManager = {
     },
 
     renderHighScoreMenu : function (ctx) {
+        this.getHighScoreData();
 
-        const highScoreMessage = "Press [R] to restart the game";
+        if(this._fetchingHighScores || this._postingHighScore) {
+            ctx.save();
 
-        this.getHighScoreData(); // update the high score data
+            ctx.textAlign = "center";
 
-        ctx.save();
+            
+            ctx.font = "bold 25px sans-serif";
+            ctx.fillText("Loading", g_canvas.width / 2, g_canvas.height / 2);
+            
+            ctx.restore();
+        } else {
+            const highScoreMessage = "Press [R] to restart the game";
 
-        ctx.textAlign = "center";
-
-        this.displayHighScores(ctx);
-
-        ctx.font = "bold 25px sans-serif";
-        ctx.fillText(highScoreMessage, g_canvas.width / 2, g_canvas.height - 70);
-
-        ctx.restore();
+            ctx.save();
+            
+            ctx.fillStyle = "#000";
+            ctx.rect(0, 0, g_canvas.width, g_canvas.height);
+            
+            ctx.fillStyle = "#fff";
+            ctx.textAlign = "center";
+            this.displayHighScores(ctx);
+            
+            ctx.font = "bold 25px sans-serif";
+            ctx.fillText(highScoreMessage, g_canvas.width / 2, g_canvas.height - 70);
+            
+            ctx.restore();
+        }
     }
 }
