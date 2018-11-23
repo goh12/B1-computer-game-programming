@@ -6,7 +6,7 @@
 
     gameManager.js
 
-    A module which handles arbitrary game-management for "R-Type"
+    A module which handles arbitrary game-management for "iType: Kreyetos' Revenge"
 
 
     We create this module as a single global object, and initialise it
@@ -44,6 +44,12 @@ const gameManager = {
 
         this.getHighScoreData();
         this.resetGame();
+
+        // play the background music if it exists
+        if (typeof g_audio.backgroundMusic !== 'undefined') {
+            g_audio.backgroundMusic.loop = true;
+            g_audio.backgroundMusic.play();
+        }
     },
     
     resetGame : function () {
@@ -57,6 +63,13 @@ const gameManager = {
 
     toggleSound: function() {
         this._audioOn = !this._audioOn;
+
+        // either start or stop the background music
+        if (!this._audioOn) {
+            g_audio.backgroundMusic.pause();
+        } else {
+            g_audio.backgroundMusic.play();
+        }
 		console.log("sound toggled");
     },
 
@@ -260,6 +273,12 @@ const gameManager = {
 
     toggleGameOver : function () {
         this._isGameOver = !this._isGameOver;
+
+        // if it's game over, stop the background music and reset it
+        if (typeof g_audio.backgroundMusic !== 'undefined') {
+            g_audio.backgroundMusic.pause();
+            g_audio.backgroundMusic.currentTime = 0;            
+        }
     },
 
     isInHighScoreMenu : function () {
