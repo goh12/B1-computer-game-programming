@@ -20,7 +20,7 @@ Instructor:
 * M to mute the game 
 
 ## Playable version online:
-* [Here]()
+* [Here](https://notendur.hi.is/goh12/computer-game-programming/R-Type/final/)
 
 ## Background music
 "Adventure Meme" [Kevin MacLeod](https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400057) 
